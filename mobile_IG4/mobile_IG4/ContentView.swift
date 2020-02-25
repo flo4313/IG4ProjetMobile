@@ -9,8 +9,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    var posts = PostSet()
     var body: some View {
-        Text("Hello, World!")
+        
+        VStack{
+            List {
+                ForEach(posts.data) {
+                    post in
+                    postView(post: post)
+                }
+            }
+        }
     }
 }
 

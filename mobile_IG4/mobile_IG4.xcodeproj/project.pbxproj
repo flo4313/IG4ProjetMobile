@@ -16,6 +16,9 @@
 		AE599C132405555C000675EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE599C112405555C000675EB /* LaunchScreen.storyboard */; };
 		AE599C1E2405555C000675EB /* mobile_IG4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C1D2405555C000675EB /* mobile_IG4Tests.swift */; };
 		AE599C292405555C000675EB /* mobile_IG4UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C282405555C000675EB /* mobile_IG4UITests.swift */; };
+		AE599C3824055AB9000675EB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C3724055AB9000675EB /* Post.swift */; };
+		AE599C3A24055D74000675EB /* PostSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C3924055D74000675EB /* PostSet.swift */; };
+		AE599C3D24057712000675EB /* postView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C3C24057712000675EB /* postView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		AE599C242405555C000675EB /* mobile_IG4UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mobile_IG4UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE599C282405555C000675EB /* mobile_IG4UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mobile_IG4UITests.swift; sourceTree = "<group>"; };
 		AE599C2A2405555C000675EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE599C3724055AB9000675EB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		AE599C3924055D74000675EB /* PostSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSet.swift; sourceTree = "<group>"; };
+		AE599C3C24057712000675EB /* postView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,8 @@
 		AE599C0224055559000675EB /* mobile_IG4 */ = {
 			isa = PBXGroup;
 			children = (
+				AE599C3B240576FE000675EB /* Views */,
+				AE599C3624055A5F000675EB /* models */,
 				AE599C0324055559000675EB /* AppDelegate.swift */,
 				AE599C0524055559000675EB /* SceneDelegate.swift */,
 				AE599C0A24055559000675EB /* ContentView.swift */,
@@ -137,6 +145,23 @@
 				AE599C2A2405555C000675EB /* Info.plist */,
 			);
 			path = mobile_IG4UITests;
+			sourceTree = "<group>";
+		};
+		AE599C3624055A5F000675EB /* models */ = {
+			isa = PBXGroup;
+			children = (
+				AE599C3724055AB9000675EB /* Post.swift */,
+				AE599C3924055D74000675EB /* PostSet.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		AE599C3B240576FE000675EB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AE599C3C24057712000675EB /* postView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,8 +296,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE599C0924055559000675EB /* mobile_IG4.xcdatamodeld in Sources */,
+				AE599C3D24057712000675EB /* postView.swift in Sources */,
+				AE599C3824055AB9000675EB /* Post.swift in Sources */,
 				AE599C0424055559000675EB /* AppDelegate.swift in Sources */,
 				AE599C0B24055559000675EB /* ContentView.swift in Sources */,
+				AE599C3A24055D74000675EB /* PostSet.swift in Sources */,
 				AE599C0624055559000675EB /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
