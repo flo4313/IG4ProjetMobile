@@ -12,17 +12,39 @@ struct postView: View {
     var post: Post
      
     var body: some View {
-    
-        VStack(alignment: .leading) {
-           
-                Text(self.post.title)
-                        .font(.title)
-                        .fontWeight(.light)
-                    .foregroundColor(Color.black)
-                    .multilineTextAlignment(.leading)
-                Text(self.post.description)
-                .multilineTextAlignment(.leading)
+        HStack(alignment: .bottom){
+            HStack {
+                VStack(alignment: .leading){
+                    HStack {
+                        VStack{
+                        Text(self.post.title)
+                            .font(.title)
+                            .fontWeight(.light)
+                            .foregroundColor(Color.black)
+                            .multilineTextAlignment(.leading)
+                            Text(self.post.description)
+                                .multilineTextAlignment(.leading)
+                        }
+                        Spacer()
+                            
+                    }.padding(.leading, 25.0).background(Color.green)
+                        
+                    
+
+                    HStack(){
+                        VStack{
+                            Text("Best answer")
+                                .font(.footnote)
+                                
+                                
+                        }
+                        Spacer()
+                    }.padding().background(Color.red).padding(.leading, 50.0)
+
+
+            }
         }
+            }.padding()
     }
 }
 

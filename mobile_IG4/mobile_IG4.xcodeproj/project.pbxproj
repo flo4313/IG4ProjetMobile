@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE4B82912405CE980005ACED /* PostCategorySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4B82902405CE980005ACED /* PostCategorySet.swift */; };
+		AE4B82932405CED50005ACED /* PostCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4B82922405CED50005ACED /* PostCategory.swift */; };
 		AE599C0424055559000675EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C0324055559000675EB /* AppDelegate.swift */; };
 		AE599C0624055559000675EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C0524055559000675EB /* SceneDelegate.swift */; };
 		AE599C0924055559000675EB /* mobile_IG4.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AE599C0724055559000675EB /* mobile_IG4.xcdatamodeld */; };
@@ -39,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE4B82902405CE980005ACED /* PostCategorySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCategorySet.swift; sourceTree = "<group>"; };
+		AE4B82922405CED50005ACED /* PostCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCategory.swift; sourceTree = "<group>"; };
 		AE599C0024055559000675EB /* mobile_IG4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobile_IG4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE599C0324055559000675EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE599C0524055559000675EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,7 +60,7 @@
 		AE599C2A2405555C000675EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE599C3724055AB9000675EB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		AE599C3924055D74000675EB /* PostSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSet.swift; sourceTree = "<group>"; };
-		AE599C3C24057712000675EB /* postView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postView.swift; sourceTree = "<group>"; };
+		AE599C3C24057712000675EB /* postView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postView.swift; sourceTree = "<group>"; usesTabs = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AE4B828F2405CDC30005ACED /* Set */ = {
+			isa = PBXGroup;
+			children = (
+				AE599C3924055D74000675EB /* PostSet.swift */,
+				AE4B82902405CE980005ACED /* PostCategorySet.swift */,
+			);
+			path = Set;
+			sourceTree = "<group>";
+		};
 		AE599BF724055559000675EB = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +120,7 @@
 		AE599C0224055559000675EB /* mobile_IG4 */ = {
 			isa = PBXGroup;
 			children = (
+				AE4B828F2405CDC30005ACED /* Set */,
 				AE599C3B240576FE000675EB /* Views */,
 				AE599C3624055A5F000675EB /* models */,
 				AE599C0324055559000675EB /* AppDelegate.swift */,
@@ -151,7 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				AE599C3724055AB9000675EB /* Post.swift */,
-				AE599C3924055D74000675EB /* PostSet.swift */,
+				AE4B82922405CED50005ACED /* PostCategory.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -295,7 +309,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE4B82912405CE980005ACED /* PostCategorySet.swift in Sources */,
 				AE599C0924055559000675EB /* mobile_IG4.xcdatamodeld in Sources */,
+				AE4B82932405CED50005ACED /* PostCategory.swift in Sources */,
 				AE599C3D24057712000675EB /* postView.swift in Sources */,
 				AE599C3824055AB9000675EB /* Post.swift in Sources */,
 				AE599C0424055559000675EB /* AppDelegate.swift in Sources */,
