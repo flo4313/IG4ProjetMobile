@@ -8,35 +8,28 @@
 
 import Foundation
 
-class PostSet : ObservableObject {
+class CommentsSet : ObservableObject {
+    @Published var data: Array<Comment>
+    var post_id : Int
+    init(post_id : Int){
+        self.post_id = post_id
+        self.data = Array()
+        let jsonData = getJSON(post_id: post_id)
+        for comment in jsonData {
+            self.data.append(comment)
+        }
+    }
 
     
-    @Published var data: Array<Post>
-    
-    func add(post : Post){
-        self.data.append(post)
-    }
-    
-    init(search: Bool){
-        self.data = Array()
-        if search {
-        let jsonData = getJSON()
-        for post in jsonData {
-            self.data.append(post)
-            
-        }
-        }
-    }
-    
-    func getJSON() -> [Post] {
-        var res: [Post] = []
+    func getJSON(post_id: Int) -> [Comment] {
+        var res: [Comment] = []
         let group = DispatchGroup()
         group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/post") {
+        if let url = URL(string: "http://51.255.175.118:2000/post/"+String(post_id)+"/comments") {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {
-                        res = try JSONDecoder().decode([Post].self, from: data)
+                        res = try JSONDecoder().decode([Comment].self, from: data)
                         print(res)
                         group.leave()
                     } catch let error {

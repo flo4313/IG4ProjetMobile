@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct postView: View {
+    let blue = Color(red: 109.0/255.0, green: 201.0/255.0, blue: 234.0/255.0, opacity: 1.0)
+    let red = Color(red: 234.0/255.0, green: 133.0/255.0, blue: 109.0/255.0, opacity: 0.8)
     var post: Post
      
     var body: some View {
@@ -27,7 +29,7 @@ struct postView: View {
                         }
                         Spacer()
                             
-                    }.padding(.leading, 25.0).background(Color.green)
+                    }.padding(.leading, 25.0).background(blue).cornerRadius(5.0)
                         
                     
 
@@ -39,7 +41,7 @@ struct postView: View {
                                 
                         }
                         Spacer()
-                    }.padding().background(Color.red).padding(.leading, 50.0)
+                    }.padding().background(red).padding(.leading, 50.0).cornerRadius(5.0)
 
 
             }

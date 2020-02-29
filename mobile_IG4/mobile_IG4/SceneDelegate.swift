@@ -9,10 +9,27 @@
 import UIKit
 import SwiftUI
 
+struct Person : Codable{
+    var username:String
+    var password:String
+}
+
+struct Login: Decodable{
+    var token:String
+  
+    
+
+}
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var user = User()
 
+
+    func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
+}
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -24,8 +41,69 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        let contentView = ContentView().environment(\.managedObjectContext, context)
-
+        //let person = Person(username: "T", password: "F")
+       // let str = person.username+"\n"+person.password
+        let urlf = self.getDocumentsDirectory().appendingPathComponent("login.txt")
+        let fileExist = try? urlf.checkResourceIsReachable()
+        
+        if (fileExist == true){
+            do {
+                  //  try str.write(to: url, atomically: true, encoding: .utf8)
+                    let input = try String(contentsOf: urlf)
+                    let inputs = input.components(separatedBy: CharacterSet.newlines)
+                    
+                    if inputs[1] != nil && inputs[0] != nil {
+                        let person = Person(username: inputs[0], password: inputs[1])
+                        guard let encoded = try? JSONEncoder().encode(person) else {
+                            print("Failed to encode order")
+                            return
+                        }
+                        var isLogged = false
+                        let group = DispatchGroup()
+                        group.enter()
+                        if let url = URL(string: "http://51.255.175.118:2000/user/login") {
+                            var request = URLRequest(url: url)
+                            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                            request.setValue("application/json", forHTTPHeaderField: "Application")
+                            request.httpMethod = "POST"
+                            request.httpBody = encoded
+                            URLSession.shared.dataTask(with: request) { data, response, error in
+                                if let data = data {
+                                        print("on y est !")
+                        
+                                        let res = try? JSONDecoder().decode(Login.self, from: data)
+                                        if let res2 = res{
+                                            print(res2.token)
+                                            isLogged = true
+                                        }else{
+                                            print("pas connecté")
+                                            isLogged = false
+                                            try? FileManager.default.removeItem(at: urlf)
+                                        }
+                                        group.leave()
+                             
+                                }
+                            }.resume()
+                        }
+                        group.wait()
+                        if(isLogged){
+                             var appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.logged = true
+                        }
+                    }
+                   
+                        
+                } catch {
+                    print(error.localizedDescription)
+                }
+            
+        }else{
+            print("fichier non existant")
+        }
+        
+ 
+        let contentView = ContentView().environment(\.managedObjectContext, context).environmentObject(user)
+    
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
