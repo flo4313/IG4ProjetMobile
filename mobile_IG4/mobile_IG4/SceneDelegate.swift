@@ -30,7 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var user = User()
 
-
     func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     return paths[0]
@@ -92,8 +91,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                         group.wait()
                         if(isLogged){
-                             var appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            appDelegate.logged = true
+                            self.user.isLogged = true
                         }
                     }
                    

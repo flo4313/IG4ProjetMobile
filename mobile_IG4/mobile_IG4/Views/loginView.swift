@@ -42,6 +42,8 @@ struct loginView: View {
                             
                             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
                             let urlf = paths[0].appendingPathComponent("login.txt")
+                            var str = person.username+"\n"+person.password
+                            try? str.write(to: urlf, atomically: true, encoding: .utf8)
                             isLogged = true
                             
                         }else{
@@ -55,6 +57,7 @@ struct loginView: View {
         group.wait()
         if(isLogged) {
             self.user.isLogged = true
+            print(self.user.isLogged)
         }
     }
     

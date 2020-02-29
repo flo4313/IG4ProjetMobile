@@ -20,19 +20,12 @@ struct ContentView: View {
         self.postsObserved = PostSet(search: false)
         
         
-        self.appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.logged {
-            self.menu1 = "mon compte"
-        }else{
-            self.menu1 = "connexion"
-        }
         for post in posts.data{
             self.postsObserved.add(post:post)
         }
     }
     
-    var appDelegate : AppDelegate
-    var menu1 : String
+  
     let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
     var body: some View {
         
@@ -79,7 +72,7 @@ struct ContentView: View {
                     Spacer()
                     HStack{
                         if(self.user.isLogged == true){
-                            NavigationLink(destination: loginView()) {
+                            NavigationLink(destination: accountView()) {
                                 Text("Account")
                             }.font(.headline)
                             .foregroundColor(.white)
@@ -90,7 +83,12 @@ struct ContentView: View {
                         }else{
                             NavigationLink(destination: loginView()) {
                                 Text("Login")
-                            }
+                            }.font(.headline)
+                            .foregroundColor(.white)
+                            
+                            
+                            .background(blue)
+                            .cornerRadius(15.0)
                         }
                         
                         Spacer()
