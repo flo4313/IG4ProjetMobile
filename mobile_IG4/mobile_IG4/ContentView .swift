@@ -60,7 +60,7 @@ struct ContentView: View {
                         Spacer()
                         HStack{
                             Spacer()
-                            NavigationLink(destination: addPost()) {   
+                            NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
                                                               Text("+")
                                                               .font(.headline)
                                                               .foregroundColor(.white)

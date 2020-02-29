@@ -13,6 +13,11 @@ struct Person : Codable{
     var username:String
     var password:String
 }
+struct AddPostForm : Codable{
+    var title:String
+    var description:String
+    var username:String
+}
 
 struct Login: Decodable{
     var token:String

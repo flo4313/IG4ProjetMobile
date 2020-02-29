@@ -16,12 +16,11 @@ struct searchBarView : View {
     @State private var name: String = ""
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     func setSearchBarResult(){
-        print("search: "+name)
-        for post in self.posts.data{
-            print(post.title)
+        if name.count != 0 {
+            self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased())}
+        } else {
+            self.postsObserved.data = self.posts.data
         }
-        print(self.posts.data.filter{!$0.title.contains(name)})
-        self.postsObserved.data = self.posts.data.filter{$0.title.contains(name)}
     }
     func test(){
       
