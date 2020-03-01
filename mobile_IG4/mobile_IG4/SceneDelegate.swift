@@ -19,10 +19,12 @@ struct AddPostForm : Codable{
     var username:String
 }
 
+
+
 struct Login: Decodable{
     var token:String
-  
-    
+    var id: Int
+ 
 
 }
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -63,6 +65,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             return
                         }
                         var isLogged = false
+                        var user_id = 0
+                        var token = ""
                         let group = DispatchGroup()
                         group.enter()
                         if let url = URL(string: "http://51.255.175.118:2000/user/login") {
@@ -77,7 +81,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
                                         let res = try? JSONDecoder().decode(Login.self, from: data)
                                         if let res2 = res{
-                                            print(res2.token)
+                                            
+                                            token = res2.token
+                                            user_id = res2.id
                                             isLogged = true
                                         }else{
                                             print("pas connecté")
@@ -90,8 +96,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             }.resume()
                         }
                         group.wait()
+                        var user : UserModel? = nil
                         if(isLogged){
+                            group.enter()
+                            if let url = URL(string: "http://51.255.175.118:2000/user/"+String(user_id)) {
+                                var request = URLRequest(url: url)
+                                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                                request.setValue("application/json", forHTTPHeaderField: "Application")
+                                request.setValue("Bearer "+token,forHTTPHeaderField: "Authorization")
+                                request.httpMethod = "GET"
+                    
+                                URLSession.shared.dataTask(with: request) { data, response, error in
+                                    if let data = data {
+                                            print("on a un utilisateur")
+                                            let res = try? JSONDecoder().decode([UserModel].self, from: data)
+                                           
+                                            if let res = res{
+                                                 user = res[0]
+                                            }
+                                            group.leave()
+                                 
+                                    }
+                                }.resume()
+                            }
+                            group.wait()
                             self.user.isLogged = true
+                            self.user.user = user
+                            
                         }
                     }
                    

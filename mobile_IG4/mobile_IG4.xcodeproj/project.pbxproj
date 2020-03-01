@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8E73C667240B14D8006A4780 /* accountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E73C666240B14D8006A4780 /* accountView.swift */; };
+		8E749E17240BFE6E00A6C347 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E749E16240BFE6E00A6C347 /* UserModel.swift */; };
 		AE2A5835240A8DC7008DE186 /* addPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2A5834240A8DC7008DE186 /* addPost.swift */; };
 		AE2A5837240A98EE008DE186 /* ContentView .swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2A5836240A98EE008DE186 /* ContentView .swift */; };
 		AE2A5839240A9945008DE186 /* searchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2A5838240A9945008DE186 /* searchBarView.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		8E73C666240B14D8006A4780 /* accountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accountView.swift; sourceTree = "<group>"; };
+		8E749E16240BFE6E00A6C347 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AE2A5834240A8DC7008DE186 /* addPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addPost.swift; sourceTree = "<group>"; };
 		AE2A5836240A98EE008DE186 /* ContentView .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ContentView .swift"; sourceTree = "<group>"; };
 		AE2A5838240A9945008DE186 /* searchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchBarView.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				AE4B82922405CED50005ACED /* PostCategory.swift */,
 				AE80F01224096C8600859851 /* User.swift */,
 				AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */,
+				8E749E16240BFE6E00A6C347 /* UserModel.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				AE599C3A24055D74000675EB /* PostSet.swift in Sources */,
 				AE599C0624055559000675EB /* SceneDelegate.swift in Sources */,
 				AE80F01324096C8600859851 /* User.swift in Sources */,
+				8E749E17240BFE6E00A6C347 /* UserModel.swift in Sources */,
 				AEEF18EB2409A9FC00BB8AB5 /* postDetailledView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

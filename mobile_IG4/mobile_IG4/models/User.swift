@@ -10,4 +10,5 @@ import Foundation
 
 class User : ObservableObject {
     @Published var isLogged: Bool = false
+    @Published var user: UserModel? = nil
 }

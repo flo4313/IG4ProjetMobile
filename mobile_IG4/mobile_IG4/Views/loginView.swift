@@ -26,6 +26,9 @@ struct loginView: View {
         }
         let group = DispatchGroup()
         group.enter()
+      
+        var user_id = 0
+        var token = ""
         var isLogged = false
         if let url = URL(string: "http://51.255.175.118:2000/user/login") {
             var request = URLRequest(url: url)
@@ -35,11 +38,12 @@ struct loginView: View {
             request.httpBody = encoded
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let data = data {
-                        print("on y est !")
+                       
                         let res = try? JSONDecoder().decode(Login.self, from: data)
                         if let res2 = res{
                             print(res2.token)
-                            
+                            token = res2.token
+                            user_id = res2.id
                             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
                             let urlf = paths[0].appendingPathComponent("login.txt")
                             var str = person.username+"\n"+person.password
@@ -54,11 +58,36 @@ struct loginView: View {
                 }
             }.resume()
         }
+        
         group.wait()
-        if(isLogged) {
-            self.user.isLogged = true
-            print(self.user.isLogged)
-        }
+            var user : UserModel? = nil
+            if(isLogged){
+                group.enter()
+                if let url = URL(string: "http://51.255.175.118:2000/user/"+String(user_id)) {
+                    var request = URLRequest(url: url)
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    request.setValue("application/json", forHTTPHeaderField: "Application")
+                    request.setValue("Bearer "+token,forHTTPHeaderField: "Authorization")
+                    request.httpMethod = "GET"
+        
+                    URLSession.shared.dataTask(with: request) { data, response, error in
+                        if let data = data {
+                                print("on a un utilisateur")
+                                let res = try? JSONDecoder().decode([UserModel].self, from: data)
+                               
+                                if let res = res{
+                                     user = res[0]
+                                }
+                                group.leave()
+                        }
+                    }.resume()
+                }
+                group.wait()
+                self.user.isLogged = true
+                self.user.user = user
+                print(self.user.user!.username)
+            }
+        
     }
     
     var body: some View {
