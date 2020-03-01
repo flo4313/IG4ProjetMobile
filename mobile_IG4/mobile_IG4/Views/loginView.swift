@@ -83,8 +83,10 @@ struct loginView: View {
                     }.resume()
                 }
                 group.wait()
+                self.presentationMode.wrappedValue.dismiss()
                 self.user.isLogged = true
                 self.user.user = user
+                
                 print(self.user.user!.username)
             }
         

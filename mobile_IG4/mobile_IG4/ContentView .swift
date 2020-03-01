@@ -61,16 +61,16 @@ struct ContentView: View {
                                                               
                                                               .background(blue)
                                                               .cornerRadius(5.0)
-                                                               
                                                            
                             }
-                            
                             Spacer()
                         }
                         
                     }
                     Spacer()
+                    
                     HStack{
+                        Spacer()
                         if(self.user.isLogged == true){
                             NavigationLink(destination: accountView()) {
                                 Text("Account")
@@ -89,17 +89,34 @@ struct ContentView: View {
                             
                             .background(blue)
                             .cornerRadius(15.0)
+                            .frame(alignment : .center)
                         }
                         
                         Spacer()
-                        Text(verbatim: "News")
+                        NavigationLink(destination: loginView()) {
+                            Text("News")
+                        }.font(.headline)
+                        .foregroundColor(.white)
+                        
+                        
+                        .background(blue)
+                        .cornerRadius(15.0)
+                        .frame(alignment : .center)
                         Spacer()
-                        Text(verbatim: "SOS")
-                       
-                        }.padding().background(blue)
+                        NavigationLink(destination: loginView()) {
+                            Text("Sos")
+                        }.font(.headline)
+                        .foregroundColor(.white)
+                        
+                        
+                        .background(blue)
+                        .cornerRadius(15.0)
+                        .frame(alignment : .center)
+                        Spacer()
+                    }.padding().background(blue)
                 }
             
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -110,7 +127,6 @@ struct ContentView_Previews: PreviewProvider {
     init(){
         self.posts = PostSet(search: true)
         self.postsObserved = PostSet(search: false)
-        
         
         self.appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.logged {

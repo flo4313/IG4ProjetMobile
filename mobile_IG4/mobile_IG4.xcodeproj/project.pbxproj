@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E56C173240C51CD00A56AAB /* SOSview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E56C172240C51CD00A56AAB /* SOSview.swift */; };
 		8E73C667240B14D8006A4780 /* accountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E73C666240B14D8006A4780 /* accountView.swift */; };
 		8E749E17240BFE6E00A6C347 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E749E16240BFE6E00A6C347 /* UserModel.swift */; };
 		AE2A5835240A8DC7008DE186 /* addPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2A5834240A8DC7008DE186 /* addPost.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8E56C172240C51CD00A56AAB /* SOSview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSview.swift; sourceTree = "<group>"; };
 		8E73C666240B14D8006A4780 /* accountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accountView.swift; sourceTree = "<group>"; };
 		8E749E16240BFE6E00A6C347 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AE2A5834240A8DC7008DE186 /* addPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addPost.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				AE2A5834240A8DC7008DE186 /* addPost.swift */,
 				AE2A5838240A9945008DE186 /* searchBarView.swift */,
 				8E73C666240B14D8006A4780 /* accountView.swift */,
+				8E56C172240C51CD00A56AAB /* SOSview.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				AE2A5837240A98EE008DE186 /* ContentView .swift in Sources */,
 				AE2A5839240A9945008DE186 /* searchBarView.swift in Sources */,
 				AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */,
+				8E56C173240C51CD00A56AAB /* SOSview.swift in Sources */,
 				AE4B82932405CED50005ACED /* PostCategory.swift in Sources */,
 				AE599C3D24057712000675EB /* postView.swift in Sources */,
 				AE599C3824055AB9000675EB /* Post.swift in Sources */,
@@ -520,6 +524,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile_IG4/Preview Content\"";
+				DEVELOPMENT_TEAM = HY6P82H4N9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = mobile_IG4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -539,6 +544,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile_IG4/Preview Content\"";
+				DEVELOPMENT_TEAM = HY6P82H4N9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = mobile_IG4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

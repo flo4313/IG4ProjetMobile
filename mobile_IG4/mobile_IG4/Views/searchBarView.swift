@@ -12,10 +12,12 @@ struct searchBarView : View {
     let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
     var filtreun : Bool = false
     var posts : PostSet
+    @State var orderByDateAcd : Bool = true
     var postsObserved : PostSet
     @State private var name: String = ""
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     func setSearchBarResult(){
+        self.orderByDateAcd = true
         if name.count != 0 {
             self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased())}
         } else {
@@ -23,10 +25,18 @@ struct searchBarView : View {
         }
     }
     func test(){
-      
     print("oui")
-       
-       
+    }
+    
+     func filterByDate(){
+        if orderByDateAcd == true {
+            self.postsObserved.data = self.postsObserved.data.sorted {$0.id < $1.id}
+            
+        } else {
+            self.postsObserved.data = self.postsObserved.data.sorted {$0.id > $1.id}
+        }
+        self.orderByDateAcd = !self.orderByDateAcd
+        
     }
 
     var body: some View {
@@ -50,16 +60,25 @@ struct searchBarView : View {
             HStack{
             Spacer()
         
-                Button(action: {}) {
-               Text("filtre1")
+                if(self.orderByDateAcd){
+                Button(action: {self.filterByDate()}) {
+               Text("On")
                .font(.headline)
                .foregroundColor(.white)
-               
-               
                .background(blue)
                .cornerRadius(15.0)
                 
             }
+                }else{
+                    Button(action: {self.filterByDate()}) {
+                                  Text("Off")
+                                  .font(.headline)
+                                  .foregroundColor(.white)
+                                  .background(blue)
+                                  .cornerRadius(15.0)
+                                   
+                               }
+                }
             Spacer()
             Button(action: {}) {
                Text("filtre2")
