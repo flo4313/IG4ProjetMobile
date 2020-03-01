@@ -28,6 +28,16 @@ class PostSet : ObservableObject {
         }
     }
     
+    func setData(){
+        self.data.removeAll()
+        let jsonData = getJSON()
+        for post in jsonData {
+            self.data.append(post)
+            
+        }
+        
+    }
+    
     func getJSON() -> [Post] {
         var res: [Post] = []
         let group = DispatchGroup()

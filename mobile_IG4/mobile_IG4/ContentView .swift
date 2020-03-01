@@ -38,7 +38,28 @@ struct ContentView: View {
                     }
                     Spacer()
                     VStack{
+                        HStack{
+                            Spacer()
+                            Button(action: {
+                                self.postsObserved.data.removeAll()
+                                self.posts.setData()
+                                for post in self.posts.data{
+                                    self.postsObserved.add(post:post)
+                                }
+                                
+                            }) {
+                                      Text("refresh")
+                                      .font(.headline)
+                                      .foregroundColor(.white)
+                            .padding()
+                                      
+                                      .background(blue)
+                                      .cornerRadius(5.0)
+                        }
+                            Spacer()
+                        }
                         List {
+                            
                             ForEach(postsObserved.data) {
                                 post in
                                 NavigationLink(destination : postDetailledView(postElt: post)){
