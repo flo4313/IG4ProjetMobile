@@ -37,27 +37,28 @@ struct ContentView: View {
                         searchBarView(posts : posts,postsObserved: postsObserved)
                     }
                     Spacer()
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            self.postsObserved.data.removeAll()
+                            self.posts.setData()
+                            for post in self.posts.data{
+                                self.postsObserved.add(post:post)
+                            }
+                            
+                        }) {
+                                  Text("refresh")
+                                  .font(.headline)
+                                  .foregroundColor(.white)
+                        .padding()
+                                  
+                                  .background(blue)
+                                  .cornerRadius(5.0)
+                    }
+                        Spacer()
+                    }
                     ZStack{
-                        HStack{
-                            Spacer()
-                            Button(action: {
-                                self.postsObserved.data.removeAll()
-                                self.posts.setData()
-                                for post in self.posts.data{
-                                    self.postsObserved.add(post:post)
-                                }
-                                
-                            }) {
-                                      Text("refresh")
-                                      .font(.headline)
-                                      .foregroundColor(.white)
-                            .padding()
-                                      
-                                      .background(blue)
-                                      .cornerRadius(5.0)
-                        }
-                            Spacer()
-                        }
+                        
                         List {
                             
                             ForEach(postsObserved.data) {
@@ -77,12 +78,11 @@ struct ContentView: View {
                             HStack{
                                 Spacer()
                                 NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
-                                                                  Text("+")
-                                                                  .font(.headline)
-                                                                  .foregroundColor(.white)
+                                                                  Image("write")
+                                                                    .resizable()
                                                                     .padding()
                                                                     .frame(width: 60, height: 60)
-                                                                  
+                                                                    .foregroundColor(.white)
                                                                     .background(Color.yellow)
                                                                     .cornerRadius(38.5)
                                                                     .shadow(color: Color.black.opacity(0.3),
