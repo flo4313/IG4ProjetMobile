@@ -7,26 +7,56 @@
 //
 
 import Foundation
+import Combine
 
-
-class Post : Identifiable, Decodable {
-    var post_id: Int
-    var title : String
-    var description : String
-    var post_category : Int
-    var author : Int
-    var url_image : String
-    var date : String
+class Post : ObservableObject,Identifiable, Codable {
     
-    init(post_id : Int, title : String, description : String, post_category : Int, author : Int, url_image : String, date : String){
-        self.post_id = post_id
-        self.title = title
-        self.description = description
-        self.post_category = post_category
-        self.author = author
-        self.url_image = url_image
-        self.date = date
+    var post_id: Int = 0
+    var title : String = "test"
+    var description : String = ""
+    var post_category : Int = 0
+    var author : Int = 0
+    var url_image : String = " " 
+    var date : String = ""
+    @Published var commentsi : CommentsSet?
+    
+    func encode(to encoder : Encoder) throws{
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(commentsi,forKey: .commentsi)
     }
+    
+    enum CodingKeys: CodingKey{
+        case post_id
+        case title
+        case description
+        case post_category
+        case author
+        case url_image
+        case date
+        case commentsi
+    }
+    func setComments(){
+        self.commentsi = CommentsSet(post_id: self.post_id)
+       
+        
+    }
+    
+    required init(from decoder: Decoder) throws{
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.post_id = try container.decode(Int.self,forKey: .post_id)
+        self.title = try  container.decode(String.self,forKey: .title)
+        self.description = try  container.decode(String.self,forKey: .description)
+        self.post_category = try  container.decode(Int.self,forKey: .post_category)
+        self.author = try container.decode(Int.self,forKey: .author)
+        self.url_image = try  container.decode(String.self,forKey: .url_image)
+        self.date = try  container.decode(String.self,forKey: .date)
+        self.commentsi = try? container.decode(CommentsSet?.self,forKey: .commentsi)
+       
+        
+    }
+    
+
+    
     
     func nbLike() -> Int {
         var res: Int = 0

@@ -7,11 +7,15 @@
 //
 
 import Foundation
-
+import Combine
 class PostSet : ObservableObject {
 
     
-    @Published var data: Array<Post>
+    @Published var data: Array<Post> {
+        willSet{
+            objectWillChange.send()
+        }
+    }
     
     func add(post : Post){
         self.data.append(post)
@@ -48,7 +52,9 @@ class PostSet : ObservableObject {
                     do {
                         res = try JSONDecoder().decode([Post].self, from: data)
                         
+                        
                         group.leave()
+                          
                     } catch let error {
                         print(error)
                     }
@@ -56,6 +62,9 @@ class PostSet : ObservableObject {
             }.resume()
         }
         group.wait()
+        for post in res{
+            post.setComments()
+        }
         return res
     }
 }

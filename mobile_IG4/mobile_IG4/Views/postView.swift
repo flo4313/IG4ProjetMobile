@@ -11,12 +11,13 @@ import SwiftUI
 struct postView: View {
     let blue = Color(red: 109.0/255.0, green: 201.0/255.0, blue: 234.0/255.0, opacity: 1.0)
     let red = Color(red: 234.0/255.0, green: 133.0/255.0, blue: 109.0/255.0, opacity: 0.8)
-    var post: Post
-    @ObservedObject var commentsList : CommentsSet
+    @ObservedObject var post: Post
+    
     
     init(post: Post){
         self.post = post
-        self.commentsList = CommentsSet(post_id: post.post_id)
+        
+        
     }
     
      
@@ -50,7 +51,7 @@ struct postView: View {
                                 Text("\(self.post.nbLike())")
                                 Image("ear").resizable().frame(width: 30, height: 30)
                                 Spacer()
-                                Text("\(self.commentsList.data.count)")
+                                Text("\(self.post.commentsi!.data.count)")
                                 Image("comment").resizable().frame(width: 30, height: 30)
                                 Spacer()
                                 Image("warning").resizable().frame(width: 30, height: 30)
@@ -78,8 +79,3 @@ struct postView: View {
     }
 }
 
-struct SwiftUICellView_Previews: PreviewProvider {
-    static var previews: some View {
-        postView(post: Post(post_id: 1, title: "foo", description: "foofoofoo", post_category: 1, author: 1, url_image: "urlfoo", date: "01/01/2000"))
-    }
-}

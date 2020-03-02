@@ -30,10 +30,10 @@ struct searchBarView : View {
     
      func filterByDate(){
         if orderByDateAcd == true {
-            self.postsObserved.data = self.postsObserved.data.sorted {$0.id < $1.id}
+            self.postsObserved.data = self.postsObserved.data.sorted {$0.post_id < $1.post_id}
             
         } else {
-            self.postsObserved.data = self.postsObserved.data.sorted {$0.id > $1.id}
+            self.postsObserved.data = self.postsObserved.data.sorted {$0.post_id > $1.post_id}
         }
         self.orderByDateAcd = !self.orderByDateAcd
         

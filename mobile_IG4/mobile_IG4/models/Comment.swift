@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Comment : Identifiable, Decodable {
+class Comment : Identifiable, Codable {
     var comment_id: Int
     
     var description : String

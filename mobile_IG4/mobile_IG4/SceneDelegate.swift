@@ -49,6 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
         //let person = Person(username: "T", password: "F")
        // let str = person.username+"\n"+person.password
+        
         let urlf = self.getDocumentsDirectory().appendingPathComponent("login.txt")
         let fileExist = try? urlf.checkResourceIsReachable()
         

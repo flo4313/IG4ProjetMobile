@@ -63,8 +63,8 @@ struct addPostView: View {
         }
         group.wait()
         if(isCreate == true){
-            let postToAdd = Post(post_id: id, title: title, description: description, post_category: 1, author: 1, url_image: "", date: "")
-            self.postsObserved.add(post: postToAdd)
+           // let postToAdd = Post(post_id: id, title: title, description: description, post_category: 1, author: 1, url_image: "", date: "")
+           // self.postsObserved.add(post: postToAdd)
             self.presentationMode.wrappedValue.dismiss()
         }
     }

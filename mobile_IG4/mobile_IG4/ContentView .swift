@@ -14,17 +14,18 @@ struct ContentView: View {
     
     @EnvironmentObject var user: User
     @ObservedObject var postsObserved : PostSet
-    var posts : PostSet
+    @ObservedObject var posts : PostSet
     init(){
         self.posts = PostSet(search: true)
-        self.postsObserved = PostSet(search: false)
+        self.postsObserved = PostSet(search: true)
         
         
-        for post in posts.data{
+       for post in posts.data{
             self.postsObserved.add(post:post)
         }
     }
     
+ 
   
     let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
     var body: some View {
@@ -59,15 +60,16 @@ struct ContentView: View {
                             Spacer()
                         }
                         List {
-                            
-                            ForEach(postsObserved.data) {
+                            ForEach(self.postsObserved.data) {
                                 post in
-                                NavigationLink(destination : postDetailledView(postElt: post)){
-                                    postView(post: post)
+                                HStack{
+                                    
+                                   NavigationLink(destination : postDetailledView(postEl: post)){
+                                    
+                                        postView(post: post)
+                                    }
                                 }
                                 
-                                
-                        
                             }
                         }
                         .padding(.bottom, 20.0)
@@ -79,7 +81,6 @@ struct ContentView: View {
                                                               .font(.headline)
                                                               .foregroundColor(.white)
                                                                 .padding()
-                                                              
                                                               .background(blue)
                                                               .cornerRadius(5.0)
                                                            
@@ -144,11 +145,10 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     @EnvironmentObject var user: User
     @ObservedObject var postsObserved : PostSet
-    var posts : PostSet
+    @ObservedObject var posts : PostSet
     init(){
         self.posts = PostSet(search: true)
         self.postsObserved = PostSet(search: false)
-        
         self.appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.logged {
             self.menu1 = "mon compte"
