@@ -27,4 +27,26 @@ class Post : Identifiable, Decodable {
         self.url_image = url_image
         self.date = date
     }
+    
+    func nbLike() -> Int {
+        var res: Int = 0
+        let group = DispatchGroup()
+        group.enter()
+        if let url = URL(string: "http://51.255.175.118:2000/opinion/3") {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    do {
+                        let tmp = try JSONDecoder().decode([Opinion].self, from: data)
+                        res = tmp.count
+                        
+                        group.leave()
+                    } catch let error {
+                        print(error)
+                    }
+                }
+            }.resume()
+        }
+        group.wait()
+        return res
+    }
 }

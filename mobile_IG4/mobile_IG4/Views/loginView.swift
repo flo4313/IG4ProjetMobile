@@ -17,6 +17,7 @@ struct loginView: View {
     @State var password: String = ""
     @EnvironmentObject var user : User
     
+    
     func login(username: String,password: String){
         print(username+" "+password)
         let person = Person(username: username, password: password)
