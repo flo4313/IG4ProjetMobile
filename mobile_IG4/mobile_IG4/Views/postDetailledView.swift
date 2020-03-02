@@ -12,14 +12,38 @@ struct post : View{
     var postElt : Post
     var body: some View {
         HStack{
-            Text("Post:")
-            Spacer()
+
         VStack{
-            Text(String(postElt.author))
-            Text(postElt.title)
-            }
+                HStack{
+                    HStack {
+                        Text(self.postElt.title)
+                            .font(.title)
+                            .fontWeight(.light)
+                            .foregroundColor(Color.black)
+                            .multilineTextAlignment(.leading)
+                            .padding([.horizontal])
+                        Spacer()
+                        Text("#\(self.postElt.post_id)")
+                            .padding([.horizontal])
+                    }.background(Color.white).cornerRadius(5.0)
+                }.padding([.horizontal])
+                
+                HStack {
+                    Text(self.postElt.description)
+                    .multilineTextAlignment(.leading)
+                    Spacer()
+                }.padding([.horizontal], 20).padding([.vertical], 15)
+                HStack(){
+                    Spacer()
+                    Text("\(self.postElt.nbLike())")
+                    Image("ear").resizable().frame(width: 30, height: 30)
+                    Spacer()
+                    Image("warning").resizable().frame(width: 30, height: 30)
+                    Spacer()
+                }.padding([.horizontal], 40).padding([.vertical], 5).background(Color.green)
+        }.padding([.top],10).background(Color.blue).cornerRadius(5.0)
             Spacer()
-        }.background(Color(red: 188 / 255, green: 188 / 255, blue: 188 / 255))
+        }.padding()
       
     }
 }
@@ -120,11 +144,11 @@ struct inputComment : View{
                 .padding()
                 .background(lightGreyColor)
             Button(action: {self.sendNewComment()}) {
-               Text("+")
-               .font(.headline)
+               Image("send")
+                .resizable()
+                .frame(width: 30, height: 30)
                .foregroundColor(.white)
                .padding()
-               
                .background(Color.green)
                .cornerRadius(15.0)
                 

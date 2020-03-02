@@ -24,8 +24,6 @@ struct ContentView: View {
             self.postsObserved.add(post:post)
         }
     }
-    
- 
   
     let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
     var body: some View {
@@ -38,27 +36,28 @@ struct ContentView: View {
                         searchBarView(posts : posts,postsObserved: postsObserved)
                     }
                     Spacer()
-                    VStack{
-                        HStack{
-                            Spacer()
-                            Button(action: {
-                                self.postsObserved.data.removeAll()
-                                self.posts.setData()
-                                for post in self.posts.data{
-                                    self.postsObserved.add(post:post)
-                                }
-                                
-                            }) {
-                                      Text("refresh")
-                                      .font(.headline)
-                                      .foregroundColor(.white)
-                            .padding()
-                                      
-                                      .background(blue)
-                                      .cornerRadius(5.0)
-                        }
-                            Spacer()
-                        }
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            self.postsObserved.data.removeAll()
+                            self.posts.setData()
+                            for post in self.posts.data{
+                                self.postsObserved.add(post:post)
+                            }
+                            
+                        }) {
+                                  Text("refresh")
+                                  .font(.headline)
+                                  .foregroundColor(.white)
+                        .padding()
+                                  
+                                  .background(blue)
+                                  .cornerRadius(5.0)
+                    }
+                        Spacer()
+                    }
+                    ZStack{
+                        
                         List {
                             ForEach(self.postsObserved.data) {
                                 post in
@@ -73,20 +72,25 @@ struct ContentView: View {
                             }
                         }
                         .padding(.bottom, 20.0)
-                        Spacer()
-                        HStack{
+
                             Spacer()
-                            NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
-                                                              Text("+")
-                                                              .font(.headline)
-                                                              .foregroundColor(.white)
-                                                                .padding()
-                                                              .background(blue)
-                                                              .cornerRadius(5.0)
-                                                           
-                            }
-                            Spacer()
-                        }
+                            HStack{
+                                Spacer()
+                                NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
+                                                                  Image("write")
+                                                                    .resizable()
+                                                                    .padding()
+                                                                    .frame(width: 60, height: 60)
+                                                                    .foregroundColor(.white)
+                                                                    .background(Color.yellow)
+                                                                    .cornerRadius(38.5)
+                                                                    .shadow(color: Color.black.opacity(0.3),
+                                                                    radius: 3,
+                                                                    x: 3,
+                                                                    y: 3)
+                                }
+                            }.padding()
+                        }.padding()
                         
                     }
                     Spacer()
@@ -136,11 +140,13 @@ struct ContentView: View {
                         .frame(alignment : .center)
                         Spacer()
                     }.padding().background(blue)
-                }
-            
         }.navigationViewStyle(StackNavigationViewStyle())
     }
-}
+            
+        }
+
+
+
 
 struct ContentView_Previews: PreviewProvider {
     @EnvironmentObject var user: User
