@@ -37,7 +37,7 @@ struct ContentView: View {
                         searchBarView(posts : posts,postsObserved: postsObserved)
                     }
                     Spacer()
-                    VStack{
+                    ZStack{
                         HStack{
                             Spacer()
                             Button(action: {
@@ -71,21 +71,28 @@ struct ContentView: View {
                             }
                         }
                         .padding(.bottom, 20.0)
-                        Spacer()
-                        HStack{
+                        
+                        VStack{
                             Spacer()
-                            NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
-                                                              Text("+")
-                                                              .font(.headline)
-                                                              .foregroundColor(.white)
-                                                                .padding()
-                                                              
-                                                              .background(blue)
-                                                              .cornerRadius(5.0)
-                                                           
-                            }
-                            Spacer()
-                        }
+                            HStack{
+                                Spacer()
+                                NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
+                                                                  Text("+")
+                                                                  .font(.headline)
+                                                                  .foregroundColor(.white)
+                                                                    .padding()
+                                                                    .frame(width: 60, height: 60)
+                                                                  
+                                                                    .background(Color.yellow)
+                                                                    .cornerRadius(38.5)
+                                                                    .shadow(color: Color.black.opacity(0.3),
+                                                                    radius: 3,
+                                                                    x: 3,
+                                                                    y: 3)
+                                                               
+                                }
+                            }.padding()
+                        }.padding()
                         
                     }
                     Spacer()
