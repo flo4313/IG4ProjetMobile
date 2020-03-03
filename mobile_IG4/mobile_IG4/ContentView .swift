@@ -72,7 +72,7 @@ struct ContentView: View {
                             }
                         }
                         .padding(.bottom, 20.0)
-
+                        VStack() {
                             Spacer()
                             HStack{
                                 Spacer()
@@ -91,7 +91,7 @@ struct ContentView: View {
                                 }
                             }.padding()
                         }.padding()
-                        
+                    
                     }
                     Spacer()
                     
@@ -140,6 +140,7 @@ struct ContentView: View {
                         .frame(alignment : .center)
                         Spacer()
                     }.padding().background(blue)
+                }
         }.navigationViewStyle(StackNavigationViewStyle())
     }
             

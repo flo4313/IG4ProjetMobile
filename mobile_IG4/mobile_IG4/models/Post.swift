@@ -62,7 +62,7 @@ class Post : ObservableObject,Identifiable, Codable {
         var res: Int = 0
         let group = DispatchGroup()
         group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/opinion/3") {
+        if let url = URL(string: "http://51.255.175.118:2000/opinion/"+String(self.post_id)) {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {
@@ -71,7 +71,7 @@ class Post : ObservableObject,Identifiable, Codable {
                         
                         group.leave()
                     } catch let error {
-                        print(error)
+                        res = 0								
                     }
                 }
             }.resume()
