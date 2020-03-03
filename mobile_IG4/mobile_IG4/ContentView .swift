@@ -36,7 +36,7 @@ struct ContentView: View {
                         searchBarView(posts : posts,postsObserved: postsObserved)
                     }
                     Spacer()
-                    HStack{
+                   /* HStack{
                         Spacer()
                         Button(action: {
                             self.postsObserved.data.removeAll()
@@ -55,10 +55,9 @@ struct ContentView: View {
                                   .cornerRadius(5.0)
                     }
                         Spacer()
-                    }
+                    }*/
                     ZStack{
-                        
-                        List {
+                        /*List {
                             ForEach(self.postsObserved.data) {
                                 post in
                                 HStack{
@@ -70,8 +69,15 @@ struct ContentView: View {
                                 }
                                 
                             }
+                        }.padding(.bottom, 20.0)*/
+                        
+                        GeometryReader{
+                        geometry in
+                        NavigationView{
+                            
+                            CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved)
+                            }
                         }
-                        .padding(.bottom, 20.0)
                         VStack() {
                             Spacer()
                             HStack{

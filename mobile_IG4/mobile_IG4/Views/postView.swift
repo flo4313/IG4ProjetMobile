@@ -16,8 +16,6 @@ struct postView: View {
     
     init(post: Post){
         self.post = post
-        
-        
     }
     
      
