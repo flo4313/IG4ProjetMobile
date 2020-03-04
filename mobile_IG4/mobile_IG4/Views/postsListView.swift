@@ -14,7 +14,6 @@ struct postsListView: View {
     @ObservedObject var postsObserved : PostSet
      
     var body: some View {
-        
         List {
             ForEach(self.postsObserved.data) {
                 post in
@@ -29,6 +28,7 @@ struct postsListView: View {
             }
         }.padding(.bottom, 20.0)
     }
+    
 }
 
 struct CustomScrollView : UIViewRepresentable {

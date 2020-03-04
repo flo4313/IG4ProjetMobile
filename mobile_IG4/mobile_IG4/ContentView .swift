@@ -73,10 +73,9 @@ struct ContentView: View {
                         
                         GeometryReader{
                         geometry in
-                        NavigationView{
                             
                             CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved)
-                            }
+                            
                         }
                         VStack() {
                             Spacer()
