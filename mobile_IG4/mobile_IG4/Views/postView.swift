@@ -13,9 +13,14 @@ struct postView: View {
     let red = Color(red: 234.0/255.0, green: 133.0/255.0, blue: 109.0/255.0, opacity: 0.8)
     @ObservedObject var post: Post
     
-    
+    let imageLoader : ImageLoader
     init(post: Post){
         self.post = post
+        
+        imageLoader = ImageLoader(urlString: post.url_image)
+    }
+    func imageFromData(_ data:Data) ->UIImage{
+        UIImage(data: data) ?? UIImage()
     }
     
      
@@ -38,8 +43,9 @@ struct postView: View {
                                     Text("#\(self.post.post_id)")
                                         .padding([.horizontal])
                                 }.background(Color.white).cornerRadius(5.0)
+                                
                             }.padding([.horizontal])
-                            
+                            Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:100,height:100)
                             HStack {
                                 Text(self.post.description)
                                 .multilineTextAlignment(.leading)
