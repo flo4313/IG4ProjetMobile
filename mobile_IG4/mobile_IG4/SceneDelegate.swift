@@ -123,6 +123,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             group.wait()
                             self.user.isLogged = true
                             self.user.user = user
+                            self.user.token = token
+                            print(self.user.token)
                             
                         }
                     }

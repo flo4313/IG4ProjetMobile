@@ -87,7 +87,7 @@ struct loginView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 self.user.isLogged = true
                 self.user.user = user
-                
+                self.user.token = token
                 print(self.user.user!.username)
             }
         
