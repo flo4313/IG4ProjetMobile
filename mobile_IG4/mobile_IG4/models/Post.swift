@@ -18,6 +18,9 @@ class Post : ObservableObject,Identifiable, Codable {
     var author : Int = 0
     var url_image : String = " " 
     var date : String = ""
+    var like : Int = 0
+    var comment : Int = 0
+    
     @Published var commentsi : CommentsSet?
     
     func encode(to encoder : Encoder) throws{
@@ -33,6 +36,8 @@ class Post : ObservableObject,Identifiable, Codable {
         case author
         case url_image
         case date
+        case comment
+        case like
         case commentsi
     }
     func setComments(){
@@ -50,33 +55,11 @@ class Post : ObservableObject,Identifiable, Codable {
         self.author = try container.decode(Int.self,forKey: .author)
         self.url_image = try  container.decode(String.self,forKey: .url_image)
         self.date = try  container.decode(String.self,forKey: .date)
+        self.comment = try container.decode(Int.self, forKey: .comment)
+        self.like = try container.decode(Int.self, forKey: .like)
         self.commentsi = try? container.decode(CommentsSet?.self,forKey: .commentsi)
-       
+        
         
     }
     
-
-    
-    
-    func nbLike() -> Int {
-        var res: Int = 0
-        let group = DispatchGroup()
-        group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/opinion/post/"+String(self.post_id)) {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data {
-                    do {
-                        let tmp = try JSONDecoder().decode([Opinion].self, from: data)
-                        res = tmp.count
-                        
-                        group.leave()
-                    } catch let error {
-                        res = 0								
-                    }
-                }
-            }.resume()
-        }
-        group.wait()
-        return res
-    }
 }

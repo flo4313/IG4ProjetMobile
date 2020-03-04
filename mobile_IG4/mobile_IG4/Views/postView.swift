@@ -46,7 +46,7 @@ struct postView: View {
                                 Spacer()
                             }.padding([.horizontal], 20).padding([.vertical], 15)
                             HStack(){
-                                Text("\(self.post.nbLike())")
+                                Text("\(self.post.like)")
                                 Image("ear").resizable().frame(width: 30, height: 30)
                                 Spacer()
                                 Text("\(self.post.commentsi!.data.count)")

@@ -25,10 +25,10 @@ struct searchBarView : View {
         }
     }
     func test(){
-    print("oui")
+        print("oui")
     }
     
-     func filterByDate(){
+    func filterByDate(){
         if orderByDateAcd == true {
             self.postsObserved.data = self.postsObserved.data.sorted {$0.post_id < $1.post_id}
             
@@ -38,71 +38,71 @@ struct searchBarView : View {
         self.orderByDateAcd = !self.orderByDateAcd
         
     }
-
+    
     var body: some View {
         return
             VStack{
-            HStack(alignment:.top){
-                TextField("Enter a post name", text: $name).background(lightGreyColor).padding()
-                Button(action: {self.setSearchBarResult()}) {
-                              Text("ok")
-                              .font(.headline)
-                              .foregroundColor(.white)
-                    .padding()
-                              
-                              .background(blue)
-                              .cornerRadius(5.0)
+                HStack(alignment:.top){
+                    TextField("Enter a post name", text: $name).background(lightGreyColor).padding()
+                    Button(action: {self.setSearchBarResult()}) {
+                        Text("ok")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            
+                            .background(blue)
+                            .cornerRadius(5.0)
+                    }
+                    
+                    
                 }
-               
                 
-            }
-         
-            HStack{
-            Spacer()
-        
-                if(self.orderByDateAcd){
-                Button(action: {self.filterByDate()}) {
-               Text("On")
-               .font(.headline)
-               .foregroundColor(.white)
-               .background(blue)
-               .cornerRadius(15.0)
-                
-            }
-                }else{
-                    Button(action: {self.filterByDate()}) {
-                                  Text("Off")
-                                  .font(.headline)
-                                  .foregroundColor(.white)
-                                  .background(blue)
-                                  .cornerRadius(15.0)
-                                   
-                               }
-                }
-            Spacer()
-            Button(action: {}) {
-               Text("filtre2")
-               .font(.headline)
-               .foregroundColor(.white)
-               
-               
-               .background(blue)
-               .cornerRadius(15.0)
-                
-            }
-            Spacer()
-            Button(action: {}) {
-               Text("filtre3")
-               .font(.headline)
-               .foregroundColor(.white)
-               
-               
-               .background(blue)
-               .cornerRadius(15.0)
-                
-            }
-            Spacer()
-            }.padding().background(blue)
+                HStack{
+                    Spacer()
+                    
+                    if(self.orderByDateAcd){
+                        Button(action: {self.filterByDate()}) {
+                            Text("Recent ▽")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .background(blue)
+                                .cornerRadius(15.0)
+                            
+                        }
+                    }else{
+                        Button(action: {self.filterByDate()}) {
+                            Text("Recent △")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .background(blue)
+                                .cornerRadius(15.0)
+                            
+                        }
+                    }
+                    Spacer()
+                    Button(action: {}) {
+                        Text("filtre2")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            
+                            
+                            .background(blue)
+                            .cornerRadius(15.0)
+                        
+                    }
+                    Spacer()
+                    Button(action: {}) {
+                        Text("filtre3")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            
+                            
+                            .background(blue)
+                            .cornerRadius(15.0)
+                        
+                    }
+                    Spacer()
+                }.padding().background(blue)
         }
     }
 }

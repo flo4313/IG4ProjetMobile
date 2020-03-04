@@ -35,7 +35,7 @@ struct post : View{
                 }.padding([.horizontal], 20).padding([.vertical], 15)
                 HStack(){
                     Spacer()
-                    Text("\(self.postElt.nbLike())")
+                    Text("\(self.postElt.like)")
                     Image("ear").resizable().frame(width: 30, height: 30)
                     Spacer()
                     Image("warning").resizable().frame(width: 30, height: 30)
