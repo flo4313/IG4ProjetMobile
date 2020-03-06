@@ -18,6 +18,7 @@ class Comment : Identifiable, Codable {
     var post : Int
     var date : String
     
+    
     init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String){
         self.comment_id = comment_id
         self.description = description

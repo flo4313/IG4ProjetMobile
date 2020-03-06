@@ -118,6 +118,15 @@ struct loginView: View {
                .background(Color.green)
                .cornerRadius(15.0)
             }
+            NavigationLink(destination: registerView()) {
+                Text("Register")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: 220, height: 60)
+                .background(Color.green)
+                .cornerRadius(15.0)
+            }
         
         }.padding()
     }
