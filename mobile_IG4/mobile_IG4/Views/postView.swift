@@ -52,14 +52,20 @@ struct postView: View {
                                 Spacer()
                             }.padding([.horizontal], 20).padding([.vertical], 15)
                             HStack(){
-                                Text("\(self.post.like)")
-                                Image("ear").resizable().frame(width: 30, height: 30)
+                                Button(action: {print("TODO ear")}) {
+                                    Text("\(self.post.like)")
+                                    Image("ear").resizable().frame(width: 30, height: 30)
+                                }
                                 Spacer()
-                                Text("\(self.post.commentsi!.data.count)")
-                                Image("comment").resizable().frame(width: 30, height: 30)
+                                Button(action: {print("TODO comment")}) {
+                                    Text("\(self.post.commentsi!.data.count)")
+                                    Image("comment").resizable().frame(width: 30, height: 30)
+                                }
                                 Spacer()
-                                Image("warning").resizable().frame(width: 30, height: 30)
-                            }.padding([.horizontal], 40).padding([.vertical], 5).background(Color.green)
+                                Button(action: {print("TODO warning")}) {
+                                    Image("warning").resizable().frame(width: 30, height: 30)
+                                }
+                            }.padding([.horizontal], 40).padding([.vertical], 5).background(Color.green).buttonStyle(PlainButtonStyle())
                     }.padding([.top],10).background(blue).cornerRadius(5.0)
                     
                     }
