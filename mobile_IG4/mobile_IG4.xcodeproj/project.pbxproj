@@ -34,6 +34,7 @@
 		AEEF18EB2409A9FC00BB8AB5 /* postDetailledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EA2409A9FC00BB8AB5 /* postDetailledView.swift */; };
 		AEEF18ED2409AE5C00BB8AB5 /* CommentsSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EC2409AE5C00BB8AB5 /* CommentsSet.swift */; };
 		AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */; };
+		D9517B4F2413A65E00115589 /* registerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9517B4E2413A65D00115589 /* registerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		AEEF18EA2409A9FC00BB8AB5 /* postDetailledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postDetailledView.swift; sourceTree = "<group>"; };
 		AEEF18EC2409AE5C00BB8AB5 /* CommentsSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsSet.swift; sourceTree = "<group>"; };
 		AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		D9517B4E2413A65D00115589 /* registerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = registerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 		AE599C3B240576FE000675EB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D9517B4E2413A65D00115589 /* registerView.swift */,
 				AE599C3C24057712000675EB /* postView.swift */,
 				AE7A23132408645400530A5A /* loginView.swift */,
 				AEEF18EA2409A9FC00BB8AB5 /* postDetailledView.swift */,
@@ -355,6 +358,7 @@
 				AE2A5839240A9945008DE186 /* searchBarView.swift in Sources */,
 				AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */,
 				8E56C173240C51CD00A56AAB /* SOSview.swift in Sources */,
+				D9517B4F2413A65E00115589 /* registerView.swift in Sources */,
 				AEEA3218240EB0FA00A03B94 /* postsListView.swift in Sources */,
 				AE4B82932405CED50005ACED /* PostCategory.swift in Sources */,
 				AE599C3D24057712000675EB /* postView.swift in Sources */,
@@ -534,9 +538,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile_IG4/Preview Content\"";
-				DEVELOPMENT_TEAM = HY6P82H4N9;
+				DEVELOPMENT_TEAM = QGMSVDJD8U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = mobile_IG4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -545,6 +550,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -554,9 +560,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile_IG4/Preview Content\"";
-				DEVELOPMENT_TEAM = HY6P82H4N9;
+				DEVELOPMENT_TEAM = QGMSVDJD8U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = mobile_IG4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -565,6 +572,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
