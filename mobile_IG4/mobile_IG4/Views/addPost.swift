@@ -19,6 +19,12 @@ struct addPostView: View {
     var postsObserved : PostSet
     @State var title: String = ""
     @State var description: String = ""
+    
+    struct AddPostForm : Codable{
+        var title:String
+        var description:String
+        var username:String
+    }
    
     struct Response :Decodable {
         var result: Bool

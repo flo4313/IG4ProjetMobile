@@ -9,24 +9,20 @@
 import UIKit
 import SwiftUI
 
+//will be store on the environment variable
 struct Person : Codable{
     var username:String
     var password:String
 }
-struct AddPostForm : Codable{
-    var title:String
-    var description:String
-    var username:String
-}
-
-
 
 struct Login: Decodable{
     var token:String
     var id: Int
- 
-
 }
+///////
+
+
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -58,7 +54,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                   //  try str.write(to: url, atomically: true, encoding: .utf8)
                     let input = try String(contentsOf: urlf)
                     let inputs = input.components(separatedBy: CharacterSet.newlines)
-                    
                     if inputs[1] != nil && inputs[0] != nil {
                         let person = Person(username: inputs[0], password: inputs[1])
                         guard let encoded = try? JSONEncoder().encode(person) else {
@@ -82,7 +77,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
                                         let res = try? JSONDecoder().decode(Login.self, from: data)
                                         if let res2 = res{
-                                            
                                             token = res2.token
                                             user_id = res2.id
                                             isLogged = true

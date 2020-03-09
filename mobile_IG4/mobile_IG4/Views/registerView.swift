@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-
+import CommonCrypto
 struct registerView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var username : String = ""
@@ -19,6 +19,7 @@ struct registerView: View {
     @State private var birthday : Date = Date()
     @State private var sexe : Bool = false
     @State private var value : CGFloat = 0
+    
     
     private func keyboardUp(){
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){
@@ -34,6 +35,60 @@ struct registerView: View {
         var result: Bool
         var id: Int
     }
+    func sha256(str: String) -> String {
+     
+        if let strData = str.data(using: String.Encoding.utf8) {
+            /// #define CC_SHA256_DIGEST_LENGTH     32
+            /// Creates an array of unsigned 8 bit integers that contains 32 zeros
+            var digest = [UInt8](repeating: 0, count:Int(CC_SHA256_DIGEST_LENGTH))
+     
+            /// CC_SHA256 performs digest calculation and places the result in the caller-supplied buffer for digest (md)
+            /// Takes the strData referenced value (const unsigned char *d) and hashes it into a reference to the digest parameter.
+            strData.withUnsafeBytes {
+                // CommonCrypto
+                // extern unsigned char *CC_SHA256(const void *data, CC_LONG len, unsigned char *md)  -|
+                // OpenSSL                                                                             |
+                // unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)        <-|
+                CC_SHA256($0.baseAddress, UInt32(strData.count), &digest)
+            }
+     
+            var sha256String = ""
+            /// Unpack each byte in the digest array and add them to the sha256String
+            for byte in digest {
+                sha256String += String(format:"%02x", UInt8(byte))
+            }
+     
+            if sha256String.uppercased() == "E8721A6EBEA3B23768D943D075035C7819662B581E487456FDB1A7129C769188" {
+                print("Matching sha256 hash: E8721A6EBEA3B23768D943D075035C7819662B581E487456FDB1A7129C769188")
+            } else {
+                print("sha256 hash does not match: \(sha256String)")
+            }
+            return sha256String
+        }
+        return ""
+    }
+    
+    struct AddUserForm : Codable{
+        var firstname:String
+        var username:String
+        var lastname:String
+        var sexe:String
+        var birthday:String
+        var password:String
+        var mail:String
+
+    }
+    
+    var dataFormatter : DateFormatter{
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter
+    }
+    
+    struct Result :Decodable {
+        var result: Bool
+        
+    }
     
     func register(){
         var s : String
@@ -43,8 +98,14 @@ struct registerView: View {
         else {
             s = "F"
         }
-        let user = User(user_id: 0, username: self.username, firstname: self.firstname, lastname: self.lastname, mail: self.mail, password: self.password, birthday: self.birthday, sexe: s)
-        print(user.sexe)
+       // let user = User(user_id: 0, username: self.username, firstname: self.firstname, lastname: self.lastname, mail: self.mail, password: self.password, birthday: self.birthday, sexe: s)
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        let date = df.string(from: self.birthday)
+        let user = AddUserForm(firstname: self.firstname, username: self.username, lastname: self.lastname, sexe: s, birthday: date, password: sha256(str: self.password), mail: self.mail)
+       // print(user.sexe)
+        print(self.username)
+        print(user.username)
         guard let encoded = try? JSONEncoder().encode(user) else {
             print("Failed to encode order")
             return
@@ -60,13 +121,15 @@ struct registerView: View {
             request.httpBody = encoded
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let data = data {
-                    let res = try? JSONDecoder().decode(Response.self, from: data)
+                    let res = try? JSONDecoder().decode(Result.self, from: data)
                     if let res2 = res{
                         if(res2.result == true){
                             isCreate = true
+                            print("created")
                         }
                     }else{
                         print("error")
+                     
                     }
                     group.leave()
                     
@@ -104,6 +167,10 @@ struct registerView: View {
                         .padding(.bottom,20)
                 }
                 VStack{
+                    Text("Birthday")
+                    DatePicker(selection : self.$birthday,in: ...Date(), displayedComponents: .date){
+                        Text("Select a date")
+                    }
                     Text("Mail")
                     TextField("Mail" , text: self.$mail)
                         .padding()
@@ -134,7 +201,7 @@ struct registerView: View {
                 
                 
                 
-                
+              
                 Button(action:{self.register()}) {
                     Text("REGISTER")
                         .font(.headline)
