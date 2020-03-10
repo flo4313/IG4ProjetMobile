@@ -152,7 +152,6 @@ class UserDAL{
             }.resume()
         }
         group.wait()
-        print(isCreate)
         return isCreate
     }
     

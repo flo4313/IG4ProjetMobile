@@ -36,6 +36,8 @@
 		AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */; };
 		B79EC44C2417D5CB0090F9CB /* UserDAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79EC44B2417D5CB0090F9CB /* UserDAL.swift */; };
 		B79EC44F2417D7940090F9CB /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79EC44E2417D7940090F9CB /* config.swift */; };
+		B79EC4532417F4840090F9CB /* postDAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79EC4522417F4840090F9CB /* postDAL.swift */; };
+		B79EC4552417F4E60090F9CB /* opinionDAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79EC4542417F4E60090F9CB /* opinionDAL.swift */; };
 		D9517B4F2413A65E00115589 /* registerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9517B4E2413A65D00115589 /* registerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +94,8 @@
 		AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B79EC44B2417D5CB0090F9CB /* UserDAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAL.swift; sourceTree = "<group>"; };
 		B79EC44E2417D7940090F9CB /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
+		B79EC4522417F4840090F9CB /* postDAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postDAL.swift; sourceTree = "<group>"; };
+		B79EC4542417F4E60090F9CB /* opinionDAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = opinionDAL.swift; sourceTree = "<group>"; };
 		D9517B4E2413A65D00115589 /* registerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = registerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -230,6 +234,8 @@
 			isa = PBXGroup;
 			children = (
 				B79EC44B2417D5CB0090F9CB /* UserDAL.swift */,
+				B79EC4522417F4840090F9CB /* postDAL.swift */,
+				B79EC4542417F4E60090F9CB /* opinionDAL.swift */,
 			);
 			path = DAL;
 			sourceTree = "<group>";
@@ -378,6 +384,7 @@
 				AE7A23142408645400530A5A /* loginView.swift in Sources */,
 				AE2A5837240A98EE008DE186 /* ContentView .swift in Sources */,
 				AE2A5839240A9945008DE186 /* searchBarView.swift in Sources */,
+				B79EC4552417F4E60090F9CB /* opinionDAL.swift in Sources */,
 				AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */,
 				8E56C173240C51CD00A56AAB /* SOSview.swift in Sources */,
 				D9517B4F2413A65E00115589 /* registerView.swift in Sources */,
@@ -386,6 +393,7 @@
 				AE599C3D24057712000675EB /* postView.swift in Sources */,
 				AE599C3824055AB9000675EB /* Post.swift in Sources */,
 				AE2A5835240A8DC7008DE186 /* addPost.swift in Sources */,
+				B79EC4532417F4840090F9CB /* postDAL.swift in Sources */,
 				B79EC44F2417D7940090F9CB /* config.swift in Sources */,
 				8E73C667240B14D8006A4780 /* accountView.swift in Sources */,
 				AE9F789C240D0F19002CC274 /* Opinion.swift in Sources */,

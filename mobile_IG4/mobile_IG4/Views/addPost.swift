@@ -19,58 +19,12 @@ struct addPostView: View {
     var postsObserved : PostSet
     @State var title: String = ""
     @State var description: String = ""
+    private var postDAL : PostDAL = PostDAL()
     
-    struct AddPostForm : Codable{
-        var title:String
-        var description:String
-        var username:String
-    }
-   
-    struct Response :Decodable {
-        var result: Bool
-        var id: Int
-    }
     
-    func addPost(title: String,description: String){
-       
-        
-        let post = AddPostForm(title: title, description: description, username: "T")
-        guard let encoded = try? JSONEncoder().encode(post) else {
-            print("Failed to encode order")
-            return
-        }
-        var isCreate = false
-        var id = 0
-        let group = DispatchGroup()
-        group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/post/create") {
-            var request = URLRequest(url: url)
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Application")
-            request.httpMethod = "POST"
-            request.httpBody = encoded
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let data = data {
-                        let res = try? JSONDecoder().decode(Response.self, from: data)
-                        if let res2 = res{
-                            print(res2.result)
-                            if(res2.result == true){
-                                isCreate = true
-                                id=res2.id
-                            }
-                        }else{
-                            print("error")
-                        }
-                        group.leave()
     
-                }
-            }.resume()
-        }
-        group.wait()
-        if(isCreate == true){
-           // let postToAdd = Post(post_id: id, title: title, description: description, post_category: 1, author: 1, url_image: "", date: "")
-           // self.postsObserved.add(post: postToAdd)
+    func addPost(){
+        if(postDAL.addPost(title: self.title, description: self.description, userId: 0)){
             self.presentationMode.wrappedValue.dismiss()
         }
     }
@@ -91,7 +45,7 @@ struct addPostView: View {
             
             
             
-            Button(action: {self.addPost(title: self.title,description: self.description)}) {
+            Button(action: {self.addPost()}) {
                Text("Add")
                .font(.headline)
                .foregroundColor(.white)
