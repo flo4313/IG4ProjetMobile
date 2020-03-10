@@ -10,23 +10,28 @@ import Foundation
 import SwiftUI
 
 
+
 struct postsListView: View {
     @ObservedObject var postsObserved : PostSet
-     
+    
+
     var body: some View {
-        List {
-            ForEach(self.postsObserved.data) {
-                post in
-                HStack{
-                    
-                   NavigationLink(destination : postDetailledView(postEl: post)){
-                    
-                        postView(post: post)
+       
+            return
+            List {
+                ForEach(self.postsObserved.data) {
+                    post in
+                    HStack{
+                        
+                       NavigationLink(destination : postDetailledView(postEl: post)){
+                        
+                            postView(post: post)
+                        }
                     }
+                    
                 }
-                
-            }
-        }.padding(.bottom, 20.0)
+            }.padding(.bottom, 20.0)
+        
     }
     
 }

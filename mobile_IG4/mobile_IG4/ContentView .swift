@@ -9,7 +9,6 @@
 import SwiftUI
 
 
-
 struct ContentView: View {
     
     @EnvironmentObject var user: User
@@ -73,9 +72,7 @@ struct ContentView: View {
                         
                         GeometryReader{
                         geometry in
-                            
                             CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved)
-                            
                         }
                         VStack() {
                             Spacer()
@@ -134,7 +131,7 @@ struct ContentView: View {
                         .cornerRadius(15.0)
                         .frame(alignment : .center)
                         Spacer()
-                        NavigationLink(destination: loginView()) {
+                        NavigationLink(destination: SOSview()) {
                             Text("Sos")
                         }.font(.headline)
                         .foregroundColor(.white)
