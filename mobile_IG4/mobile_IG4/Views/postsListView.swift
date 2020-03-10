@@ -16,7 +16,6 @@ struct postsListView: View {
     
 
     var body: some View {
-       
             return
             List {
                 ForEach(self.postsObserved.data) {

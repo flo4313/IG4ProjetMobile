@@ -34,6 +34,8 @@
 		AEEF18EB2409A9FC00BB8AB5 /* postDetailledView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EA2409A9FC00BB8AB5 /* postDetailledView.swift */; };
 		AEEF18ED2409AE5C00BB8AB5 /* CommentsSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EC2409AE5C00BB8AB5 /* CommentsSet.swift */; };
 		AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */; };
+		B79EC44C2417D5CB0090F9CB /* UserDAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79EC44B2417D5CB0090F9CB /* UserDAL.swift */; };
+		B79EC44F2417D7940090F9CB /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79EC44E2417D7940090F9CB /* config.swift */; };
 		D9517B4F2413A65E00115589 /* registerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9517B4E2413A65D00115589 /* registerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +90,8 @@
 		AEEF18EA2409A9FC00BB8AB5 /* postDetailledView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postDetailledView.swift; sourceTree = "<group>"; };
 		AEEF18EC2409AE5C00BB8AB5 /* CommentsSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsSet.swift; sourceTree = "<group>"; };
 		AEEF18EE2409AE9A00BB8AB5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B79EC44B2417D5CB0090F9CB /* UserDAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAL.swift; sourceTree = "<group>"; };
+		B79EC44E2417D7940090F9CB /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		D9517B4E2413A65D00115589 /* registerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = registerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,6 +153,8 @@
 		AE599C0224055559000675EB /* mobile_IG4 */ = {
 			isa = PBXGroup;
 			children = (
+				B79EC44D2417D77C0090F9CB /* config */,
+				B79EC4482417CF440090F9CB /* DAL */,
 				AE4B828F2405CDC30005ACED /* Set */,
 				AE599C3B240576FE000675EB /* Views */,
 				AE599C3624055A5F000675EB /* models */,
@@ -218,6 +224,22 @@
 				AEEA3217240EB0FA00A03B94 /* postsListView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		B79EC4482417CF440090F9CB /* DAL */ = {
+			isa = PBXGroup;
+			children = (
+				B79EC44B2417D5CB0090F9CB /* UserDAL.swift */,
+			);
+			path = DAL;
+			sourceTree = "<group>";
+		};
+		B79EC44D2417D77C0090F9CB /* config */ = {
+			isa = PBXGroup;
+			children = (
+				B79EC44E2417D7940090F9CB /* config.swift */,
+			);
+			path = config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,9 +386,11 @@
 				AE599C3D24057712000675EB /* postView.swift in Sources */,
 				AE599C3824055AB9000675EB /* Post.swift in Sources */,
 				AE2A5835240A8DC7008DE186 /* addPost.swift in Sources */,
+				B79EC44F2417D7940090F9CB /* config.swift in Sources */,
 				8E73C667240B14D8006A4780 /* accountView.swift in Sources */,
 				AE9F789C240D0F19002CC274 /* Opinion.swift in Sources */,
 				AE599C0424055559000675EB /* AppDelegate.swift in Sources */,
+				B79EC44C2417D5CB0090F9CB /* UserDAL.swift in Sources */,
 				AEEF18ED2409AE5C00BB8AB5 /* CommentsSet.swift in Sources */,
 				8EB23635241040DE001519C2 /* ImageLoader.swift in Sources */,
 				AE599C3A24055D74000675EB /* PostSet.swift in Sources */,
@@ -548,7 +572,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4";
+				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4-saynotosexism";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -570,7 +594,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4";
+				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4-saynotosexism";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

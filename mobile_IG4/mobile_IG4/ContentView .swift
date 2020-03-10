@@ -19,81 +19,53 @@ struct ContentView: View {
         self.postsObserved = PostSet(search: true)
         
         
-       for post in posts.data{
+        for post in posts.data{
             self.postsObserved.add(post:post)
         }
     }
-  
+    
     let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
     var body: some View {
         
-       
+        
         return
-             NavigationView {
+            NavigationView {
                 VStack{
                     VStack{
                         searchBarView(posts : posts,postsObserved: postsObserved)
                     }
                     Spacer()
-                   /* HStack{
-                        Spacer()
-                        Button(action: {
-                            self.postsObserved.data.removeAll()
-                            self.posts.setData()
-                            for post in self.posts.data{
-                                self.postsObserved.add(post:post)
-                            }
-                            
-                        }) {
-                                  Text("refresh")
-                                  .font(.headline)
-                                  .foregroundColor(.white)
-                        .padding()
-                                  
-                                  .background(blue)
-                                  .cornerRadius(5.0)
-                    }
-                        Spacer()
-                    }*/
                     ZStack{
-                        /*List {
-                            ForEach(self.postsObserved.data) {
-                                post in
-                                HStack{
-                                    
-                                   NavigationLink(destination : postDetailledView(postEl: post)){
-                                    
-                                        postView(post: post)
-                                    }
-                                }
-                                
+                        if(self.postsObserved.data.count != 0){
+                            GeometryReader{
+                                geometry in
+                                CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved)
                             }
-                        }.padding(.bottom, 20.0)*/
-                        
-                        GeometryReader{
-                        geometry in
-                            CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved)
                         }
+                        else{
+                            Text("No post")
+                        }
+                        
                         VStack() {
                             Spacer()
                             HStack{
                                 Spacer()
                                 NavigationLink(destination: addPostView(postsObserved: self.postsObserved) ) {
-                                                                  Image("write")
-                                                                    .resizable()
-                                                                    .padding()
-                                                                    .frame(width: 60, height: 60)
-                                                                    .foregroundColor(.white)
-                                                                    .background(Color.yellow)
-                                                                    .cornerRadius(38.5)
-                                                                    .shadow(color: Color.black.opacity(0.3),
-                                                                    radius: 3,
-                                                                    x: 3,
-                                                                    y: 3)
+                                    Image("write")
+                                        .resizable()
+                                        .padding()
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(.white)
+                                        .background(Color.yellow)
+                                        .cornerRadius(38.5)
+                                        .shadow(color: Color.black.opacity(0.3),
+                                                radius: 3,
+                                                x: 3,
+                                                y: 3)
                                 }
                             }.padding()
                         }.padding()
-                    
+                        
                     }
                     Spacer()
                     
@@ -103,50 +75,50 @@ struct ContentView: View {
                             NavigationLink(destination: accountView()) {
                                 Text("Account")
                             }.font(.headline)
-                            .foregroundColor(.white)
-                            
-                            
-                            .background(blue)
-                            .cornerRadius(15.0)
+                                .foregroundColor(.white)
+                                
+                                
+                                .background(blue)
+                                .cornerRadius(15.0)
                         }else{
                             NavigationLink(destination: loginView()) {
                                 Text("Login")
                             }.font(.headline)
-                            .foregroundColor(.white)
-                            
-                            
-                            .background(blue)
-                            .cornerRadius(15.0)
-                            .frame(alignment : .center)
+                                .foregroundColor(.white)
+                                
+                                
+                                .background(blue)
+                                .cornerRadius(15.0)
+                                .frame(alignment : .center)
                         }
                         
                         Spacer()
                         NavigationLink(destination: loginView()) {
                             Text("News")
                         }.font(.headline)
-                        .foregroundColor(.white)
-                        
-                        
-                        .background(blue)
-                        .cornerRadius(15.0)
-                        .frame(alignment : .center)
+                            .foregroundColor(.white)
+                            
+                            
+                            .background(blue)
+                            .cornerRadius(15.0)
+                            .frame(alignment : .center)
                         Spacer()
                         NavigationLink(destination: SOSview()) {
                             Text("Sos")
                         }.font(.headline)
-                        .foregroundColor(.white)
-                        
-                        
-                        .background(blue)
-                        .cornerRadius(15.0)
-                        .frame(alignment : .center)
+                            .foregroundColor(.white)
+                            
+                            
+                            .background(blue)
+                            .cornerRadius(15.0)
+                            .frame(alignment : .center)
                         Spacer()
                     }.padding().background(blue)
                 }
-        }.navigationViewStyle(StackNavigationViewStyle())
+            }.navigationViewStyle(StackNavigationViewStyle())
     }
-            
-        }
+    
+}
 
 
 
@@ -172,7 +144,7 @@ struct ContentView_Previews: PreviewProvider {
     var appDelegate : AppDelegate
     var menu1 : String
     let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
-
+    
     static var previews: some View {
         ContentView()
     }
