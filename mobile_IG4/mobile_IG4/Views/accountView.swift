@@ -20,13 +20,13 @@ struct accountView: View {
     var body: some View {
         Button(action: {self.logOff()}) {
         Text("LogOff")
-        .font(.headline)
+            .font(.largeTitle)
         .foregroundColor(.white)
         
         
-        .background(Color.red)
+        
+        }.background(Color.red)
         .cornerRadius(15.0)
-        }
     }
 }
 

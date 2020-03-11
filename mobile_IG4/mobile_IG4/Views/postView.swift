@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct postView: View {
-    let blue = Color(red: 109.0/255.0, green: 201.0/255.0, blue: 234.0/255.0, opacity: 1.0)
-    let red = Color(red: 234.0/255.0, green: 133.0/255.0, blue: 109.0/255.0, opacity: 0.8)
+
+    private var config : Config = Config()
     @ObservedObject var post: Post
     @EnvironmentObject var user : User
     private var opinionDAL : OpinionDAL = OpinionDAL()
@@ -18,7 +18,6 @@ struct postView: View {
     let imageLoader : ImageLoader
     init(post: Post){
         self.post = post
-        
         imageLoader = ImageLoader(urlString: post.url_image)
     }
     func imageFromData(_ data:Data) ->UIImage{
@@ -52,10 +51,14 @@ struct postView: View {
                                     Spacer()
                                     Text("#\(self.post.post_id)")
                                         .padding([.horizontal])
-                                }.background(Color.white).cornerRadius(5.0)
+                                }.background(config.postbarColor()).cornerRadius(5.0)
                                 
                             }.padding([.horizontal])
+                            
+                            if (self.post.url_image != ""){
                             Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:100,height:100)
+                            }
+                            
                             HStack {
                                 Text(self.post.description)
                                 .multilineTextAlignment(.leading)
@@ -75,8 +78,8 @@ struct postView: View {
                                 Button(action: {print("TODO warning")}) {
                                     Image("warning").resizable().frame(width: 30, height: 30)
                                 }
-                            }.padding([.horizontal], 40).padding([.vertical], 5).background(Color.green).buttonStyle(PlainButtonStyle())
-                    }.padding([.top],10).background(blue).cornerRadius(5.0)
+                            }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle())
+                        }.padding([.top],10).background(config.postColor()).cornerRadius(5.0)
                     
                     }
                         
@@ -89,13 +92,13 @@ struct postView: View {
                         }
                             Spacer()
                             
-                            }.padding().background(red).cornerRadius(5.0)
+                        }.padding().background(config.answerColor()).cornerRadius(5.0)
                      }.padding(.leading,50)
 
 
             }
         }
-            }.padding()
+        }.padding()
     }
 }
 

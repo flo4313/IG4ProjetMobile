@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct searchBarView : View {
-    let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
     var filtreun : Bool = false
     var posts : PostSet
+    var config : Config = Config()
     @State var orderByDateAcd : Int = 0
     @State var orderByComment : Int = 0
     @State var orderByPopulaire : Int = 0
@@ -119,10 +119,10 @@ struct searchBarView : View {
                 HStack{
                     Spacer()
                     Button(action: {self.filterByDate()}) {
-                        Text("\(self.recent)")
+                        Text("\(self.recent)").padding(10)
                             .font(.headline)
                             .foregroundColor(.white)
-                            .background(blue)
+                            .background(config.postbarColor())
                             .cornerRadius(15.0)
                         
                     }
@@ -130,23 +130,25 @@ struct searchBarView : View {
                     
                     Button(action: {self.filterByComment()}) {
                         Text("\(self.comment)")
+                            .padding(10)
                             .font(.headline)
                             .foregroundColor(.white)
-                            .background(blue)
+                            .background(config.postbarColor())
                             .cornerRadius(15.0)
                     }
                     
                     Spacer()
                     Button(action: {self.filterByPopulaire()}) {
                         Text("\(self.populaire)")
+                            .padding(10)
                             .font(.headline)
                             .foregroundColor(.white)
-                            .background(blue)
+                            .background(config.postbarColor())
                             .cornerRadius(15.0)
                         
                     }
                     Spacer()
-                }.padding().background(blue)
+                }.padding().background(config.postColor())
         }
     }
 }

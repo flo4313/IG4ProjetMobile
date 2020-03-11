@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct ContentView: View {
-    
+    private var config = Config()
     @EnvironmentObject var user: User
     @ObservedObject var postsObserved : PostSet
     @ObservedObject var posts : PostSet
@@ -24,7 +24,7 @@ struct ContentView: View {
         }
     }
     
-    let blue = Color(red: 57.0/255.0, green: 153.0/255.0, blue: 187.0/255.0, opacity: 1.0)
+    
     var body: some View {
         
         
@@ -33,7 +33,13 @@ struct ContentView: View {
                 VStack{
                     VStack{
                         searchBarView(posts : posts,postsObserved: postsObserved)
-                    }
+                    }.navigationBarItems(leading:
+                    HStack {
+                            Image("logo")
+                                .font(.largeTitle)
+                    })
+                        .navigationBarTitle(Text("Say No To Sexism"))
+                    
                     Spacer()
                     ZStack{
                         if(self.postsObserved.data.count != 0){
@@ -78,7 +84,7 @@ struct ContentView: View {
                                 .foregroundColor(.white)
                                 
                                 
-                                .background(blue)
+                                .background(config.postbarColor())
                                 .cornerRadius(15.0)
                         }else{
                             NavigationLink(destination: loginView()) {
@@ -87,7 +93,7 @@ struct ContentView: View {
                                 .foregroundColor(.white)
                                 
                                 
-                                .background(blue)
+                                .background(config.postbarColor())
                                 .cornerRadius(15.0)
                                 .frame(alignment : .center)
                         }
@@ -99,21 +105,19 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             
                             
-                            .background(blue)
+                            .background(config.postbarColor())
                             .cornerRadius(15.0)
                             .frame(alignment : .center)
                         Spacer()
                         NavigationLink(destination: SOSview()) {
-                            Text("Sos")
+                            Text("Sos").foregroundColor(Color.red)
                         }.font(.headline)
                             .foregroundColor(.white)
-                            
-                            
-                            .background(blue)
+                            .background(config.postbarColor())
                             .cornerRadius(15.0)
                             .frame(alignment : .center)
                         Spacer()
-                    }.padding().background(blue)
+                    }.padding().background(config.postbarColor())
                 }
             }.navigationViewStyle(StackNavigationViewStyle())
     }

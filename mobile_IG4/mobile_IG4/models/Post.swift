@@ -16,7 +16,7 @@ class Post : ObservableObject,Identifiable, Codable {
     var description : String = ""
     var post_category : Int = 0
     var author : Int = 0
-    var url_image : String = " " 
+    var url_image : String = "" 
     var date : String = ""
     var like : Int = 0
     var comment : Int = 0

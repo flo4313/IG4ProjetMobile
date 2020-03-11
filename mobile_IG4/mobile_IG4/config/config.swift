@@ -8,8 +8,23 @@
 
 import Foundation
 import CommonCrypto
+import SwiftUI
 
 class Config {
+    
+    func postbarColor() -> Color{
+        return Color(red: 187.0/255.0, green: 220.0/255.0, blue: 242.0/255.0, opacity: 1.0)
+    }
+    
+    func answerColor() -> Color{
+           return Color(red: 235.0/255.0, green: 235.0/255.0, blue: 236.0/255.0, opacity: 1.0)
+       }
+    
+    func postColor() -> Color{
+        return Color(red: 215.0/255.0, green: 217.0/255.0, blue: 215.0/255.0, opacity: 1.0)
+    }
+    
+    
     func sha256(str: String) -> String {
      
         if let strData = str.data(using: String.Encoding.utf8) {
