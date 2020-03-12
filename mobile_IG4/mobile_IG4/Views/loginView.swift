@@ -14,10 +14,10 @@ struct loginView: View {
     @State var username: String = ""
     @State var password: String = ""
     private var userDAL : UserDAL = UserDAL()
-    @EnvironmentObject var user : User
+    @EnvironmentObject var userE : User
     
     func login(){
-        userDAL.login(username: self.username, password: self.password,userP: self.user)
+        userDAL.login(username: self.username, password: self.password, userE: userE)
     }
     
     var body: some View {

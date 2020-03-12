@@ -24,6 +24,11 @@ class Config {
         return Color(red: 215.0/255.0, green: 217.0/255.0, blue: 215.0/255.0, opacity: 1.0)
     }
     
+    func convertImageToBase64(_ image: UIImage) -> String {
+        let imageData: NSData = image.jpegData(compressionQuality: 0.4)! as NSData
+        let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+        return strBase64
+    }
     
     func sha256(str: String) -> String {
      

@@ -18,7 +18,9 @@ class UserDAL{
        
    }
     
-    func login(username: String,password: String,userP: User){
+    func login(username: String,password: String,userE: User){
+        print("test")
+        print(userE.isLogged)
         let passwordCrypted = config.sha256(str: password)
         let person = Person(username: username, password: passwordCrypted)
         guard let encoded = try? JSONEncoder().encode(person) else {
@@ -85,9 +87,10 @@ class UserDAL{
             }
             group.wait()
             self.presentationMode.wrappedValue.dismiss()
-            userP.isLogged = true
-            userP.user = user
-            userP.token = token
+            userE.isLogged = true
+            userE.user = user
+            userE.token = token
+            print(userE.token)
         }
         
     }

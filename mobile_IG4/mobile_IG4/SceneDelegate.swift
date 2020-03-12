@@ -26,7 +26,8 @@ struct Login: Decodable{
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var user = User()
+    var userE = User()
+    
 
     func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -115,10 +116,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                 }.resume()
                             }
                             group.wait()
-                            self.user.isLogged = true
-                            self.user.user = user
-                            self.user.token = token
-                            print(self.user.token)
+                            self.userE.isLogged = true
+                            self.userE.user = user
+                            self.userE.token = token
+                            print(self.userE.token)
                             
                         }
                     }
@@ -133,7 +134,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
  
-        let contentView = ContentView().environment(\.managedObjectContext, context).environmentObject(user)
+        let contentView = ContentView().environment(\.managedObjectContext, context).environmentObject(userE)
     
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

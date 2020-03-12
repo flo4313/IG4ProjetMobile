@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ContentView: View {
     private var config = Config()
-    @EnvironmentObject var user: User
+    @EnvironmentObject var userE: User
     @ObservedObject var postsObserved : PostSet
     @ObservedObject var posts : PostSet
     init(){
@@ -77,7 +77,7 @@ struct ContentView: View {
                     
                     HStack{
                         Spacer()
-                        if(self.user.isLogged == true){
+                        if(self.userE.isLogged == true){
                             NavigationLink(destination: accountView()) {
                                 Text("Account")
                             }.font(.headline)

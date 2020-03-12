@@ -10,21 +10,23 @@ import Foundation
 import SwiftUI
 
 class PostDAL{
+    var config : Config = Config()
     
     struct AddPostForm : Codable{
         var title:String
         var description:String
-        var author : Int
+        var category : Int
     }
     
     struct Response :Decodable {
         var result: Bool
         var id: Int
     }
+
     
     
-    func addPost(title:String, description: String, userId: Int) -> Bool{
-        let post = AddPostForm(title: title, description: description, author: userId)
+    func addPost(title:String, description: String, category: Int, image: UIImage?, userE: User) -> Bool{
+        let post = AddPostForm(title: title, description: description, category: category)
         guard let encoded = try? JSONEncoder().encode(post) else {
             print("Failed to encode order")
             return false
@@ -37,6 +39,7 @@ class PostDAL{
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Application")
+            request.setValue("Bearer "+userE.token,forHTTPHeaderField: "Authorization")
             request.httpMethod = "POST"
             request.httpBody = encoded
             
@@ -58,6 +61,10 @@ class PostDAL{
             }.resume()
         }
         group.wait()
+        
+        if let postImage : UIImage = image{
+            print(config.convertImageToBase64(postImage))
+        }
         return isCreate
     }
     
