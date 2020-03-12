@@ -23,6 +23,7 @@ struct post : View{
         var post : Int
         var report : Int
     }
+    
     func verifyReport(){
      //   print(self.user.token)
         if let url = URL(string: "http://51.255.175.118:2000/reportpost/"+String(self.postElt.post_id)+"/byToken") {
@@ -189,6 +190,7 @@ struct comments : View{
 
 struct inputComment : View{
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var user : User
     
     
     @ObservedObject var post : Post
@@ -196,17 +198,18 @@ struct inputComment : View{
       let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     struct AddCommentForm : Codable {
         var description : String
-        var post : Int
-        var username : String
+        var post_id : Int
+        var category : Int
     }
     struct Response :Decodable {
         var result: Bool
     }
+    
     func sendNewComment(){
     
-        let comment = Comment(comment_id: 1, description: self.message, comment_category: 1, author: 1, post: 1, date: "")
+        let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: 1, post: 1, date: "")
         
-        let commentF = AddCommentForm(description: self.message,post: self.post.post_id, username: "T")
+        let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11)
             guard let encoded = try? JSONEncoder().encode(commentF) else {
                 print("Failed to encode order")
                 return
@@ -218,6 +221,7 @@ struct inputComment : View{
                 var request = URLRequest(url: url)
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue("application/json", forHTTPHeaderField: "Application")
+                request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
                 request.httpMethod = "POST"
                 request.httpBody = encoded
                 
