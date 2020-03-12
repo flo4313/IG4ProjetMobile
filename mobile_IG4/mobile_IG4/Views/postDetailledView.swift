@@ -12,10 +12,14 @@ struct post : View{
     var postElt : Post
     @State var alreadyReported : Bool = false
     @EnvironmentObject var user : User
+    private var opinionDAL : OpinionDAL = OpinionDAL()
+    
+    func sendLike(){
+        opinionDAL.like(user: self.user, post: self.postElt)
+    }
     
     init(postElt : Post){
         self.postElt = postElt
-       
     }
 
     struct verifyResponse : Decodable {
@@ -124,8 +128,10 @@ struct post : View{
                 }.padding([.horizontal], 20).padding([.vertical], 15)
                 HStack(){
                     Spacer()
-                    Text("\(self.postElt.like)")
-                    Image("ear").resizable().frame(width: 30, height: 30)
+                    Button(action: {self.sendLike()}) {
+                        Text("\(self.postElt.like)")
+                        Image("ear").resizable().frame(width: 30, height: 30)
+                    }
                     Spacer()
                     if(self.alreadyReported == true){
                         Button(action: {self.sendReport()}) {
@@ -206,49 +212,50 @@ struct inputComment : View{
     }
     
     func sendNewComment(){
-    
-        let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: 1, post: 1, date: "")
-        
-        let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11)
-            guard let encoded = try? JSONEncoder().encode(commentF) else {
-                print("Failed to encode order")
-                return
-            }
-            var isCreate = false
-            let group = DispatchGroup()
-            group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/post/"+String(self.post.post_id)+"/comment/create") {
-                var request = URLRequest(url: url)
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                request.setValue("application/json", forHTTPHeaderField: "Application")
-                request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
-                request.httpMethod = "POST"
-                request.httpBody = encoded
-                
-                URLSession.shared.dataTask(with: request) { data, response, error in
-                    if let data = data {
-                            let res = try? JSONDecoder().decode(Response.self, from: data)
-                            if let res2 = res{
-                                print(res2.result)
-                                if(res2.result == true){
-                                    isCreate = true
+        if let user_id = user.user?.user_id {
+            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: user_id, post: 1, date: "")
+            
+            let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11)
+                guard let encoded = try? JSONEncoder().encode(commentF) else {
+                    print("Failed to encode order")
+                    return
+                }
+                var isCreate = false
+                let group = DispatchGroup()
+                group.enter()
+            if let url = URL(string: "http://51.255.175.118:2000/post/"+String(self.post.post_id)+"/comment/create") {
+                    var request = URLRequest(url: url)
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    request.setValue("application/json", forHTTPHeaderField: "Application")
+                    request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
+                    request.httpMethod = "POST"
+                    request.httpBody = encoded
+                    
+                    URLSession.shared.dataTask(with: request) { data, response, error in
+                        if let data = data {
+                                let res = try? JSONDecoder().decode(Response.self, from: data)
+                                if let res2 = res{
+                                    print(res2.result)
+                                    if(res2.result == true){
+                                        isCreate = true
+                                    }
+                                }else{
+                                    print("error")
                                 }
-                            }else{
-                                print("error")
-                            }
-                            group.leave()
-        
-                    }
-                }.resume()
-            }
-            group.wait()
-            if(isCreate == true){
-                self.message = ""
-                self.post.objectWillChange.send()
-               
-                self.post.commentsi!.data.append(comment)
-              
-            }
+                                group.leave()
+            
+                        }
+                    }.resume()
+                }
+                group.wait()
+                if(isCreate == true){
+                    self.message = ""
+                    self.post.objectWillChange.send()
+                   
+                    self.post.commentsi!.data.append(comment)
+                  
+                }
+        }
         
         
     }
