@@ -18,6 +18,7 @@ struct addPostView: View {
         self.postsObserved = postsObserved
     }
     @State private var image: Image?
+    @State private var ext : String = ""
     @State private var showingImage = false
     @State private var inputImage: UIImage?
     @State private var selectedCategory : Int = 1
@@ -29,7 +30,7 @@ struct addPostView: View {
     
     
     func addPost(){
-        if(postDAL.addPost(title: self.title, description: self.description, category: 0,image: inputImage,userE: userE)){
+        if(postDAL.addPost(title: self.title, description: self.description, category: 1,image: inputImage,userE: userE, ext: self.ext)){
             self.presentationMode.wrappedValue.dismiss()
         }
     }
@@ -88,7 +89,7 @@ struct addPostView: View {
         
         }.padding()
             .sheet(isPresented: $showingImage, onDismiss: loadImage){
-                MyImagePicker(image: self.$inputImage)
+                MyImagePicker(image: self.$inputImage, ext: self.$ext)
         }
         }
     }

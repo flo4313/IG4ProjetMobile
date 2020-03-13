@@ -19,13 +19,19 @@ struct MyImagePicker: UIViewControllerRepresentable{
             if let uiImage = info[.originalImage] as? UIImage{
                 parent.image = uiImage
             }
+            let asset = info[.imageURL] as? NSURL
+            if (asset?.pathExtension) != nil{
+                self.parent.ext = (asset?.pathExtension)!
+            }
+            
             parent.presentationMode.wrappedValue.dismiss()
         }
     }
     
     @Environment(\.presentationMode) var presentationMode
     @Binding var image: UIImage?
-    
+    @Binding var ext: String
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
