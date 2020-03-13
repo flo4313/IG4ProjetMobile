@@ -22,15 +22,7 @@ struct registerView: View {
     @State private var value : CGFloat = 0
     
     
-    private func keyboardUp(){
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){
-            (noti) in
-            let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-            let height = value.height
-            self.value = height
-            
-        }
-    }
+    
     
     func register(){
         if(userDAL.register(firstname: self.firstname, lastname: self.lastname, username: self.username, sexe: self.sexe, birthday: self.birthday, password: self.password, mail: self.mail))
@@ -111,7 +103,7 @@ struct registerView: View {
                             .cornerRadius(15.0)
                     }
                 }.padding()
-                .padding(.top, self.value)
+                .padding(.top, self.value - 5)
                     .offset(y: -self.value)
                     .animation(.spring())
                     .onAppear{

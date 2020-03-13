@@ -28,7 +28,6 @@ class PostCategorySet : Identifiable {
                 if let data = data {
                     do {
                         res = try JSONDecoder().decode([PostCategory].self, from: data)
-                        print(res)
                         group.leave()
                     } catch let error {
                         print(error)

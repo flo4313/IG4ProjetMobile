@@ -51,10 +51,7 @@ class PostSet : ObservableObject {
                 if let data = data {
                     do {
                         res = try JSONDecoder().decode([Post].self, from: data)
-                        
-                        
                         group.leave()
-                          
                     } catch let error {
                         print(error)
                     }

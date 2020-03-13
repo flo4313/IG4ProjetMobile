@@ -18,7 +18,7 @@ struct postView: View {
     let imageLoader : ImageLoader
     init(post: Post){
         self.post = post
-        imageLoader = ImageLoader(urlString: post.url_image)
+        imageLoader = ImageLoader(urlString:"http://51.255.175.118:2000/" + post.url_image)
     }
     func imageFromData(_ data:Data) ->UIImage{
         UIImage(data: data) ?? UIImage()

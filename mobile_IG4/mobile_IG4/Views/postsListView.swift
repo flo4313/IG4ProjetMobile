@@ -21,9 +21,7 @@ struct postsListView: View {
                 ForEach(self.postsObserved.data) {
                     post in
                     HStack{
-                        
                        NavigationLink(destination : postDetailledView(postEl: post)){
-                        
                             postView(post: post)
                         }
                     }

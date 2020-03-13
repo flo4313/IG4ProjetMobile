@@ -15,47 +15,69 @@ struct loginView: View {
     @State var password: String = ""
     private var userDAL : UserDAL = UserDAL()
     @EnvironmentObject var userE : User
+    @State private var value : CGFloat = 0
     
     func login(){
         userDAL.login(username: self.username, password: self.password, userE: userE)
     }
     
-    var body: some View {
-        VStack {
-            WelcomeText()
-            TextField("Username" , text: $username)
-            .padding()
-            .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom,20)
-            SecureField("Password" , text: $password)
-            .padding()
-            .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom,20)
-            
-            
-            
-            Button(action: {self.login()}) {
-               Text("LOGIN")
-               .font(.headline)
-               .foregroundColor(.white)
-               .padding()
-               .frame(width: 220, height: 60)
-               .background(Color.green)
-               .cornerRadius(15.0)
-            }.padding(.bottom, 10)
-            NavigationLink(destination: registerView()) {
-                Text("Register")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(width: 220, height: 60)
-                .background(Color.green)
-                .cornerRadius(15.0)
+    var body: some View {GeometryReader{ geometry in
+        ZStack(alignment:.bottomTrailing){
+            ScrollView {
+                VStack {
+                    WelcomeText()
+                    TextField("Username" , text: self.$username)
+                        .padding()
+                        .background(self.lightGreyColor)
+                        .cornerRadius(5.0)
+                        .padding(.bottom,20)
+                    SecureField("Password" , text: self.$password)
+                        .padding()
+                        .background(self.lightGreyColor)
+                        .cornerRadius(5.0)
+                        .padding(.bottom,20)
+                    
+                    
+                    
+                    Button(action: {self.login()}) {
+                        Text("LOGIN")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 220, height: 60)
+                            .background(Color.green)
+                            .cornerRadius(15.0)
+                    }.padding(.bottom, 10)
+                    NavigationLink(destination: registerView()) {
+                        Text("Register")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 220, height: 60)
+                            .background(Color.green)
+                            .cornerRadius(15.0)
+                    }
+                    
+                }.padding()
             }
-        
-        }.padding()
+        }
+        .padding(.top, self.value - 5)
+        .offset(y: -self.value)
+        .animation(.spring())
+        .onAppear{
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){
+                (noti) in
+                let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                let height = value.height
+                self.value = height + 5
+                
+            }
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){
+                (noti) in
+                self.value = 0
+            }
+        }
+        }
     }
 }
 
@@ -66,7 +88,7 @@ struct WelcomeText : View {
             .fontWeight(.semibold)
             .padding(.bottom,20)
     }
-
+    
 }
 
 

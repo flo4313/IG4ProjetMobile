@@ -18,10 +18,6 @@ struct ContentView: View {
         self.posts = PostSet(search: true)
         self.postsObserved = PostSet(search: true)
         
-        
-        for post in posts.data{
-            self.postsObserved.add(post:post)
-        }
     }
     
     
