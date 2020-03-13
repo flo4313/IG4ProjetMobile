@@ -12,14 +12,16 @@ struct post : View{
     var postElt : Post
     @State var alreadyReported : Bool = false
     @EnvironmentObject var user : User
+    @ObservedObject var already: Already
     private var opinionDAL : OpinionDAL = OpinionDAL()
     
     func sendLike(){
         opinionDAL.like(user: self.user, post: self.postElt)
     }
     
-    init(postElt : Post){
+    init(postElt : Post, already : Already){
         self.postElt = postElt
+        self.already = already
     }
 
     struct verifyResponse : Decodable {
@@ -128,9 +130,24 @@ struct post : View{
                 }.padding([.horizontal], 20).padding([.vertical], 15)
                 HStack(){
                     Spacer()
-                    Button(action: {self.sendLike()}) {
-                        Text("\(self.postElt.like)")
-                        Image("ear").resizable().frame(width: 30, height: 30)
+                    if(self.already.liked) {
+
+                        Button(action: {
+                            self.sendLike()
+                            self.already.liked = !self.already.liked
+                        }) {
+                            Text("\(self.postElt.like)").foregroundColor(Color.yellow)
+                            Image("earLiked").resizable().frame(width: 30, height: 30)
+                        }.buttonStyle(PlainButtonStyle())
+                        
+                    } else {
+                        Button(action: {
+                            self.sendLike()
+                            self.already.liked = !self.already.liked
+                        }) {
+                            Text("\(self.postElt.like)")
+                            Image("ear").resizable().frame(width: 30, height: 30)
+                        }
                     }
                     Spacer()
                     if(self.alreadyReported == true){
@@ -160,6 +177,9 @@ struct post : View{
             Spacer()
         }.padding().onAppear{
             self.verifyReport()
+            if(self.opinionDAL.hasLiked(user: self.user, post: self.postElt)) {
+                self.already.liked = true
+            }
         }
       
     }
@@ -283,12 +303,13 @@ struct postDetailledView: View {
     var commentsState : CommentsSet
     @EnvironmentObject var user : User
     @ObservedObject var postElt : Post
+    @ObservedObject var already : Already
     
-    init(postEl : Post){
+    init(postEl : Post, already: Already){
         
         self.postElt = postEl
         self.commentsState = postEl.commentsi!
-        
+        self.already = already
      
         
         
@@ -297,7 +318,7 @@ struct postDetailledView: View {
     
     var body: some View {
         VStack{
-        post(postElt: postElt)
+        post(postElt: postElt, already: already)
         comments(commentsState: commentsState)
         Spacer()
             inputComment(post: postElt)

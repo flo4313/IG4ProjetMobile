@@ -13,17 +13,19 @@ struct postView: View {
     private var config : Config = Config()
     @ObservedObject var post: Post
     @EnvironmentObject var user : User
+    @ObservedObject var already: Already
     private var opinionDAL : OpinionDAL = OpinionDAL()
-    
     let imageLoader : ImageLoader
-    init(post: Post){
+    
+    init(post: Post, already : Already){
         self.post = post
+        self.already = already
         imageLoader = ImageLoader(urlString:"http://51.255.175.118:2000/" + post.url_image)
     }
+    
     func imageFromData(_ data:Data) ->UIImage{
         UIImage(data: data) ?? UIImage()
     }
-    
    
     
     func sendLike(){
@@ -65,9 +67,24 @@ struct postView: View {
                                 Spacer()
                             }.padding([.horizontal], 20).padding([.vertical], 15)
                             HStack(){
-                                Button(action: {self.sendLike()}) {
-                                    Text("\(self.post.like)")
-                                    Image("ear").resizable().frame(width: 30, height: 30)
+                                if(self.already.liked) {
+
+                                    Button(action: {
+                                        self.sendLike()
+                                        self.already.liked = !self.already.liked
+                                    }) {
+                                        Text("\(self.post.like)").foregroundColor(Color.yellow)
+                                        Image("earLiked").resizable().frame(width: 30, height: 30)
+                                    }.buttonStyle(PlainButtonStyle())
+                                    
+                                } else {
+                                    Button(action: {
+                                        self.sendLike()
+                                        self.already.liked = !self.already.liked
+                                    }) {
+                                        Text("\(self.post.like)")
+                                        Image("ear").resizable().frame(width: 30, height: 30)
+                                    }
                                 }
                                 Spacer()
                                 Button(action: {print("TODO comment")}) {
@@ -78,7 +95,11 @@ struct postView: View {
                                 Button(action: {print("TODO warning")}) {
                                     Image("warning").resizable().frame(width: 30, height: 30)
                                 }
-                            }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle())
+                            }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle()).onAppear(){
+                                if(self.opinionDAL.hasLiked(user: self.user, post: self.post)) {
+                                    self.already.liked = true
+                                }
+                            }
                         }.padding([.top],10).background(config.postColor()).cornerRadius(5.0)
                     
                     }

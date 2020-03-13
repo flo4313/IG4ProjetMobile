@@ -13,16 +13,22 @@ import SwiftUI
 
 struct postsListView: View {
     @ObservedObject var postsObserved : PostSet
+    var already : [Already]
     
+    init(postsObserved: PostSet) {
+        self.postsObserved = postsObserved
+        self.already = (0...postsObserved.data.count - 1).map{_ in Already()}
 
+    }
+    
     var body: some View {
             return
             List {
-                ForEach(self.postsObserved.data) {
-                    post in
+                ForEach(0...postsObserved.data.count - 1, id: \.self) {
+                    i in
                     HStack{
-                       NavigationLink(destination : postDetailledView(postEl: post)){
-                            postView(post: post)
+                        NavigationLink(destination : postDetailledView(postEl: self.postsObserved.data[i], already: self.already[i])){
+                            postView(post: self.postsObserved.data[i], already : self.already[i])
                         }
                     }
                     
