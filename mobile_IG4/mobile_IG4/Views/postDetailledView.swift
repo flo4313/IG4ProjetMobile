@@ -10,10 +10,10 @@ import SwiftUI
 
 struct post : View{
     var postElt : Post
-    @State var alreadyReported : Bool = false
     @EnvironmentObject var user : User
     @ObservedObject var already: Already
     private var opinionDAL : OpinionDAL = OpinionDAL()
+    private var reportPostDAL : ReportPostDAL = ReportPostDAL()
     
     func sendLike(){
         opinionDAL.like(user: self.user, post: self.postElt)
@@ -24,87 +24,8 @@ struct post : View{
         self.already = already
     }
 
-    struct verifyResponse : Decodable {
-        var author : Int
-        var post : Int
-        var report : Int
-    }
     
-    func verifyReport(){
-     //   print(self.user.token)
-        if let url = URL(string: "http://51.255.175.118:2000/reportpost/"+String(self.postElt.post_id)+"/byToken") {
-                    var request = URLRequest(url: url)
-                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    request.setValue("application/json", forHTTPHeaderField: "Application")
-                    request.httpMethod = "GET"
-                    request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
-                    URLSession.shared.dataTask(with: request) { data, response, error in
-                        if let data = data {
-                                
-                            let res = try? JSONDecoder().decode([verifyResponse].self, from: data)
-                                if let res = res{
-                                    
-                                    if(res.count > 0){
-                                        self.alreadyReported = true
-                                        print("vraie")
-                                    }else{
-                                        self.alreadyReported = false
-                                        print("faux")
-                                    }
-                                }
-                                
-                     
-                        }
-                    }.resume()
-                }
-        
-    }
-    struct ToEncode : Codable{
-        var post_id:Int
-    }
-    struct Result: Decodable{
-        var result : Bool
-    }
     
-    func sendReport(){
-       
-        let encod = ToEncode(post_id: self.postElt.post_id)
-        guard let encoded = try? JSONEncoder().encode(encod) else {
-            print("Failed to encode order")
-            return
-        }
-        if let url = URL(string: "http://51.255.175.118:2000/reportpost/create") {
-                    var request = URLRequest(url: url)
-          
-                    
-                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    request.setValue("application/json", forHTTPHeaderField: "Application")
-                    request.httpMethod = "POST"
-                    request.httpBody = encoded
-                    request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
-                
-        
-                    URLSession.shared.dataTask(with: request) { data, response, error in
-                        if let data = data {
-                                
-                            let res = try? JSONDecoder().decode(Result.self, from: data)
-                                if let res = res{
-                                    if(res.result == true){
-                                        self.alreadyReported = true
-                                        print("vraie")
-                                    }else{
-                                        self.alreadyReported = false
-                                        print("faux")
-                                    }
-                                }
-                                
-                     
-                        }
-                    }.resume()
-                }
-        
-        
-    }
     var body: some View {
         HStack{
 
@@ -150,8 +71,11 @@ struct post : View{
                         }
                     }
                     Spacer()
-                    if(self.alreadyReported == true){
-                        Button(action: {self.sendReport()}) {
+                    if(self.already.reported == true){
+                        Button(action: {
+                            self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
+                            self.already.reported = !self.already.reported
+                        }) {
                         Image("warning")
                          .resizable()
                          .frame(width: 30, height: 30)
@@ -161,7 +85,10 @@ struct post : View{
                         .cornerRadius(15.0)
                         }
                     }else{
-                        Button(action: {self.sendReport()}) {
+                        Button(action: {
+                            self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
+                            self.already.reported = !self.already.reported
+                        }) {
                         Image("warning")
                          .resizable()
                          .frame(width: 30, height: 30)
@@ -176,7 +103,9 @@ struct post : View{
         }.padding([.top],10).background(Color.blue).cornerRadius(5.0)
             Spacer()
         }.padding().onAppear{
-            self.verifyReport()
+            if(self.reportPostDAL.hasReported(user: self.user, postElt: self.postElt)) {
+                self.already.reported = true
+            }
             if(self.opinionDAL.hasLiked(user: self.user, post: self.postElt)) {
                 self.already.liked = true
             }

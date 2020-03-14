@@ -16,6 +16,7 @@
 		AE2A5839240A9945008DE186 /* searchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2A5838240A9945008DE186 /* searchBarView.swift */; };
 		AE4B82912405CE980005ACED /* PostCategorySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4B82902405CE980005ACED /* PostCategorySet.swift */; };
 		AE4B82932405CED50005ACED /* PostCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4B82922405CED50005ACED /* PostCategory.swift */; };
+		AE4D6121241D29A4009868DC /* ReportPostDAL.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4D6120241D29A4009868DC /* ReportPostDAL.swift */; };
 		AE599C0424055559000675EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C0324055559000675EB /* AppDelegate.swift */; };
 		AE599C0624055559000675EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE599C0524055559000675EB /* SceneDelegate.swift */; };
 		AE599C0924055559000675EB /* mobile_IG4.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AE599C0724055559000675EB /* mobile_IG4.xcdatamodeld */; };
@@ -71,6 +72,7 @@
 		AE2A5838240A9945008DE186 /* searchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchBarView.swift; sourceTree = "<group>"; };
 		AE4B82902405CE980005ACED /* PostCategorySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCategorySet.swift; sourceTree = "<group>"; };
 		AE4B82922405CED50005ACED /* PostCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCategory.swift; sourceTree = "<group>"; };
+		AE4D6120241D29A4009868DC /* ReportPostDAL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostDAL.swift; sourceTree = "<group>"; };
 		AE599C0024055559000675EB /* mobile_IG4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobile_IG4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE599C0324055559000675EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AE599C0524055559000675EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				B79EC4522417F4840090F9CB /* postDAL.swift */,
 				B79EC4542417F4E60090F9CB /* opinionDAL.swift */,
 				B746BDCE241A8440006057EA /* postCategoryDal.swift */,
+				AE4D6120241D29A4009868DC /* ReportPostDAL.swift */,
 			);
 			path = DAL;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				B746BDCD241A6C1B006057EA /* myImagePicker.swift in Sources */,
 				B79EC4552417F4E60090F9CB /* opinionDAL.swift in Sources */,
 				AEEF18EF2409AE9A00BB8AB5 /* Comment.swift in Sources */,
+				AE4D6121241D29A4009868DC /* ReportPostDAL.swift in Sources */,
 				8E56C173240C51CD00A56AAB /* SOSview.swift in Sources */,
 				D9517B4F2413A65E00115589 /* registerView.swift in Sources */,
 				AEEA3218240EB0FA00A03B94 /* postsListView.swift in Sources */,
