@@ -71,7 +71,7 @@ struct postView: View {
                                 Text(self.post.description)
                                 .multilineTextAlignment(.leading)
                                 Spacer()
-                            }.padding([.horizontal], 20).padding([.vertical], 15)
+                            }.padding([.horizontal], 20).padding([.vertical], 15).fixedSize(horizontal: false, vertical: true)
                             HStack(){
                                 if(self.already.liked) {
 

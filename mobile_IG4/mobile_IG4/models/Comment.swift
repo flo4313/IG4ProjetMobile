@@ -17,14 +17,18 @@ class Comment : Identifiable, Codable {
     var author : Int
     var post : Int
     var date : String
+    var username : String
+    var like : Int
     
     
-    init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String){
+    init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String, username : String, like : Int){
         self.comment_id = comment_id
         self.description = description
         self.comment_category = comment_category
         self.author = author
         self.post = post
         self.date = date
+        self.username = username
+        self.like = like
     }
 }

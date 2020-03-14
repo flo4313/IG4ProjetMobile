@@ -14,6 +14,7 @@ struct post : View{
     @ObservedObject var already: Already
     private var opinionDAL : OpinionDAL = OpinionDAL()
     private var reportPostDAL : ReportPostDAL = ReportPostDAL()
+    var config = Config()
     
     func sendLike(){
         opinionDAL.like(user: self.user, post: self.postElt)
@@ -41,7 +42,7 @@ struct post : View{
                         Spacer()
                         Text("#\(self.postElt.post_id)")
                             .padding([.horizontal])
-                    }.background(Color.white).cornerRadius(5.0)
+                    }.background(config.postbarColor()).cornerRadius(5.0)
                 }.padding([.horizontal])
                 
                 HStack {
@@ -94,13 +95,13 @@ struct post : View{
                          .frame(width: 30, height: 30)
                         .foregroundColor(.white)
                         .padding()
-                        .background(Color.green)
+                        .background(config.postbarColor())
                         .cornerRadius(15.0)
                         }
                     }
                     Spacer()
-                }.padding([.horizontal], 40).padding([.vertical], 5).background(Color.green)
-        }.padding([.top],10).background(Color.blue).cornerRadius(5.0)
+                }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor())
+        }.padding([.top],10).background(config.postColor()).cornerRadius(5.0)
             Spacer()
         }.padding().onAppear{
             if(self.reportPostDAL.hasReported(user: self.user, postElt: self.postElt)) {
@@ -154,8 +155,8 @@ struct inputComment : View{
     }
     
     func sendNewComment(){
-        if let user_id = user.user?.user_id {
-            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: user_id, post: 1, date: "")
+        if let author = user.user {
+            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0)
             
             let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11)
                 guard let encoded = try? JSONEncoder().encode(commentF) else {
