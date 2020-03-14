@@ -15,6 +15,7 @@ struct postView: View {
     @EnvironmentObject var user : User
     @ObservedObject var already: Already
     private var opinionDAL : OpinionDAL = OpinionDAL()
+    var reportPostDAL : ReportPostDAL = ReportPostDAL()
     let imageLoader : ImageLoader
     
     init(post: Post, already : Already){
@@ -92,10 +93,36 @@ struct postView: View {
                                     Image("comment").resizable().frame(width: 30, height: 30)
                                 }
                                 Spacer()
-                                Button(action: {print("TODO warning")}) {
-                                    Image("warning").resizable().frame(width: 30, height: 30)
+                                if(self.already.reported) {
+                                    Button(action: {
+                                        self.reportPostDAL.sendReport(user : self.user, postElt : self.post)
+                                        self.already.reported = !self.already.reported
+                                    }) {
+                                    Image("warning")
+                                     .resizable()
+                                     .frame(width: 30, height: 30)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.red)
+                                    .cornerRadius(15.0)
+                                    }
+                                } else {
+                                    Button(action: {
+                                        self.reportPostDAL.sendReport(user : self.user, postElt : self.post)
+                                        self.already.reported = !self.already.reported
+                                    }) {
+                                    Image("warning")
+                                     .resizable()
+                                     .frame(width: 30, height: 30)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .cornerRadius(15.0)
+                                    }
                                 }
                             }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle()).onAppear(){
+                                if(self.reportPostDAL.hasReported(user: self.user, postElt: self.post)) {
+                                    self.already.reported = true
+                                }
                                 if(self.opinionDAL.hasLiked(user: self.user, post: self.post)) {
                                     self.already.liked = true
                                 }
