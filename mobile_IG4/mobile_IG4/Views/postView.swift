@@ -43,6 +43,11 @@ struct postView: View {
                 VStack(alignment: .leading){
                     HStack {
                         VStack{
+                            HStack {
+                                Text(self.post.username)
+                                Spacer()
+                                Text(self.post.date.split(separator: "T")[0].replacingOccurrences(of: "-", with: "/"))
+                            }.padding([.horizontal], 20).padding([.bottom], 10)
                             HStack{
                                 HStack {
                                     Text(self.post.title)

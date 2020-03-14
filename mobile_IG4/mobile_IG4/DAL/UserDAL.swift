@@ -156,6 +156,5 @@ class UserDAL{
         }
         group.wait()
         return isCreate
-    }
-    
+    }    
 }

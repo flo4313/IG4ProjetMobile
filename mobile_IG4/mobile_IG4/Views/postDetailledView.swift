@@ -115,13 +115,6 @@ struct post : View{
 }
 
 
-struct CommentView : View{
-    var comment : Comment
-    var body: some View {
-        Text(comment.description)
-    }
-}
-
 struct comments : View{
     @ObservedObject var commentsList : CommentsSet
     init(commentsState : CommentsSet){
