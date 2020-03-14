@@ -88,7 +88,7 @@ struct postView: View {
                                     }
                                 }
                                 Spacer()
-                                Button(action: {print("TODO comment")}) {
+                                HStack{
                                     Text("\(self.post.commentsi!.data.count)")
                                     Image("comment").resizable().frame(width: 30, height: 30)
                                 }
