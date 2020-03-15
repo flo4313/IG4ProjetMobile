@@ -69,7 +69,7 @@ struct post : View{
                         }) {
                             Text("\(self.postElt.like)")
                             Image("ear").resizable().frame(width: 30, height: 30)
-                        }
+                        }.buttonStyle(PlainButtonStyle())
                     }
                     Spacer()
                     if(self.already.reported == true){

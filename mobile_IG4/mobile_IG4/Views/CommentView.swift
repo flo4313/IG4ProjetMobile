@@ -14,6 +14,7 @@ struct CommentView : View{
     @ObservedObject var already = Already()
     var config = Config()
     var rateCommentDAL = RateCommentDAL()
+    var reportCommentDAL = ReportCommentDAL()
     @EnvironmentObject var user : User
     
     init(comment : Comment) {
@@ -59,8 +60,16 @@ struct CommentView : View{
                         }
                     }
                     Spacer()
-                    Button(action: {print("TODO report")}) {
-                        Image("warning").resizable().frame(width: 15, height : 15)
+                    Button(action: {
+                        self.reportCommentDAL.sendReport(user: self.user, comment: self.comment)
+                        self.already.reported = !self.already.reported
+                    }) {
+                        if(already.reported) {
+                            Image("warning").resizable().frame(width: 15, height : 15).padding(3).background(Color.red).cornerRadius(5.0)
+                        } else {
+                            Image("warning").resizable().frame(width: 15, height : 15).padding(3)
+                        }
+                        
                     }
                     
                 }.buttonStyle(PlainButtonStyle()).onAppear() {
@@ -68,6 +77,10 @@ struct CommentView : View{
                         self.already.liked = true
                     } else if (self.rateCommentDAL.hasRated(user: self.user, comment: self.comment) == 0) {
                         self.already.disliked = true
+                    }
+                    
+                    if(self.reportCommentDAL.hasReported(user: self.user, comment: self.comment)) {
+                        self.already.reported = true
                     }
                 }
             }.padding([.vertical], 6).padding([.horizontal], 15)
