@@ -156,7 +156,7 @@ struct inputComment : View{
     
     func sendNewComment(){
         if let author = user.user {
-            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0)
+            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0, dislike : 0)
             
             let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11)
                 guard let encoded = try? JSONEncoder().encode(commentF) else {

@@ -67,7 +67,6 @@ class OpinionDAL{
             post.objectWillChange.send()
             post.like -= 1
         }
-
     }
         
     struct ResultHasLiked : Decodable {

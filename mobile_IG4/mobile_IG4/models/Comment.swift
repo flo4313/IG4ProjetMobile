@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Comment : Identifiable, Codable {
+class Comment : ObservableObject, Identifiable, Codable {
     var comment_id: Int
     
     var description : String
@@ -19,9 +19,10 @@ class Comment : Identifiable, Codable {
     var date : String
     var username : String
     var like : Int
+    var dislike : Int
     
     
-    init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String, username : String, like : Int){
+    init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String, username : String, like : Int, dislike : Int){
         self.comment_id = comment_id
         self.description = description
         self.comment_category = comment_category
@@ -30,5 +31,6 @@ class Comment : Identifiable, Codable {
         self.date = date
         self.username = username
         self.like = like
+        self.dislike = dislike
     }
 }

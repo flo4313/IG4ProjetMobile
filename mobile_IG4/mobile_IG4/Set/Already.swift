@@ -10,5 +10,6 @@ import Foundation
 
 class Already : ObservableObject {
     @Published var liked : Bool = false
+    @Published var disliked : Bool = false
     @Published var reported : Bool = false
 }
