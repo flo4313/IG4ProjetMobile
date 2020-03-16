@@ -14,6 +14,7 @@ struct postView: View {
     @ObservedObject var post: Post
     @EnvironmentObject var user : User
     @ObservedObject var already: Already
+    @State private var showingLoginAlert = false
     private var opinionDAL : OpinionDAL = OpinionDAL()
     var reportPostDAL : ReportPostDAL = ReportPostDAL()
     let imageLoader : ImageLoader
@@ -73,23 +74,33 @@ struct postView: View {
                                 Spacer()
                             }.padding([.horizontal], 20).padding([.vertical], 15).fixedSize(horizontal: false, vertical: true)
                             HStack(){
-                                if(self.already.liked) {
-
-                                    Button(action: {
-                                        self.sendLike()
-                                        self.already.liked = !self.already.liked
-                                    }) {
-                                        Text("\(self.post.like)").foregroundColor(Color.yellow)
-                                        Image("earLiked").resizable().frame(width: 30, height: 30)
-                                    }.buttonStyle(PlainButtonStyle())
-                                    
+                                if(self.user.isLogged) {
+                                    if(self.already.liked) {
+                                        Button(action: {
+                                                self.sendLike()
+                                                self.already.liked = !self.already.liked
+                                        }) {
+                                            Text("\(self.post.like)").foregroundColor(Color.yellow)
+                                            Image("earLiked").resizable().frame(width: 30, height: 30)
+                                        }.buttonStyle(PlainButtonStyle())
+                                        
+                                    } else {
+                                        Button(action: {
+                                                self.sendLike()
+                                                self.already.liked = !self.already.liked
+                                        }) {
+                                            Text("\(self.post.like)")
+                                            Image("ear").resizable().frame(width: 30, height: 30)
+                                        }
+                                    }
                                 } else {
                                     Button(action: {
-                                        self.sendLike()
-                                        self.already.liked = !self.already.liked
+                                        self.showingLoginAlert = true
                                     }) {
                                         Text("\(self.post.like)")
                                         Image("ear").resizable().frame(width: 30, height: 30)
+                                    }.alert(isPresented: $showingLoginAlert) {
+                                        Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
                                     }
                                 }
                                 Spacer()
@@ -98,23 +109,36 @@ struct postView: View {
                                     Image("comment").resizable().frame(width: 30, height: 30)
                                 }
                                 Spacer()
-                                if(self.already.reported) {
-                                    Button(action: {
-                                        self.reportPostDAL.sendReport(user : self.user, postElt : self.post)
-                                        self.already.reported = !self.already.reported
-                                    }) {
-                                    Image("warning")
-                                     .resizable()
-                                     .frame(width: 30, height: 30)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color.red)
-                                    .cornerRadius(15.0)
+                                if(self.user.isLogged){
+                                    if(self.already.reported) {
+                                        Button(action: {
+                                            self.reportPostDAL.sendReport(user : self.user, postElt : self.post)
+                                            self.already.reported = !self.already.reported
+                                        }) {
+                                        Image("warning")
+                                         .resizable()
+                                         .frame(width: 30, height: 30)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.red)
+                                        .cornerRadius(15.0)
+                                        }
+                                    } else {
+                                        Button(action: {
+                                                self.reportPostDAL.sendReport(user : self.user, postElt : self.post)
+                                                self.already.reported = !self.already.reported
+                                        }) {
+                                        Image("warning")
+                                         .resizable()
+                                         .frame(width: 30, height: 30)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .cornerRadius(15.0)
+                                        }
                                     }
                                 } else {
                                     Button(action: {
-                                        self.reportPostDAL.sendReport(user : self.user, postElt : self.post)
-                                        self.already.reported = !self.already.reported
+                                        self.showingLoginAlert = true
                                     }) {
                                     Image("warning")
                                      .resizable()
@@ -122,14 +146,18 @@ struct postView: View {
                                     .foregroundColor(.white)
                                     .padding()
                                     .cornerRadius(15.0)
+                                    }.alert(isPresented: $showingLoginAlert) {
+                                        Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
                                     }
                                 }
                             }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle()).onAppear(){
-                                if(self.reportPostDAL.hasReported(user: self.user, postElt: self.post)) {
-                                    self.already.reported = true
-                                }
-                                if(self.opinionDAL.hasLiked(user: self.user, post: self.post)) {
-                                    self.already.liked = true
+                                if(self.user.isLogged) {
+                                    if(self.reportPostDAL.hasReported(user: self.user, postElt: self.post)) {
+                                        self.already.reported = true
+                                    }
+                                    if(self.opinionDAL.hasLiked(user: self.user, post: self.post)) {
+                                        self.already.liked = true
+                                    }
                                 }
                             }
                         }.padding([.top],10).background(config.postColor()).cornerRadius(5.0)
