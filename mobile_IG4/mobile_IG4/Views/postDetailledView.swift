@@ -152,6 +152,7 @@ struct inputComment : View{
     }
     struct Response :Decodable {
         var result: Bool
+        var id: Int
     }
     
     func sendNewComment(){
@@ -166,7 +167,7 @@ struct inputComment : View{
                 var isCreate = false
                 let group = DispatchGroup()
                 group.enter()
-            if let url = URL(string: "http://51.255.175.118:2000/post/"+String(self.post.post_id)+"/comment/create") {
+            if let url = URL(string:   "http://51.255.175.118:2000/post/"+String(self.post.post_id)+"/comment/create") {
                     var request = URLRequest(url: url)
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                     request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -178,9 +179,9 @@ struct inputComment : View{
                         if let data = data {
                                 let res = try? JSONDecoder().decode(Response.self, from: data)
                                 if let res2 = res{
-                                    print(res2.result)
                                     if(res2.result == true){
                                         isCreate = true
+                                        comment.comment_id = res2.id
                                     }
                                 }else{
                                     print("error")

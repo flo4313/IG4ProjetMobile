@@ -16,7 +16,7 @@ class PostDAL{
         var title:String
         var description:String
         var category : Int
-        var ext : String
+        var `extension` : String
         var data : String
     }
     
@@ -32,7 +32,7 @@ class PostDAL{
         if let postImage : UIImage = image{
             data = config.convertImageToBase64(postImage)
         }
-        let post = AddPostForm(title: title, description: description, category: category,ext: ext,data: data)
+        let post = AddPostForm(title: title, description: description, category: category,extension: ext,data: data)
         guard let encoded = try? JSONEncoder().encode(post) else {
             print("Failed to encode order")
             return false
