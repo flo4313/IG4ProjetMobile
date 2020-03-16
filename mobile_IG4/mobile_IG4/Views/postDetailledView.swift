@@ -165,6 +165,8 @@ struct comments : View{
 struct inputComment : View{
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var user : User
+    var config = Config()
+
     
     
     @ObservedObject var post : Post
@@ -230,22 +232,49 @@ struct inputComment : View{
     }
     var body: some View{
         HStack{
-            TextField("Enter a comment", text:$message)
-                .padding()
-                .background(lightGreyColor)
-            Button(action: {self.sendNewComment()}) {
-               Image("send")
-                .resizable()
-                .frame(width: 30, height: 30)
-               .foregroundColor(.white)
-               .padding()
-               .background(Color.green)
-               .cornerRadius(15.0)
-                
+            Spacer()
+            if(user.isLogged){
+                TextField("Enter a comment", text:$message)
+                    .padding()
+                    .background(lightGreyColor)
+                Button(action: {self.sendNewComment()}) {
+                   Image("send")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                   .foregroundColor(.white)
+                   .padding()
+                   .background(Color.green)
+                   .cornerRadius(15.0)
+                }
+                Spacer()
+            } else {
+                VStack {
+                    Text("Login to answer !").padding()
+                    HStack {
+                        NavigationLink(destination: loginView()) {
+                            Text("Login")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(width: 140, height: 40)
+                                .background(Color.green)
+                                .cornerRadius(15.0)
+                                .padding(.bottom,10)
+                        }
+                        NavigationLink(destination: registerView()) {
+                            Text("Register")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(width: 140, height: 40)
+                                .background(Color.green)
+                                .cornerRadius(15.0).padding(.bottom,10)
+                        }
+                    }
+                }
             }
             Spacer()
-            
-        }
+            }.padding(3).background(config.postbarColor())
     }
 }
 struct postDetailledView: View {

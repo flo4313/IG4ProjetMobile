@@ -12,6 +12,7 @@ import SwiftUI
 struct CommentView : View{
     @ObservedObject var comment : Comment
     @ObservedObject var already = Already()
+    @State private var showingLoginAlert = false
     var config = Config()
     var rateCommentDAL = RateCommentDAL()
     var reportCommentDAL = ReportCommentDAL()
@@ -36,40 +37,69 @@ struct CommentView : View{
             HStack {
                 //like and report
                 HStack {
-                    Button(action: {
-                        self.rateCommentDAL.rate(user: self.user, comment: self.comment, like: 1)
-                        self.already.liked = !self.already.liked
-                        self.already.disliked = false
-                    }) {
-                        if (self.already.liked) {
-                            Image("upArrowLiked").resizable().frame(width: 12, height : 12)
-                        } else {
+                    if(self.user.isLogged) {
+                        Button(action: {
+                            self.rateCommentDAL.rate(user: self.user, comment: self.comment, like: 1)
+                            self.already.liked = !self.already.liked
+                            self.already.disliked = false
+                        }) {
+                            if (self.already.liked) {
+                                Image("upArrowLiked").resizable().frame(width: 12, height : 12)
+                            } else {
+                                Image("upArrow").resizable().frame(width: 12, height : 12)
+                            }
+                        }
+                        Text("\(comment.like - comment.dislike)").font(.system(size: 15))
+                        Button(action: {
+                            self.rateCommentDAL.rate(user: self.user, comment: self.comment, like: 0)
+                            self.already.disliked = !self.already.disliked
+                            self.already.liked = false
+                        }) {
+                            if (self.already.disliked) {
+                                Image("downArrowDisliked").resizable().frame(width: 12, height : 12)
+                            } else {
+                                Image("downArrow").resizable().frame(width: 12, height : 12)
+                            }
+                        }
+                        Spacer()
+                        Button(action: {
+                            self.reportCommentDAL.sendReport(user: self.user, comment: self.comment)
+                            self.already.reported = !self.already.reported
+                        }) {
+                            if(already.reported) {
+                                Image("warning").resizable().frame(width: 15, height : 15).padding(3).background(Color.red).cornerRadius(5.0)
+                            } else {
+                                Image("warning").resizable().frame(width: 15, height : 15).padding(3)
+                            }
+                            
+                        }
+                    } else {
+                        Button(action: {
+                            self.showingLoginAlert = true
+                        }) {
                             Image("upArrow").resizable().frame(width: 12, height : 12)
+                        }.alert(isPresented: $showingLoginAlert) {
+                        Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
                         }
-                    }
-                    Text("\(comment.like - comment.dislike)").font(.system(size: 15))
-                    Button(action: {
-                        self.rateCommentDAL.rate(user: self.user, comment: self.comment, like: 0)
-                        self.already.disliked = !self.already.disliked
-                        self.already.liked = false
-                    }) {
-                        if (self.already.disliked) {
-                            Image("downArrowDisliked").resizable().frame(width: 12, height : 12)
-                        } else {
+                            
+                        Text("\(comment.like - comment.dislike)").font(.system(size: 15))
+                        Button(action: {
+                            self.showingLoginAlert = true
+                        }) {
                             Image("downArrow").resizable().frame(width: 12, height : 12)
-                        }
-                    }
-                    Spacer()
-                    Button(action: {
-                        self.reportCommentDAL.sendReport(user: self.user, comment: self.comment)
-                        self.already.reported = !self.already.reported
-                    }) {
-                        if(already.reported) {
-                            Image("warning").resizable().frame(width: 15, height : 15).padding(3).background(Color.red).cornerRadius(5.0)
-                        } else {
+                        }.alert(isPresented: $showingLoginAlert) {
+                        Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
+                            }
+                            
+                        Spacer()
+                            
+                        Button(action: {
+                            self.showingLoginAlert = true
+                        }) {
                             Image("warning").resizable().frame(width: 15, height : 15).padding(3)
-                        }
-                        
+                        }.alert(isPresented: $showingLoginAlert) {
+                        Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
+                            }
                     }
                     
                 }.buttonStyle(PlainButtonStyle()).onAppear() {
