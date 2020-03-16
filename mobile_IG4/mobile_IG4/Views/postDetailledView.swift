@@ -12,6 +12,7 @@ struct post : View{
     var postElt : Post
     @EnvironmentObject var user : User
     @ObservedObject var already: Already
+    @State private var showingLoginAlert = false
     private var opinionDAL : OpinionDAL = OpinionDAL()
     private var reportPostDAL : ReportPostDAL = ReportPostDAL()
     var config = Config()
@@ -52,56 +53,80 @@ struct post : View{
                 }.padding([.horizontal], 20).padding([.vertical], 15)
                 HStack(){
                     Spacer()
-                    if(self.already.liked) {
-
-                        Button(action: {
-                            self.sendLike()
-                            self.already.liked = !self.already.liked
-                        }) {
-                            Text("\(self.postElt.like)").foregroundColor(Color.yellow)
-                            Image("earLiked").resizable().frame(width: 30, height: 30)
-                        }.buttonStyle(PlainButtonStyle())
-                        
+                    if(self.user.isLogged) {
+                        if(self.already.liked) {
+                            Button(action: {
+                                    self.sendLike()
+                                    self.already.liked = !self.already.liked
+                            }) {
+                                Text("\(self.postElt.like)").foregroundColor(Color.yellow)
+                                Image("earLiked").resizable().frame(width: 30, height: 30)
+                            }.buttonStyle(PlainButtonStyle())
+                            
+                        } else {
+                            Button(action: {
+                                    self.sendLike()
+                                    self.already.liked = !self.already.liked
+                            }) {
+                                Text("\(self.postElt.like)")
+                                Image("ear").resizable().frame(width: 30, height: 30)
+                            }
+                        }
                     } else {
                         Button(action: {
-                            self.sendLike()
-                            self.already.liked = !self.already.liked
+                            self.showingLoginAlert = true
                         }) {
                             Text("\(self.postElt.like)")
                             Image("ear").resizable().frame(width: 30, height: 30)
-                        }.buttonStyle(PlainButtonStyle())
+                        }.alert(isPresented: $showingLoginAlert) {
+                            Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
+                        }
                     }
                     Spacer()
-                    if(self.already.reported == true){
-                        Button(action: {
-                            self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
-                            self.already.reported = !self.already.reported
-                        }) {
-                        Image("warning")
-                         .resizable()
-                         .frame(width: 30, height: 30)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.red)
-                        .cornerRadius(15.0)
+                    if(self.user.isLogged){
+                        if(self.already.reported) {
+                            Button(action: {
+                                self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
+                                self.already.reported = !self.already.reported
+                            }) {
+                            Image("warning")
+                             .resizable()
+                             .frame(width: 30, height: 30)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.red)
+                            .cornerRadius(15.0)
+                            }
+                        } else {
+                            Button(action: {
+                                    self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
+                                    self.already.reported = !self.already.reported
+                            }) {
+                            Image("warning")
+                             .resizable()
+                             .frame(width: 30, height: 30)
+                            .foregroundColor(.white)
+                            .padding()
+                            .cornerRadius(15.0)
+                            }
                         }
-                    }else{
+                    } else {
                         Button(action: {
-                            self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
-                            self.already.reported = !self.already.reported
+                            self.showingLoginAlert = true
                         }) {
                         Image("warning")
                          .resizable()
                          .frame(width: 30, height: 30)
                         .foregroundColor(.white)
                         .padding()
-                        .background(config.postbarColor())
                         .cornerRadius(15.0)
+                        }.alert(isPresented: $showingLoginAlert) {
+                            Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
                         }
                     }
                     Spacer()
                 }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor())
-        }.padding([.top],10).background(config.postColor()).cornerRadius(5.0)
+            }.padding([.top],10).background(config.postColor()).cornerRadius(5.0).buttonStyle(PlainButtonStyle())
             Spacer()
         }.padding().onAppear{
             if(self.reportPostDAL.hasReported(user: self.user, postElt: self.postElt)) {
