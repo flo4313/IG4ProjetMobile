@@ -36,15 +36,11 @@ class ReportCommentDAL {
                                     
                                     if(res.count > 0){
                                         result = true
-                                        print("vraie")
                                     }else{
                                         result = false
-                                        print("faux")
                                     }
                                     group.leave()
                                 }
-                                
-                     
                         }
                     }.resume()
             

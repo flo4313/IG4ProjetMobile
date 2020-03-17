@@ -143,8 +143,28 @@ struct post : View{
 
 struct comments : View{
     @ObservedObject var commentsList : CommentsSet
-    init(commentsState : CommentsSet){
+    var user : User
+    var already : [Already]
+    var rateCommentDAL = RateCommentDAL()
+    var reportCommentDAL = ReportCommentDAL()
+    
+    init(commentsState : CommentsSet, user : User){
         self.commentsList = commentsState
+        self.already = (0...commentsState.data.count - 1).map{_ in Already()}
+        self.user = user
+        
+        for i in 0...self.already.count - 1 {
+            
+            if(self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 1) {
+                self.already[i].liked = true
+            } else if (self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 0) {
+                self.already[i].disliked = true
+            }
+            
+            if(self.reportCommentDAL.hasReported(user: self.user, comment: commentsState.data[i])) {
+                self.already[i].reported = true
+            }
+        }
     }
      
     
@@ -152,12 +172,11 @@ struct comments : View{
         VStack{
             Text("il y a "+String(commentsList.data.count)+" réponse(s)")
             List {
-                ForEach(commentsList.data) {
-                    comment in
-                    CommentView(comment: comment)
+                ForEach(0...commentsList.data.count - 1, id: \.self) {
+                    i in
+                    CommentView(comment: self.commentsList.data[i], already: self.already[i])
                 }
-            }
-            .padding(.bottom, 20.0)
+            }.padding(.bottom, 20.0)
         }
     }
 }
@@ -222,7 +241,6 @@ struct inputComment : View{
                 if(isCreate == true){
                     self.message = ""
                     self.post.objectWillChange.send()
-                   
                     self.post.commentsi!.data.append(comment)
                   
                 }
@@ -297,7 +315,7 @@ struct postDetailledView: View {
     var body: some View {
         VStack{
         post(postElt: postElt, already: already)
-        comments(commentsState: commentsState)
+            comments(commentsState: commentsState, user : user)
         Spacer()
             inputComment(post: postElt)
         }

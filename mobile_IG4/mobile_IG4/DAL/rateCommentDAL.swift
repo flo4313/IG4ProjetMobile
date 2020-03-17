@@ -23,8 +23,9 @@ class RateCommentDAL{
     
     func rate(user : User, comment:Comment, like: Int){
         var result = ""
+        let curUser = user
 
-        if let user = user.user {
+        if let user = curUser.user {
          
             let group = DispatchGroup()
             group.enter()
@@ -41,6 +42,7 @@ class RateCommentDAL{
                         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                         request.httpMethod = "PUT"
                         request.httpBody = encoded
+                        request.setValue("Bearer "+curUser.token,forHTTPHeaderField: "Authorization")
             
                         URLSession.shared.dataTask(with: request) { data, response, error in
                            if let data = data {

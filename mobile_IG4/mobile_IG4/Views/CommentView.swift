@@ -11,15 +11,16 @@ import SwiftUI
 
 struct CommentView : View{
     @ObservedObject var comment : Comment
-    @ObservedObject var already = Already()
+    @ObservedObject var already : Already
     @State private var showingLoginAlert = false
     var config = Config()
     var rateCommentDAL = RateCommentDAL()
     var reportCommentDAL = ReportCommentDAL()
     @EnvironmentObject var user : User
     
-    init(comment : Comment) {
+    init(comment : Comment, already : Already) {
         self.comment = comment
+        self.already = already
     }
     var body: some View {
         VStack{
@@ -104,18 +105,18 @@ struct CommentView : View{
                             }
                     }
                     
-                }.buttonStyle(PlainButtonStyle()).onAppear() {
-                    if(self.rateCommentDAL.hasRated(user: self.user, comment: self.comment) == 1) {
-                        self.already.liked = true
-                    } else if (self.rateCommentDAL.hasRated(user: self.user, comment: self.comment) == 0) {
-                        self.already.disliked = true
-                    }
-                    
-                    if(self.reportCommentDAL.hasReported(user: self.user, comment: self.comment)) {
-                        self.already.reported = true
-                    }
-                }
+                }.buttonStyle(PlainButtonStyle())
             }.padding([.vertical], 6).padding([.horizontal], 15)
-        }.background(config.postColor()).cornerRadius(15.0)
+        }.background(config.postColor()).cornerRadius(15.0)/*.onAppear() {
+            if(self.rateCommentDAL.hasRated(user: self.user, comment: self.comment) == 1) {
+                self.already.liked = true
+            } else if (self.rateCommentDAL.hasRated(user: self.user, comment: self.comment) == 0) {
+                self.already.disliked = true
+            }
+            
+            if(self.reportCommentDAL.hasReported(user: self.user, comment: self.comment)) {
+                self.already.reported = true
+            }
+        }*/
     }
 }

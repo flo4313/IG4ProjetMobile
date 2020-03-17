@@ -43,6 +43,7 @@ class OpinionDAL{
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                     request.httpMethod = "POST"
                     request.httpBody = encoded
+                    request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
         
                     URLSession.shared.dataTask(with: request) { data, response, error in
                        if let data = data {
