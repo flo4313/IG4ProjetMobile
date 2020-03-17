@@ -15,14 +15,17 @@ struct postView: View {
     @EnvironmentObject var user : User
     @ObservedObject var already: Already
     @State private var showingLoginAlert = false
+    let decriptionBestAnswer : String
     private var opinionDAL : OpinionDAL = OpinionDAL()
     var reportPostDAL : ReportPostDAL = ReportPostDAL()
     let imageLoader : ImageLoader
     
-    init(post: Post, already : Already){
+    init(post: Post, already : Already, descriptionBestAnswer : String){
         self.post = post
         self.already = already
         imageLoader = ImageLoader(urlString:"http://51.255.175.118:2000/" + post.url_image)
+        self.decriptionBestAnswer = descriptionBestAnswer
+        
     }
     
     func imageFromData(_ data:Data) ->UIImage{
@@ -164,17 +167,18 @@ struct postView: View {
                     
                     }
                         
-                    
-                     HStack(){
-                        HStack{
-                        VStack{
-                            Text("Best answer")
-                                .font(.footnote)
-                        }
-                            Spacer()
-                            
-                        }.padding().background(config.answerColor()).cornerRadius(5.0)
-                     }.padding(.leading,50)
+                    if(self.decriptionBestAnswer != "") {
+                         HStack(){
+                            HStack{
+                                VStack{
+                                    Text("Best answer : \n \(self.decriptionBestAnswer)")
+                                        .font(.footnote)
+                                }
+                                Spacer()
+                                
+                            }.padding().background(config.answerColor()).cornerRadius(5.0)
+                         }.padding(.leading,50)
+                    }
 
 
             }

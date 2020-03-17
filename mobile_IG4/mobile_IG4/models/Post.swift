@@ -60,8 +60,7 @@ class Post : ObservableObject,Identifiable, Codable {
         self.comment = try container.decode(Int.self, forKey: .comment)
         self.like = try container.decode(Int.self, forKey: .like)
         self.commentsi = try? container.decode(CommentsSet?.self,forKey: .commentsi)
-        self.username = try container.decode(String.self, forKey: .username)
-        
+        self.username = try container.decode(String.self, forKey: .username)        
     }
     
 }

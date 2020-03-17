@@ -12,13 +12,25 @@ import SwiftUI
 
 
 struct postsListView: View {
+    var postDAL = PostDAL()
     @ObservedObject var postsObserved : PostSet
     var already : [Already]
+    var descriptionBestAnswer : [String]
     
     init(postsObserved: PostSet) {
         self.postsObserved = postsObserved
         self.already = (0...postsObserved.data.count - 1).map{_ in Already()}
-
+        let bestAnswers = postDAL.getBestAnswers()
+        let tmp = postsObserved
+        self.descriptionBestAnswer = tmp.data.map({(post) -> String in
+            for answer in bestAnswers {
+                if(answer.post == post.post_id) {
+                    return answer.description
+                }
+            }
+            return ""
+        })
+        print(descriptionBestAnswer)
     }
     
     var body: some View {
@@ -28,10 +40,9 @@ struct postsListView: View {
                     i in
                     HStack{
                         NavigationLink(destination : postDetailledView(postEl: self.postsObserved.data[i], already: self.already[i])){
-                            postView(post: self.postsObserved.data[i], already : self.already[i])
+                            postView(post: self.postsObserved.data[i], already : self.already[i], descriptionBestAnswer: self.descriptionBestAnswer[i])
                         }
                     }
-                    
                 }
             }.padding(.bottom, 20.0)
         
