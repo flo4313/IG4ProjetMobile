@@ -24,7 +24,7 @@ struct postsListView: View {
         let tmp = postsObserved
         self.descriptionBestAnswer = tmp.data.map({(post) -> String in
             for answer in bestAnswers {
-                if(answer.post == post.post_id) {
+                if(answer.post == post.post_id && answer.rate > 0) {
                     return answer.description
                 }
             }
