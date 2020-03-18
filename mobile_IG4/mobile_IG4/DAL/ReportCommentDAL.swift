@@ -22,7 +22,7 @@ class ReportCommentDAL {
         let group = DispatchGroup()
         group.enter()
         
-        if let url = URL(string: "http://51.255.175.118:2000/reportcomment/"+String(comment.comment_id)+"/byToken") {
+        if let url = URL(string: "https://thomasfaure.fr/reportcomment/"+String(comment.comment_id)+"/byToken") {
                     var request = URLRequest(url: url)
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                     request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -63,7 +63,7 @@ class ReportCommentDAL {
             print("Failed to encode order")
             return
         }
-        if let url = URL(string: "http://51.255.175.118:2000/reportcomment/create") {
+        if let url = URL(string: "https://thomasfaure.fr/reportcomment/create") {
                     var request = URLRequest(url: url)
           
                     

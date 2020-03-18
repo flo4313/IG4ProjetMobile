@@ -135,7 +135,10 @@ struct post : View{
             if(self.opinionDAL.hasLiked(user: self.user, post: self.postElt)) {
                 self.already.liked = true
             }
-        }
+        }.shadow(color: Color.black.opacity(0.3),
+        radius: 3,
+        x: 3,
+        y: 3)
       
     }
 }
@@ -150,21 +153,29 @@ struct comments : View{
     
     init(commentsState : CommentsSet, user : User){
         self.commentsList = commentsState
-        self.already = (0...commentsState.data.count - 1).map{_ in Already()}
         self.user = user
         
-        for i in 0...self.already.count - 1 {
+        if(commentsState.data.count > 0) {
+            self.already = (0...commentsState.data.count - 1).map{_ in Already()}
             
-            if(self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 1) {
-                self.already[i].liked = true
-            } else if (self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 0) {
-                self.already[i].disliked = true
+            for i in 0...self.already.count - 1 {
+                if(self.user.isLogged) {
+                    if(self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 1) {
+                        self.already[i].liked = true
+                    } else if (self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 0) {
+                        self.already[i].disliked = true
+                    }
+                    
+                    if(self.reportCommentDAL.hasReported(user: self.user, comment: commentsState.data[i])) {
+                        self.already[i].reported = true
+                    }
+                }
             }
-            
-            if(self.reportCommentDAL.hasReported(user: self.user, comment: commentsState.data[i])) {
-                self.already[i].reported = true
-            }
+        } else {
+            self.already = []
         }
+        
+        
     }
      
     
@@ -172,9 +183,11 @@ struct comments : View{
         VStack{
             Text("il y a "+String(commentsList.data.count)+" réponse(s)")
             List {
-                ForEach(0...commentsList.data.count - 1, id: \.self) {
-                    i in
-                    CommentView(comment: self.commentsList.data[i], already: self.already[i])
+                if(self.commentsList.data.count > 0)  {
+                    ForEach(0...commentsList.data.count - 1, id: \.self) {
+                        i in
+                        CommentView(comment: self.commentsList.data[i], already: self.already[i])
+                    }
                 }
             }.padding(.bottom, 20.0)
         }
@@ -213,7 +226,7 @@ struct inputComment : View{
                 var isCreate = false
                 let group = DispatchGroup()
                 group.enter()
-            if let url = URL(string:   "http://51.255.175.118:2000/post/"+String(self.post.post_id)+"/comment/create") {
+            if let url = URL(string:   "https://thomasfaure.fr/post/"+String(self.post.post_id)+"/comment/create") {
                     var request = URLRequest(url: url)
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                     request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -278,6 +291,10 @@ struct inputComment : View{
                                 .background(Color.green)
                                 .cornerRadius(15.0)
                                 .padding(.bottom,10)
+                            .shadow(color: Color.black.opacity(0.3),
+                            radius: 3,
+                            x: 3,
+                            y: 3)
                         }
                         NavigationLink(destination: registerView()) {
                             Text("Register")
@@ -287,6 +304,10 @@ struct inputComment : View{
                                 .frame(width: 140, height: 40)
                                 .background(Color.green)
                                 .cornerRadius(15.0).padding(.bottom,10)
+                            .shadow(color: Color.black.opacity(0.3),
+                            radius: 3,
+                            x: 3,
+                            y: 3)
                         }
                     }
                 }

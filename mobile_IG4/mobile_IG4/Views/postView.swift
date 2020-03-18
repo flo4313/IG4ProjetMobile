@@ -23,7 +23,7 @@ struct postView: View {
     init(post: Post, already : Already, descriptionBestAnswer : String){
         self.post = post
         self.already = already
-        imageLoader = ImageLoader(urlString:"http://51.255.175.118:2000/" + post.url_image)
+        imageLoader = ImageLoader(urlString:"https://thomasfaure.fr/" + post.url_image)
         self.decriptionBestAnswer = descriptionBestAnswer
         
     }
@@ -108,7 +108,7 @@ struct postView: View {
                                 }
                                 Spacer()
                                 HStack{
-                                    Text("\(self.post.commentsi!.data.count)")
+                                    Text("\(self.post.commentsi!.data.count)").fixedSize(horizontal: true, vertical: false)
                                     Image("comment").resizable().frame(width: 30, height: 30)
                                 }
                                 Spacer()
@@ -163,7 +163,10 @@ struct postView: View {
                                     }
                                 }
                             }
-                        }.padding([.top],10).background(config.postColor()).cornerRadius(5.0)
+                        }.padding([.top],10).background(config.postColor()).cornerRadius(5.0).shadow(color: Color.black.opacity(0.3),
+                        radius: 3,
+                        x: 3,
+                        y: 3)
                     
                     }
                         
@@ -177,7 +180,10 @@ struct postView: View {
                                 Spacer()
                                 
                             }.padding().background(config.answerColor()).cornerRadius(5.0)
-                         }.padding(.leading,50)
+                         }.padding(.leading,50).shadow(color: Color.black.opacity(0.3),
+                         radius: 3,
+                         x: 3,
+                         y: 3)
                     }
 
 

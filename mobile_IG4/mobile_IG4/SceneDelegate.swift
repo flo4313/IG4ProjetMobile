@@ -66,7 +66,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         var token = ""
                         let group = DispatchGroup()
                         group.enter()
-                        if let url = URL(string: "http://51.255.175.118:2000/user/login") {
+                        if let url = URL(string: "https://thomasfaure.fr/user/login") {
                             var request = URLRequest(url: url)
                             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                             request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -95,7 +95,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         var user : UserModel? = nil
                         if(isLogged){
                             group.enter()
-                            if let url = URL(string: "http://51.255.175.118:2000/user/"+String(user_id)) {
+                            if let url = URL(string: "https://thomasfaure.fr/user/"+String(user_id)) {
                                 var request = URLRequest(url: url)
                                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                                 request.setValue("application/json", forHTTPHeaderField: "Application")

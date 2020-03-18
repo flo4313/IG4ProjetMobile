@@ -41,7 +41,7 @@ class PostDAL{
         var id = 0
         let group = DispatchGroup()
         group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/post/create") {
+        if let url = URL(string: "https://thomasfaure.fr/post/create") {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -84,7 +84,7 @@ class PostDAL{
             let group = DispatchGroup()
             group.enter()
 
-                if let url = URL(string: "http://51.255.175.118:2000/post/bestAnswer/") {
+                if let url = URL(string: "https://thomasfaure.fr/post/bestAnswer/") {
                         var request = URLRequest(url: url)
               
                         

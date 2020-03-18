@@ -23,7 +23,7 @@ class PostCategorySet : Identifiable {
         var res: [PostCategory] = []
         let group = DispatchGroup()
         group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/postCategory") {
+        if let url = URL(string: "https://thomasfaure.fr/postCategory") {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {

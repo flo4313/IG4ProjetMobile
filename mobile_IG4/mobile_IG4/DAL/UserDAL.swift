@@ -33,7 +33,7 @@ class UserDAL{
         var user_id = 0
         var token = ""
         var isLogged = false
-        if let url = URL(string: "http://51.255.175.118:2000/user/login") {
+        if let url = URL(string: "https://thomasfaure.fr/user/login") {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -66,7 +66,7 @@ class UserDAL{
         var user : UserModel? = nil
         if(isLogged){
             group.enter()
-            if let url = URL(string: "http://51.255.175.118:2000/user/"+String(user_id)) {
+            if let url = URL(string: "https://thomasfaure.fr/user/"+String(user_id)) {
                 var request = URLRequest(url: url)
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -131,7 +131,7 @@ class UserDAL{
         var isCreate = false
         let group = DispatchGroup()
         group.enter()
-        if let url = URL(string: "http://51.255.175.118:2000/user/create") {
+        if let url = URL(string: "https://thomasfaure.fr/user/create") {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Application")

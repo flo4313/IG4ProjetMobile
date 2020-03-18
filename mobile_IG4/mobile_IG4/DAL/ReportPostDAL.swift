@@ -22,7 +22,7 @@ class ReportPostDAL {
         let group = DispatchGroup()
         group.enter()
         
-        if let url = URL(string: "http://51.255.175.118:2000/reportpost/"+String(postElt.post_id)+"/byToken") {
+        if let url = URL(string: "https://thomasfaure.fr/reportpost/"+String(postElt.post_id)+"/byToken") {
                     var request = URLRequest(url: url)
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                     request.setValue("application/json", forHTTPHeaderField: "Application")
@@ -65,7 +65,7 @@ class ReportPostDAL {
             print("Failed to encode order")
             return
         }
-        if let url = URL(string: "http://51.255.175.118:2000/reportpost/create") {
+        if let url = URL(string: "https://thomasfaure.fr/reportpost/create") {
                     var request = URLRequest(url: url)
           
                     

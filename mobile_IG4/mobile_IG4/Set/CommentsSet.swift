@@ -49,7 +49,7 @@ class CommentsSet : ObservableObject,Decodable,Encodable{
         let group = DispatchGroup()
         group.enter()
      
-        if let url = URL(string: "http://51.255.175.118:2000/post/"+String(post_id)+"/comments") {
+        if let url = URL(string: "https://thomasfaure.fr/post/"+String(post_id)+"/comments") {
             
             URLSession.shared.dataTask(with: url) { data, response, error in
             

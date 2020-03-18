@@ -35,7 +35,7 @@ class RateCommentDAL{
                 print("Failed to encode order")
                 return
             }
-            if let url = URL(string: "http://51.255.175.118:2000/rateComment/create") {
+            if let url = URL(string: "https://thomasfaure.fr/rateComment/create") {
                         var request = URLRequest(url: url)
               
                         
@@ -107,7 +107,7 @@ class RateCommentDAL{
                 let group = DispatchGroup()
                 group.enter()
 
-                if let url = URL(string: "http://51.255.175.118:2000/rateComment/\(user.user_id)/\(comment.comment_id)/") {
+                if let url = URL(string: "https://thomasfaure.fr/rateComment/\(user.user_id)/\(comment.comment_id)/") {
                         var request = URLRequest(url: url)
               
                         

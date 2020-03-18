@@ -74,7 +74,7 @@ struct ContentView: View {
                     HStack{
                         Spacer()
                         if(self.userE.isLogged == true){
-                            NavigationLink(destination: accountView()) {
+                            NavigationLink(destination: accountView(user : userE)) {
                                 Text("Account")
                             }.font(.headline)
                                 .foregroundColor(.white)
