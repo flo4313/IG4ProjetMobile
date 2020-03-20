@@ -13,6 +13,7 @@ import SwiftUI
 
 struct postsListView: View {
     var postDAL = PostDAL()
+    @EnvironmentObject var userE: User
     @ObservedObject var postsObserved : PostSet
     var already : [Already]
     var descriptionBestAnswer : [String]
@@ -44,7 +45,7 @@ struct postsListView: View {
                     i in
                     HStack{
                         NavigationLink(destination : postDetailledView(postEl: self.postsObserved.data[i], already: self.already[i])){
-                            postView(post: self.postsObserved.data[i], already : self.already[i], descriptionBestAnswer: self.descriptionBestAnswer[i])
+                            postView(post: self.postsObserved.data[i], already : self.already[i], descriptionBestAnswer: self.descriptionBestAnswer[i],user: self.userE)
                         }
                     }
                 }

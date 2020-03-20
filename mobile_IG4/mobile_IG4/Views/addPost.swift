@@ -99,7 +99,7 @@ struct addPostView: View {
                         Button(action: self.toggle){
                             Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
                             Text("anonymous ?")
-                        }
+                        }.foregroundColor(.black)
                         
                         
                         ZStack{

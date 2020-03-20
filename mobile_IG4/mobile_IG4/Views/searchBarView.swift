@@ -24,6 +24,7 @@ struct searchBarView : View {
     @State private var selectedCategory : Int = -1
 
     init(posts : PostSet,postsObserved: PostSet){
+         UITableView.appearance().backgroundColor = .clear
         self.posts = posts
         self.postsObserved = postsObserved
         self.postCategory = PostCategorySet()
@@ -150,20 +151,20 @@ struct searchBarView : View {
         return
             VStack{
                 HStack(alignment:.top){
-                   
-                    VStack {
-                        Form{
+                   Spacer()
+                    HStack {
+                        TextField("Search", text: binding).background(lightGreyColor)
+                      
                          
-                                 TextField("Search", text: binding).background(lightGreyColor).padding()
+                                 
                             Picker(selection: catBinding, label: Text("Categegory")) {
                                 ForEach(self.postCategory.data){
                                     category in
                                     Text(category.description).tag(category.post_category_id)
                                 }
                                 
-                            }
-                                
-                        }.frame(height: 100)
+                            }.labelsHidden().padding(.bottom,10).frame(height: 100).background(Color.white)
+                        
                        
                       
                     }

@@ -12,7 +12,7 @@ struct postView: View {
 
     private var config : Config = Config()
     @ObservedObject var post: Post
-    @EnvironmentObject var user : User
+    var user : User
     @ObservedObject var already: Already
     @State private var showingLoginAlert = false
     let decriptionBestAnswer : String
@@ -20,15 +20,26 @@ struct postView: View {
     var reportPostDAL : ReportPostDAL = ReportPostDAL()
     let imageLoader : ImageLoader
     
-    init(post: Post, already : Already, descriptionBestAnswer : String){
+    init(post: Post, already : Already, descriptionBestAnswer : String,user: User){
         self.post = post
         self.already = already
+        self.user = user
         imageLoader = ImageLoader(urlString:"https://thomasfaure.fr/" + post.url_image)
         self.decriptionBestAnswer = descriptionBestAnswer
+        if(self.user.isLogged) {
+            if(self.reportPostDAL.hasReported(user: self.user, postElt: self.post)) {
+                self.already.reported = true
+            }
+            if(self.opinionDAL.hasLiked(user: self.user, post: self.post)) {
+                self.already.liked = true
+            }
+        }
+        
         
     }
     
     func imageFromData(_ data:Data) ->UIImage{
+        
         UIImage(data: data) ?? UIImage()
     }
    
@@ -79,7 +90,7 @@ struct postView: View {
                                     Text("🗺️: "+self.post.location)
                                 }
                                 Spacer()
-                                Circle().fill(Color(self.hexStringToUIColor(hex: self.post.couleur))).frame(width: 25,height: 25)
+                                Circle().fill(Color(self.hexStringToUIColor(hex: self.post.couleur))).frame(width: 20,height: 25)
                                 
                                 
                             }.padding([.horizontal], 20).padding([.bottom], 10)
@@ -99,7 +110,8 @@ struct postView: View {
                             }.padding([.horizontal])
                             
                             if (self.post.url_image != ""){
-                            Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:100,height:100)
+                              
+                            Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:250,height:250)
                             }
                             
                             HStack {
@@ -108,6 +120,7 @@ struct postView: View {
                                 Spacer()
                             }.padding([.horizontal], 20).padding([.vertical], 15).fixedSize(horizontal: false, vertical: true)
                             HStack(){
+                                
                                 if(self.user.isLogged) {
                                     if(self.already.liked) {
                                         Button(action: {

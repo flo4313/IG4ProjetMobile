@@ -15,15 +15,21 @@ struct post : View{
     @State private var showingLoginAlert = false
     private var opinionDAL : OpinionDAL = OpinionDAL()
     private var reportPostDAL : ReportPostDAL = ReportPostDAL()
+    @ObservedObject var imageLoader : ImageLoader
     var config = Config()
     
     func sendLike(){
         opinionDAL.like(user: self.user, post: self.postElt)
     }
-    
     init(postElt : Post, already : Already){
         self.postElt = postElt
         self.already = already
+   
+        self.imageLoader = ImageLoader(urlString:"https://thomasfaure.fr/" + postElt.url_image)
+     
+    }
+    func imageFromData(_ data:Data) ->UIImage{
+        UIImage(data: data) ?? UIImage()
     }
 
     
@@ -47,8 +53,14 @@ struct post : View{
                 }.padding([.horizontal])
                 
                 HStack {
+                    Spacer()
+                    VStack{
+                    if (self.postElt.url_image != ""){
+                    Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:250,height:250)
+                    }
                     Text(self.postElt.description)
                     .multilineTextAlignment(.leading)
+                    }
                     Spacer()
                 }.padding([.horizontal], 20).padding([.vertical], 15)
                 HStack(){
@@ -273,7 +285,7 @@ struct inputComment : View{
                 Button(action: self.toggle){
                     Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
                     Text("anonymous ?")
-                }
+                }.foregroundColor(.black)
                 TextField("Enter a comment", text:$message)
                     .padding()
                     .background(lightGreyColor)
