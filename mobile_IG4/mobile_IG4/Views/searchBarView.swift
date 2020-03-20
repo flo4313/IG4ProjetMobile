@@ -20,14 +20,43 @@ struct searchBarView : View {
     @State var populaire : String = "Populaire"
     var postsObserved : PostSet
     @State private var name: String = ""
+    var postCategory : PostCategorySet =  PostCategorySet()
+    @State private var selectedCategory : Int = -1
 
+    init(posts : PostSet,postsObserved: PostSet){
+        self.posts = posts
+        self.postsObserved = postsObserved
+        self.postCategory = PostCategorySet()
+        self.postCategory.data.append(PostCategory(post_category_id: -1, description: "default", couleur: "#ffffff"))
+    }
+    
+    
     
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
-    func setSearchBarResult(){
-        if name.count != 0 {
-            self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased())}
-        } else {
+    
+    func setSearchCategory(){
+        print(String(self.selectedCategory))
+        if(self.selectedCategory == -1){
             self.postsObserved.data = self.posts.data
+        }else{
+            print(self.posts.data.filter{$0.post_category == self.selectedCategory}.count)
+            self.postsObserved.data = self.posts.data.filter{$0.post_category == self.selectedCategory}
+        }
+    }
+    func setSearchBarResult(){
+        if(self.selectedCategory != -1){
+        if name.count != 0 {
+            self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased()) && $0.post_category == self.selectedCategory}
+        } else {
+            self.postsObserved.data = self.posts.data.filter{$0.post_category == self.selectedCategory}
+        }
+        }else{
+            if name.count != 0 {
+                self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased())}
+            } else {
+                self.postsObserved.data = self.posts.data
+            }
+            
         }
         self.filtre()
     }
@@ -101,7 +130,7 @@ struct searchBarView : View {
         }
         
     }
-
+    
     var body: some View {
         let binding = Binding<String>(get: {
             self.name
@@ -109,11 +138,35 @@ struct searchBarView : View {
             self.name = $0
             self.setSearchBarResult()
         })
+        let catBinding = Binding<Int>(get: {
+            self.selectedCategory
+            
+        },set :{
+            self.selectedCategory = $0
+            self.setSearchCategory()
+            
+        })
+        
         return
             VStack{
                 HStack(alignment:.top){
-                    TextField("Search", text: binding).background(lightGreyColor).padding()
-                    
+                   
+                    VStack {
+                        Form{
+                         
+                                 TextField("Search", text: binding).background(lightGreyColor).padding()
+                            Picker(selection: catBinding, label: Text("Categegory")) {
+                                ForEach(self.postCategory.data){
+                                    category in
+                                    Text(category.description).tag(category.post_category_id)
+                                }
+                                
+                            }
+                                
+                        }.frame(height: 100)
+                       
+                      
+                    }
                 }
                 
                 HStack{

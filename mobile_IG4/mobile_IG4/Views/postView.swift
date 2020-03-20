@@ -184,16 +184,7 @@ struct postView: View {
                                         Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
                                     }
                                 }
-                            }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle()).onAppear(){
-                                if(self.user.isLogged) {
-                                    if(self.reportPostDAL.hasReported(user: self.user, postElt: self.post)) {
-                                        self.already.reported = true
-                                    }
-                                    if(self.opinionDAL.hasLiked(user: self.user, post: self.post)) {
-                                        self.already.liked = true
-                                    }
-                                }
-                            }
+                            }.padding([.horizontal], 40).padding([.vertical], 5).background(config.postbarColor()).buttonStyle(PlainButtonStyle())
                         }.padding([.top],10).background(config.postColor()).cornerRadius(5.0).shadow(color: Color.black.opacity(0.3),
                         radius: 3,
                         x: 3,

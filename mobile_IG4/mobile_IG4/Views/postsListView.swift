@@ -34,8 +34,12 @@ struct postsListView: View {
     }
     
     var body: some View {
+    
             return
             List {
+                if(postsObserved.data.count ==  0){
+                    Text("No post")
+                }else{
                 ForEach(0...postsObserved.data.count - 1, id: \.self) {
                     i in
                     HStack{
@@ -44,7 +48,10 @@ struct postsListView: View {
                         }
                     }
                 }
-            }.padding(.bottom, 20.0)
+                }
+                }.padding(.bottom, 20.0)
+            
+       
         
     }
     
