@@ -28,12 +28,13 @@ struct addPostView: View {
     @State private var value : CGFloat = 0
     @State var title: String = ""
     @State var description: String = ""
+    @State var isChecked:Bool = false
     private var postDAL : PostDAL = PostDAL()
     
     
-    
+    func toggle(){isChecked = !isChecked}
     func addPost(){
-        if(postDAL.addPost(title: self.title, description: self.description, category: self.selectedCategory,image: inputImage,userE: userE, ext: self.ext)){
+        if(postDAL.addPost(title: self.title, description: self.description, category: self.selectedCategory,image: inputImage,userE: userE, ext: self.ext,location : "",anonymous:self.isChecked)){
             self.presentationMode.wrappedValue.dismiss()
         }
     }
@@ -95,6 +96,10 @@ struct addPostView: View {
                             .background(self.lightGreyColor)
                             .cornerRadius(5.0)
                             .padding(.bottom,20)
+                        Button(action: self.toggle){
+                            Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
+                            Text("anonymous ?")
+                        }
                         
                         
                         ZStack{

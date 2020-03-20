@@ -37,6 +37,28 @@ struct postView: View {
         opinionDAL.like(user: self.user, post: self.post)
     }
     
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
     
     
      
@@ -51,6 +73,15 @@ struct postView: View {
                                 Text(self.post.username)
                                 Spacer()
                                 Text(self.post.date.split(separator: "T")[0].replacingOccurrences(of: "-", with: "/"))
+                            }.padding([.horizontal], 20).padding([.bottom], 10)
+                            HStack {
+                                if(self.post.location.count > 1){
+                                    Text("🗺️: "+self.post.location)
+                                }
+                                Spacer()
+                                Circle().fill(Color(self.hexStringToUIColor(hex: self.post.couleur))).frame(width: 25,height: 25)
+                                
+                                
                             }.padding([.horizontal], 20).padding([.bottom], 10)
                             HStack{
                                 HStack {

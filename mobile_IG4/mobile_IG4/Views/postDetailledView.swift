@@ -151,6 +151,7 @@ struct comments : View{
     var rateCommentDAL = RateCommentDAL()
     var reportCommentDAL = ReportCommentDAL()
     
+    
     init(commentsState : CommentsSet, user : User){
         self.commentsList = commentsState
         self.user = user
@@ -198,7 +199,7 @@ struct inputComment : View{
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var user : User
     var config = Config()
-
+    @State var isChecked:Bool = false
     
     
     @ObservedObject var post : Post
@@ -208,6 +209,7 @@ struct inputComment : View{
         var description : String
         var post_id : Int
         var category : Int
+        var anonyme : Bool
     }
     struct Response :Decodable {
         var result: Bool
@@ -216,9 +218,9 @@ struct inputComment : View{
     
     func sendNewComment(){
         if let author = user.user {
-            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0, dislike : 0)
+            let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0, dislike : 0,anonyme:(self.isChecked == true ? 1 : 0))
             
-            let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11)
+            let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11,anonyme: self.isChecked)
                 guard let encoded = try? JSONEncoder().encode(commentF) else {
                     print("Failed to encode order")
                     return
@@ -241,6 +243,7 @@ struct inputComment : View{
                                     if(res2.result == true){
                                         isCreate = true
                                         comment.comment_id = res2.id
+                                        print("created !")
                                     }
                                 }else{
                                     print("error")
@@ -261,10 +264,16 @@ struct inputComment : View{
         
         
     }
+    func toggle(){isChecked = !isChecked}
+    
     var body: some View{
         HStack{
             Spacer()
             if(user.isLogged){
+                Button(action: self.toggle){
+                    Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
+                    Text("anonymous ?")
+                }
                 TextField("Enter a comment", text:$message)
                     .padding()
                     .background(lightGreyColor)

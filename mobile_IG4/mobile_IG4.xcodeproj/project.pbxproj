@@ -601,14 +601,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile_IG4/Preview Content\"";
-				DEVELOPMENT_TEAM = QGMSVDJD8U;
+				DEVELOPMENT_TEAM = HY6P82H4N9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = mobile_IG4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4-saynotosexism";
+				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4-saynotosexism2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -623,14 +623,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"mobile_IG4/Preview Content\"";
-				DEVELOPMENT_TEAM = QGMSVDJD8U;
+				DEVELOPMENT_TEAM = HY6P82H4N9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = mobile_IG4/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4-saynotosexism";
+				PRODUCT_BUNDLE_IDENTIFIER = "Polytech.mobile-IG4-saynotosexism2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

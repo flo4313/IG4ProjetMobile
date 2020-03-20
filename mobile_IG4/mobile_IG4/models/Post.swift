@@ -15,12 +15,14 @@ class Post : ObservableObject,Identifiable, Codable {
     var title : String = "test"
     var description : String = ""
     var post_category : Int = 0
+    var couleur: String = ""
     var author : Int = 0
     var url_image : String = "" 
     var date : String = ""
     var like : Int = 0
     var comment : Int = 0
     var username : String
+    var location : String
     
     @Published var commentsi : CommentsSet?
     
@@ -37,6 +39,8 @@ class Post : ObservableObject,Identifiable, Codable {
         case author
         case url_image
         case date
+        case location
+        case couleur
         case comment
         case like
         case commentsi
@@ -59,8 +63,10 @@ class Post : ObservableObject,Identifiable, Codable {
         self.date = try  container.decode(String.self,forKey: .date)
         self.comment = try container.decode(Int.self, forKey: .comment)
         self.like = try container.decode(Int.self, forKey: .like)
+        self.couleur = try container.decode(String.self, forKey: .couleur)
         self.commentsi = try? container.decode(CommentsSet?.self,forKey: .commentsi)
-        self.username = try container.decode(String.self, forKey: .username)        
+        self.username = try container.decode(String.self, forKey: .username)
+        self.location = try container.decode(String.self, forKey: .location)
     }
     
 }

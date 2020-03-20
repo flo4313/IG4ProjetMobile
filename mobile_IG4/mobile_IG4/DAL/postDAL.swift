@@ -18,6 +18,8 @@ class PostDAL{
         var category : Int
         var `extension` : String
         var data : String
+        var location : String
+        var anonymous : Bool
     }
     
     struct Response :Decodable {
@@ -27,12 +29,12 @@ class PostDAL{
     
     
     
-    func addPost(title:String, description: String, category: Int, image: UIImage?, userE: User, ext: String) -> Bool{
+    func addPost(title:String, description: String, category: Int, image: UIImage?, userE: User, ext: String,location: String,anonymous: Bool) -> Bool{
         var data : String = ""
         if let postImage : UIImage = image{
             data = config.convertImageToBase64(postImage)
         }
-        let post = AddPostForm(title: title, description: description, category: category,extension: ext,data: data)
+        let post = AddPostForm(title: title, description: description, category: category,extension: ext,data: data,location : location,anonymous:anonymous)
         guard let encoded = try? JSONEncoder().encode(post) else {
             print("Failed to encode order")
             return false

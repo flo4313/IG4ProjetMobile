@@ -26,7 +26,7 @@ struct CommentView : View{
         VStack{
             HStack {
                 //username and date
-                Text(comment.username)
+                Text((comment.anonyme == 1 ? "anonyme" : comment.username))
                 Spacer()
                 Text(comment.date.split(separator: "T")[0].split(separator: " ")[0].replacingOccurrences(of: "-", with: "/"))
                 //Text(comment.category_description).background(Color.red).cornerRadius(10.0)
