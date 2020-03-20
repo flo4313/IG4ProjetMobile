@@ -22,10 +22,11 @@ class Comment : ObservableObject, Identifiable, Codable {
     var dislike : Int
     var category_description : String
     var anonyme : Int
+    var color : String
     //var color : String
     
     
-    init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String, username : String, like : Int, dislike : Int,anonyme : Int){
+    init(comment_id : Int, description : String, comment_category : Int, author : Int, post : Int, date : String, username : String, like : Int, dislike : Int,anonyme : Int,color : String){
         self.comment_id = comment_id
         self.description = description
         self.comment_category = comment_category
@@ -37,6 +38,6 @@ class Comment : ObservableObject, Identifiable, Codable {
         self.dislike = dislike
         self.category_description = "new"
         self.anonyme = anonyme
-        //self.color = "#00FF00"
+        self.color = color
     }
 }

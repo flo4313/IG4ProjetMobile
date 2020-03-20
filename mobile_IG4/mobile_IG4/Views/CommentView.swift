@@ -22,16 +22,43 @@ struct CommentView : View{
         self.comment = comment
         self.already = already
     }
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
     var body: some View {
         VStack{
+            VStack{
             HStack {
                 //username and date
-                Text((comment.anonyme == 1 ? "anonyme" : comment.username))
+                Text((comment.anonyme == 1 ? "@anonyme" : "@"+comment.username))
                 Spacer()
                 Text(comment.date.split(separator: "T")[0].split(separator: " ")[0].replacingOccurrences(of: "-", with: "/"))
                 //Text(comment.category_description).background(Color.red).cornerRadius(10.0)
-            }.padding(10).background(config.postbarColor())
-
+            }.padding(10)
+            HStack {
+                Spacer()
+                Circle().fill(Color(self.hexStringToUIColor(hex: comment.color))).frame(width: 25,height: 25)
+                
+            }.padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 10))
+            }.background(config.postbarColor())
             HStack{
                 //Comment
                 Text(comment.description)
