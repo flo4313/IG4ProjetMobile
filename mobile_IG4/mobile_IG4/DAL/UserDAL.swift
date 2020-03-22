@@ -13,6 +13,7 @@ class UserDAL{
     private var config : Config = Config()
     @Environment(\.presentationMode) var presentationMode
     
+    
    struct Result :Decodable {
        var result: Bool
        
@@ -162,13 +163,14 @@ class UserDAL{
         var username : String
         var firstname : String
         var lastname : String
+        var password: String
         var birthday : Date
         var mail : String
         var sexe : Bool
         var admin : Int
     }
     
-    func modifyUser(id : Int, username : String, firstname : String,lastname: String,admin : Int,sexe:String,birthday:String,mail:String) -> Bool{
+    func modifyUser(id : Int, username : String, firstname : String,lastname: String,admin : Int,sexe:String,birthday:String,mail:String,token : String) -> Bool{
         var s : Bool
         if(sexe == "M"){
             s = true
@@ -179,7 +181,7 @@ class UserDAL{
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd"
         guard let date = df.date(from : String(birthday.split(separator: "T")[0])) else { return false }
-        let user = ModifyUserForm(username: username, firstname: firstname, lastname: lastname, birthday: date, mail: mail, sexe: s, admin : admin)
+        let user = ModifyUserForm(username: username, firstname: firstname, lastname: lastname,password: "", birthday: date, mail: mail, sexe: s, admin : admin)
         guard let encoded = try? JSONEncoder().encode(user) else {
             print("Failed to encode order")
             return false
@@ -187,10 +189,11 @@ class UserDAL{
         var isModified = false
         let group = DispatchGroup()
         group.enter()
-        if let url = URL(string: "https://thomasfaure.fr/user/\(id)/edit") {
+        if let url = URL(string: "https://thomasfaure.fr/user/"+String(id)+"/edit") {
             var request = URLRequest(url: url)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Application")
+            request.setValue("Bearer "+token,forHTTPHeaderField: "Authorization")
             request.httpMethod = "POST"
             request.httpBody = encoded
             URLSession.shared.dataTask(with: request) { data, response, error in

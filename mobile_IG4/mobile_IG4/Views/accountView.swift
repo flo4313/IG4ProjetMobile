@@ -78,7 +78,7 @@ struct accountView: View {
                 .padding(.bottom,20)
             }.padding()
             HStack {
-                Button(action: {self.userDal.modifyUser(id: self.myUser.user_id, username: self.username, firstname: self.firstname, lastname: self.lastname, admin: self.myUser.admin, sexe: self.myUser.sexe, birthday: self.myUser.birthday, mail: self.mail)}) {
+                Button(action: {self.userDal.modifyUser(id: self.myUser.user_id, username: self.username, firstname: self.firstname, lastname: self.lastname, admin: self.myUser.admin, sexe: self.myUser.sexe, birthday: self.myUser.birthday, mail: self.mail,token: self.user.token)}) {
                     Text("Modify")
                         .font(.headline)
                             .foregroundColor(.white)
