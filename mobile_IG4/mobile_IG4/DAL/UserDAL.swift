@@ -156,5 +156,63 @@ class UserDAL{
         }
         group.wait()
         return isCreate
-    }    
+    }
+    
+    struct ModifyUserForm : Codable {
+        var username : String
+        var firstname : String
+        var lastname : String
+        var birthday : Date
+        var mail : String
+        var sexe : Bool
+        var admin : Int
+    }
+    
+    func modifyUser(id : Int, username : String, firstname : String,lastname: String,admin : Int,sexe:String,birthday:String,mail:String) -> Bool{
+        var s : Bool
+        if(sexe == "M"){
+            s = true
+        }
+        else {
+            s = false
+        }
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        guard let date = df.date(from : String(birthday.split(separator: "T")[0])) else { return false }
+        let user = ModifyUserForm(username: username, firstname: firstname, lastname: lastname, birthday: date, mail: mail, sexe: s, admin : admin)
+        guard let encoded = try? JSONEncoder().encode(user) else {
+            print("Failed to encode order")
+            return false
+        }
+        var isModified = false
+        let group = DispatchGroup()
+        group.enter()
+        if let url = URL(string: "https://thomasfaure.fr/user/\(id)/edit") {
+            var request = URLRequest(url: url)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Application")
+            request.httpMethod = "POST"
+            request.httpBody = encoded
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let data = data {
+                    let res = try? JSONDecoder().decode(Result.self, from: data)
+                    if let res2 = res{
+                        if(res2.result == true){
+                            isModified = true
+                            print("modififed")
+                        } else {
+                            print("not modified")
+                        }
+                    }else{
+                        print("error")
+                        
+                    }
+                    group.leave()
+                    
+                }
+            }.resume()
+        }
+        group.wait()
+        return isModified
+    }
 }

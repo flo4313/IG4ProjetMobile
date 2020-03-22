@@ -11,13 +11,17 @@ import SwiftUI
 
 struct accountView: View {
     var user : User
+    var myUser : UserModel
+    var userDal = UserDAL()
     @State private var username : String = ""
     @State private var firstname : String = ""
     @State private var lastname : String = ""
     @State private var mail : String = ""
     
+    
     init(user : User) {
         self.user = user
+        self.myUser = user.user!
         if let myUser = user.user {
             _username = State(initialValue: myUser.username)
             _firstname = State(initialValue: myUser.firstname)
@@ -74,7 +78,7 @@ struct accountView: View {
                 .padding(.bottom,20)
             }.padding()
             HStack {
-                Button(action: {print("TODO Update")}) {
+                Button(action: {self.userDal.modifyUser(id: self.myUser.user_id, username: self.username, firstname: self.firstname, lastname: self.lastname, admin: self.myUser.admin, sexe: self.myUser.sexe, birthday: self.myUser.birthday, mail: self.mail)}) {
                     Text("Modify")
                         .font(.headline)
                             .foregroundColor(.white)
