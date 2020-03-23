@@ -8,10 +8,9 @@
 
 import Foundation
 import SwiftUI
-
+import CoreLocation
 class PostDAL{
     var config : Config = Config()
-    
     struct AddPostForm : Codable{
         var title:String
         var description:String
@@ -21,6 +20,13 @@ class PostDAL{
         var location : String
         var anonymous : Bool
     }
+    struct AdressResponse : Decodable {
+        var village: String?
+        var city: String?
+    }
+    struct LocalisationResponse : Decodable{
+        var address : AdressResponse
+    }
     
     struct Response :Decodable {
         var result: Bool
@@ -28,8 +34,42 @@ class PostDAL{
     }
     
     
-    
-    func addPost(title:String, description: String, category: Int, image: UIImage?, userE: User, ext: String,location: String,anonymous: Bool) -> Bool{
+    func addPost(title:String, description: String, category: Int, image: UIImage?, userE: User, ext: String,latitude: Double?,longitude: Double?,anonymous: Bool) -> Bool{
+            var location = ""
+            let groupLocation = DispatchGroup()
+            groupLocation.enter()
+            if let url = URL(string:"https://nominatim.openstreetmap.org/reverse?format=json&lat=\(latitude ?? 0.0)&lon=\(longitude ?? 0.0)&zoom=18&addressdetails=1") {
+                var request = URLRequest(url: url)
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.setValue("application/json", forHTTPHeaderField: "Application")
+                request.httpMethod = "GET"
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let data = data {
+                        let res = try? JSONDecoder().decode(LocalisationResponse.self, from: data)
+                        if let res2 = res{
+                         
+                            if let city : String = res2.address.city{
+                                print(city)
+                                location = city
+                            }
+                            if let village : String = res2.address.village{
+                                print(village)
+                                location = village
+                            }
+                            groupLocation.leave()
+                            
+                        }else{
+                          
+                            groupLocation.leave()
+                        }
+                    
+                        
+                    }
+                }.resume()
+            }
+            
+        groupLocation.wait()
+     
         var data : String = ""
         if let postImage : UIImage = image{
             data = config.convertImageToBase64(postImage)

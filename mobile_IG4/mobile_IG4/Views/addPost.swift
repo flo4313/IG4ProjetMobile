@@ -7,18 +7,38 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 
-
-struct addPostView: View {
+struct addPostView: View{
+    private var locationManager: CLLocationManager?
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var userE : User
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     init(postsObserved : PostSet){
         self.postsObserved = postsObserved
         self.postCategory = PostCategorySet()
+        self.locationManager = CLLocationManager()
+        self.locationManager?.requestAlwaysAuthorization()
+        self.locationManager?.startUpdatingLocation()
+        let status = CLLocationManager.authorizationStatus()
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            print("lets go!!!")
+            
+            self.latitude = Double(self.locationManager!.location?.coordinate.latitude ?? 0)
+            print(self.latitude)
+            self.longitude = Double(self.locationManager!.location?.coordinate.longitude ?? 0)
+            print(self.longitude)
+        }else{
+            self.latitude = nil
+            self.longitude = nil
+        }
+        
     }
+
     var postCategory : PostCategorySet
+    var latitude : Double?
+    var longitude : Double?
     @State private var image: Image?
     @State private var ext : String = ""
     @State private var showingImage = false
@@ -34,7 +54,7 @@ struct addPostView: View {
     
     func toggle(){isChecked = !isChecked}
     func addPost(){
-        if(postDAL.addPost(title: self.title, description: self.description, category: self.selectedCategory,image: inputImage,userE: userE, ext: self.ext,location : "",anonymous:self.isChecked)){
+        if(postDAL.addPost(title: self.title, description: self.description, category: self.selectedCategory,image: inputImage,userE: userE, ext: self.ext,latitude: self.latitude,longitude: self.longitude,anonymous:self.isChecked)){
             self.presentationMode.wrappedValue.dismiss()
         }
     }
@@ -144,6 +164,7 @@ struct addPostView: View {
             .offset(y: -self.value)
             .animation(.spring())
             .onAppear{
+                
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){
                     (noti) in
                     let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
