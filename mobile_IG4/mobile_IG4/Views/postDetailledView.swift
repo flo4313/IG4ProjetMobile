@@ -195,11 +195,11 @@ struct comments : View{
     var body: some View {
         VStack{
             Text("il y a "+String(commentsList.data.count)+" réponse(s)")
-            List {
+            VStack {
                 if(self.commentsList.data.count > 0)  {
                     ForEach(0...commentsList.data.count - 1, id: \.self) {
                         i in
-                        CommentView(comment: self.commentsList.data[i], already: self.already[i])
+                        CommentView(comment: self.commentsList.data[i], already: self.already[i]).padding()
                     }
                 }
             }.padding(.bottom, 20.0)
@@ -356,8 +356,11 @@ struct postDetailledView: View {
     
     var body: some View {
         VStack{
-        post(postElt: postElt, already: already)
-            comments(commentsState: commentsState, user : user)
+            ScrollView {
+                post(postElt: postElt, already: already)
+                comments(commentsState: commentsState, user : user)
+                
+            }
         Spacer()
             inputComment(post: postElt)
         }
