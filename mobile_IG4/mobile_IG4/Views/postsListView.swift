@@ -15,23 +15,13 @@ struct postsListView: View {
     var postDAL = PostDAL()
     @EnvironmentObject var userE: User
     @ObservedObject var postsObserved : PostSet
-    var already : [Already]
-    var descriptionBestAnswer : [String]
+    @ObservedObject var already : AlreadySet
+    @ObservedObject var descriptionBestAnswer : StringSet
     
-    init(postsObserved: PostSet) {
+    init(postsObserved: PostSet, already : AlreadySet, descriptionBestAnswer : StringSet) {
         self.postsObserved = postsObserved
-        self.already = (0...postsObserved.data.count - 1).map{_ in Already()}
-        let bestAnswers = postDAL.getBestAnswers()
-        let tmp = postsObserved
-        self.descriptionBestAnswer = tmp.data.map({(post) -> String in
-            for answer in bestAnswers {
-                if(answer.post == post.post_id && answer.rate > 0) {
-                    return answer.description
-                }
-            }
-            return ""
-        })
-        print(descriptionBestAnswer)
+        self.already = already
+        self.descriptionBestAnswer = descriptionBestAnswer
     }
     
     var body: some View {
@@ -44,8 +34,8 @@ struct postsListView: View {
                 ForEach(0...postsObserved.data.count - 1, id: \.self) {
                     i in
                     HStack{
-                        NavigationLink(destination : postDetailledView(postEl: self.postsObserved.data[i], already: self.already[i])){
-                            postView(post: self.postsObserved.data[i], already : self.already[i], descriptionBestAnswer: self.descriptionBestAnswer[i],user: self.userE)
+                        NavigationLink(destination : postDetailledView(postEl: self.postsObserved.data[i], already: self.already.data[i])){
+                            postView(post: self.postsObserved.data[i], already : self.already.data[i], descriptionBestAnswer: self.descriptionBestAnswer.data[i],user: self.userE)
                         }
                     }
                 }
@@ -64,9 +54,11 @@ struct CustomScrollView : UIViewRepresentable {
     var height : CGFloat
 
     let postsObserved : PostSet
+    var already : AlreadySet
+    var descriptionBestAnswer : StringSet
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, posts: postsObserved)
+        Coordinator(self, posts: postsObserved, already : already, descriptionBestAnswer: descriptionBestAnswer)
     }
     
     func makeUIView(context: Context) -> UIScrollView {
@@ -75,7 +67,7 @@ struct CustomScrollView : UIViewRepresentable {
             control.refreshControl?.addTarget(context.coordinator, action:
                 #selector(Coordinator.handleRefreshControl),
                                               for: .valueChanged)
-        let childView = UIHostingController(rootView: postsListView(postsObserved: postsObserved))
+        let childView = UIHostingController(rootView: postsListView(postsObserved: postsObserved, already: already, descriptionBestAnswer : descriptionBestAnswer))
             childView.view.frame = CGRect(x: 0, y: 0, width: width, height: height)
             
             control.addSubview(childView.view)
@@ -87,14 +79,32 @@ struct CustomScrollView : UIViewRepresentable {
     class Coordinator: NSObject {
         var control: CustomScrollView
         var posts : PostSet
-        init(_ control: CustomScrollView, posts: PostSet) {
+        var already : AlreadySet
+        var descriptionBestAnswer : StringSet
+        var postDAL = PostDAL()
+        
+        init(_ control: CustomScrollView, posts: PostSet, already: AlreadySet, descriptionBestAnswer : StringSet) {
             self.control = control
             self.posts = posts
+            self.already = already
+            self.descriptionBestAnswer = descriptionBestAnswer
         }
+        
         @objc func handleRefreshControl(sender: UIRefreshControl) {
                 sender.endRefreshing()
                 self.posts.data.removeAll()
                 self.posts.setData()
+                self.already.data = (0...posts.data.count - 1).map{_ in Already()}
+                let bestAnswers = postDAL.getBestAnswers()
+                let tmp = posts
+                self.descriptionBestAnswer.data = tmp.data.map({(post) -> String in
+                    for answer in bestAnswers {
+                        if(answer.post == post.post_id && answer.rate > 0) {
+                            return answer.description
+                        }
+                    }
+                    return ""
+                })
                 
         }
     }

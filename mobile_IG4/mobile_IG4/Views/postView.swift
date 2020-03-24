@@ -15,9 +15,11 @@ struct postView: View {
     var user : User
     @ObservedObject var already: Already
     @State private var showingLoginAlert = false
+    @State private var showingDeletedAlert = false
     let decriptionBestAnswer : String
     private var opinionDAL : OpinionDAL = OpinionDAL()
     var reportPostDAL : ReportPostDAL = ReportPostDAL()
+    var postDAL = PostDAL()
     let imageLoader : ImageLoader
     
     init(post: Post, already : Already, descriptionBestAnswer : String,user: User){
@@ -84,6 +86,17 @@ struct postView: View {
                                 Text(self.post.username)
                                 Spacer()
                                 Text(self.post.date.split(separator: "T")[0].replacingOccurrences(of: "-", with: "/"))
+                                if(self.user.isLogged && self.post.author == self.user.user?.user_id) {
+                                    Button(action: {
+                                        if(self.postDAL.delete(post: self.post, user: self.user)) {
+                                            self.showingDeletedAlert = true
+                                        }
+                                    }){
+                                        Image("cancel").resizable().frame(width: 15, height: 15)
+                                    }.buttonStyle(PlainButtonStyle()).alert(isPresented: $showingDeletedAlert) {
+                                        Alert(title: Text("Deleted"), message: Text("Post deleted"), dismissButton: .default(Text("Got it!")))
+                                    }
+                                }
                             }.padding([.horizontal], 20).padding([.bottom], 10)
                             HStack {
                                 if(self.post.location.count > 1){
@@ -105,6 +118,7 @@ struct postView: View {
                                     Spacer()
                                     Text("#\(self.post.post_id)")
                                         .padding([.horizontal])
+                                        
                                 }.background(config.postbarColor()).cornerRadius(5.0)
                                 
                             }.padding([.horizontal])

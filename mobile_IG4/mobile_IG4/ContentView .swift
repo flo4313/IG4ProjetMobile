@@ -14,9 +14,25 @@ struct ContentView: View {
     @EnvironmentObject var userE: User
     @ObservedObject var postsObserved : PostSet
     @ObservedObject var posts : PostSet
+    @ObservedObject var already : AlreadySet = AlreadySet()
+    @ObservedObject var descriptionBestAnswer : StringSet = StringSet()
+    var postDAL = PostDAL()
     init(){
         self.posts = PostSet(search: true)
         self.postsObserved = PostSet(search: true)
+        
+        self.already.data = (0...postsObserved.data.count - 1).map{_ in Already()}
+        let bestAnswers = postDAL.getBestAnswers()
+        let tmp = postsObserved
+        self.descriptionBestAnswer.data = tmp.data.map({(post) -> String in
+            for answer in bestAnswers {
+                if(answer.post == post.post_id && answer.rate > 0) {
+                    return answer.description
+                }
+            }
+            return ""
+        })
+        print(descriptionBestAnswer)
         
     }
     
@@ -41,7 +57,7 @@ struct ContentView: View {
                         if(self.postsObserved.data.count != 0){
                             GeometryReader{
                                 geometry in
-                                CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved)
+                                CustomScrollView(width: geometry.size.width, height: geometry.size.height, postsObserved: self.postsObserved, already: self.already, descriptionBestAnswer: self.descriptionBestAnswer)
                             }
                         }
                         else{
