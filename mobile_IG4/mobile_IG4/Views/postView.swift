@@ -20,7 +20,7 @@ struct postView: View {
     private var opinionDAL : OpinionDAL = OpinionDAL()
     var reportPostDAL : ReportPostDAL = ReportPostDAL()
     var postDAL = PostDAL()
-    let imageLoader : ImageLoader
+    @ObservedObject var imageLoader : ImageLoader
     
     init(post: Post, already : Already, descriptionBestAnswer : String,user: User){
         self.post = post
