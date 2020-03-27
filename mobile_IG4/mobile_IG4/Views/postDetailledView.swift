@@ -283,6 +283,7 @@ struct inputComment : View{
     var body: some View{
         HStack{
             if(user.isLogged){
+                VStack{
                     Form{
                             Section{
                         Picker(selection: self.$selectedCategory, label: Text("Category")) {
@@ -291,8 +292,8 @@ struct inputComment : View{
                                 Text(category.description).tag(category.comment_category_id)
                             }
                                 }
-                        }
-                        Section{
+                        }}.frame(height:80)
+                        
                             HStack{
                 Button(action: self.toggle){
                     Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
@@ -309,7 +310,7 @@ struct inputComment : View{
                    .padding()
                    .background(Color.green)
                    .cornerRadius(15.0)
-                                }}}}.frame(height:220)
+                                }}}
             } else {
                 VStack {
                     Text("Login to answer !").padding()
