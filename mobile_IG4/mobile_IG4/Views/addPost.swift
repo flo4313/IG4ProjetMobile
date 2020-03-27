@@ -134,14 +134,15 @@ struct addPostView: View{
                             self.showingImage = true
                         }
                         
-                        Picker(selection: self.$selectedCategory, label: Text("Categegory")) {
+                        Form{
+                        Picker(selection: self.$selectedCategory, label: Text("Category")) {
                             ForEach(self.postCategory.data){
                                 category in
                                 Text(category.description).tag(category.post_category_id)
                             }
                             
                         }
-                        
+                        }.frame(width:geometry.size.width, height: 100)
                         Button(action: {self.addPost()}) {
                             Text("Add")
                                 .font(.headline)

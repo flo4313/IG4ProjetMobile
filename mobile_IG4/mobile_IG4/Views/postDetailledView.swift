@@ -60,6 +60,7 @@ struct post : View{
                     }
                     Text(self.postElt.description)
                     .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
                 }.padding([.horizontal], 20).padding([.vertical], 15)
@@ -212,7 +213,8 @@ struct inputComment : View{
     @EnvironmentObject var user : User
     var config = Config()
     @State var isChecked:Bool = false
-    
+    @State private var selectedCategory : Int = 0
+    var commentCategory : CommentCategoryDAL = CommentCategoryDAL()
     
     @ObservedObject var post : Post
     @State private var message: String = " "
@@ -232,7 +234,7 @@ struct inputComment : View{
         if let author = user.user {
             let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0, dislike : 0,anonyme:(self.isChecked == true ? 1 : 0),color: "#ffffff")
             
-            let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: 11,anonyme: self.isChecked)
+            let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: self.selectedCategory,anonyme: self.isChecked)
                 guard let encoded = try? JSONEncoder().encode(commentF) else {
                     print("Failed to encode order")
                     return
@@ -280,8 +282,18 @@ struct inputComment : View{
     
     var body: some View{
         HStack{
-            Spacer()
             if(user.isLogged){
+                    Form{
+                            Section{
+                        Picker(selection: self.$selectedCategory, label: Text("Category")) {
+                            ForEach(self.commentCategory.data){
+                                category in
+                                Text(category.description).tag(category.comment_category_id)
+                            }
+                                }
+                        }
+                        Section{
+                            HStack{
                 Button(action: self.toggle){
                     Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
                     Text("anonymous ?")
@@ -297,8 +309,7 @@ struct inputComment : View{
                    .padding()
                    .background(Color.green)
                    .cornerRadius(15.0)
-                }
-                Spacer()
+                                }}}}.frame(height:220)
             } else {
                 VStack {
                     Text("Login to answer !").padding()

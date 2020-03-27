@@ -22,9 +22,9 @@ struct searchBarView : View {
     @State private var name: String = ""
     var postCategory : PostCategorySet =  PostCategorySet()
     @State private var selectedCategory : Int = -1
-
+    
     init(posts : PostSet,postsObserved: PostSet){
-         UITableView.appearance().backgroundColor = .clear
+        UITableView.appearance().backgroundColor = .clear
         self.posts = posts
         self.postsObserved = postsObserved
         self.postCategory = PostCategorySet()
@@ -46,11 +46,11 @@ struct searchBarView : View {
     }
     func setSearchBarResult(){
         if(self.selectedCategory != -1){
-        if name.count != 0 {
-            self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased()) && $0.post_category == self.selectedCategory}
-        } else {
-            self.postsObserved.data = self.posts.data.filter{$0.post_category == self.selectedCategory}
-        }
+            if name.count != 0 {
+                self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased()) && $0.post_category == self.selectedCategory}
+            } else {
+                self.postsObserved.data = self.posts.data.filter{$0.post_category == self.selectedCategory}
+            }
         }else{
             if name.count != 0 {
                 self.postsObserved.data = self.posts.data.filter{$0.title.lowercased().contains(name.lowercased())}
@@ -109,7 +109,7 @@ struct searchBarView : View {
         }
         
     }
-
+    
     func filterByPopulaire(){
         self.orderByDateAcd = 0
         self.recent = "Recent"
@@ -149,61 +149,66 @@ struct searchBarView : View {
         })
         
         return
-            VStack{
-                HStack(alignment:.top){
-                   Spacer()
-                    HStack {
-                        TextField("Search", text: binding).background(lightGreyColor)
-                      
-                         
-                                 
-                            Picker(selection: catBinding, label: Text("Categegory")) {
-                                ForEach(self.postCategory.data){
-                                    category in
-                                    Text(category.description).tag(category.post_category_id)
+                VStack{
+                    HStack(alignment:.top){
+                        
+                            VStack{
+                                HStack{
+                                    TextField("Search", text: binding).background(lightGreyColor).textFieldStyle(RoundedBorderTextFieldStyle())
+                                }.frame(height:20).padding(.horizontal,5)
+                                
+                                Form{
+                                    Section{
+                                        Picker(selection: catBinding, label: Text("Category")) {
+                                            ForEach(self.postCategory.data){
+                                                category in
+                                                Text(category.description).tag(category.post_category_id)
+                                            }
+                                            
+                                        }.padding(.bottom,20).background(Color.white)
+                                    }
                                 }
                                 
-                            }.labelsHidden().padding(.bottom,10).frame(height: 100).background(Color.white)
+                                
+                            }
+    
+                    }.frame(height:100)
+                    
+                    HStack(alignment:.top){
+                        Spacer()
+                        Button(action: {self.filterByDate()}) {
+                            Text("\(self.recent)").padding(10)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .background(config.postbarColor())
+                                .cornerRadius(15.0)
+                            
+                        }
+                        Spacer()
                         
-                       
-                      
-                    }
+                        Button(action: {self.filterByComment()}) {
+                            Text("\(self.comment)")
+                                .padding(10)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .background(config.postbarColor())
+                                .cornerRadius(15.0)
+                        }
+                        
+                        Spacer()
+                        Button(action: {self.filterByPopulaire()}) {
+                            Text("\(self.populaire)")
+                                .padding(10)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .background(config.postbarColor())
+                                .cornerRadius(15.0)
+                            
+                        }
+                        Spacer()
+                    }.padding().background(config.postColor())
                 }
-                
-                HStack{
-                    Spacer()
-                    Button(action: {self.filterByDate()}) {
-                        Text("\(self.recent)").padding(10)
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .background(config.postbarColor())
-                            .cornerRadius(15.0)
-                        
-                    }
-                    Spacer()
-                    
-                    Button(action: {self.filterByComment()}) {
-                        Text("\(self.comment)")
-                            .padding(10)
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .background(config.postbarColor())
-                            .cornerRadius(15.0)
-                    }
-                    
-                    Spacer()
-                    Button(action: {self.filterByPopulaire()}) {
-                        Text("\(self.populaire)")
-                            .padding(10)
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .background(config.postbarColor())
-                            .cornerRadius(15.0)
-                        
-                    }
-                    Spacer()
-                }.padding().background(config.postColor())
-        }
+        
     }
 }
 

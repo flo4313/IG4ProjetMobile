@@ -43,7 +43,7 @@ struct ContentView: View {
         return
             NavigationView {
                 VStack{
-                    VStack{
+                    HStack{
                         searchBarView(posts : posts,postsObserved: postsObserved)
                     }.navigationBarItems(leading:
                     HStack {
@@ -52,7 +52,6 @@ struct ContentView: View {
                     })
                         .navigationBarTitle(Text("Say No To Sexism"))
                     
-                    Spacer()
                     ZStack{
                         if(self.postsObserved.data.count != 0){
                             GeometryReader{

@@ -115,6 +115,7 @@ struct postView: View {
                                         .foregroundColor(Color.black)
                                         .multilineTextAlignment(.leading)
                                         .padding([.horizontal])
+                                    .fixedSize(horizontal: false, vertical: true)
                                     Spacer()
                                     Text("#\(self.post.post_id)")
                                         .padding([.horizontal])
@@ -224,6 +225,7 @@ struct postView: View {
                             HStack{
                                 VStack{
                                     Text("Best answer : \n \(self.decriptionBestAnswer)")
+                                        .fixedSize(horizontal: false, vertical: true)
                                         .font(.footnote)
                                 }
                                 Spacer()
