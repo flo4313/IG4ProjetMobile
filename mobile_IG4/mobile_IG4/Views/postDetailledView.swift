@@ -200,7 +200,7 @@ struct comments : View{
                 if(self.commentsList.data.count > 0)  {
                     ForEach(0...commentsList.data.count - 1, id: \.self) {
                         i in
-                        CommentView(comment: self.commentsList.data[i], already: self.already[i]).padding()
+                        CommentView(comment: self.commentsList.data[i], already: self.already[i], commentList: self.commentsList).padding()
                     }
                 }
             }.padding(.bottom, 20.0)

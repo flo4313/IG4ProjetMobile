@@ -12,15 +12,18 @@ import SwiftUI
 struct CommentView : View{
     @ObservedObject var comment : Comment
     @ObservedObject var already : Already
+    @ObservedObject var commentsList : CommentsSet
     @State private var showingLoginAlert = false
     var config = Config()
     var rateCommentDAL = RateCommentDAL()
     var reportCommentDAL = ReportCommentDAL()
+    var commentDAL = CommentDAL()
     @EnvironmentObject var user : User
     
-    init(comment : Comment, already : Already) {
+    init(comment : Comment, already : Already, commentList : CommentsSet) {
         self.comment = comment
         self.already = already
+        self.commentsList = commentList
     }
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -51,6 +54,21 @@ struct CommentView : View{
                 Text((comment.anonyme == 1 ? "@anonyme" : "@"+comment.username))
                 Spacer()
                 Text(comment.date.split(separator: "T")[0].split(separator: " ")[0].replacingOccurrences(of: "-", with: "/"))
+                if(self.user.isLogged && self.comment.author == self.user.user?.user_id) {
+                    Button(action: {
+                        if(self.commentDAL.delete(comment: self.comment, user: self.user)) {
+                            print("deleted")
+                            var cpt = 0
+                            for cur in self.commentsList.data {
+                                if(cur.comment_id == self.comment.comment_id) {
+                                    self.commentsList.data.remove(at: cpt)
+                                }
+                                cpt += 1
+                            }
+                        }
+                    }){
+                        Image("cancel").resizable().frame(width: 15, height: 15)
+                    }.buttonStyle(PlainButtonStyle())                }
                 //Text(comment.category_description).background(Color.red).cornerRadius(10.0)
             }.padding(10)
             HStack {
