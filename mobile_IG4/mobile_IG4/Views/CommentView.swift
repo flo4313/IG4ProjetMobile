@@ -13,6 +13,7 @@ struct CommentView : View{
     @ObservedObject var comment : Comment
     @ObservedObject var already : Already
     @ObservedObject var commentsList : CommentsSet
+    @ObservedObject var alreadySet : AlreadySet
     @State private var showingLoginAlert = false
     var config = Config()
     var rateCommentDAL = RateCommentDAL()
@@ -20,10 +21,11 @@ struct CommentView : View{
     var commentDAL = CommentDAL()
     @EnvironmentObject var user : User
     
-    init(comment : Comment, already : Already, commentList : CommentsSet) {
+    init(comment : Comment, already : Already, commentList : CommentsSet, alreadySet : AlreadySet) {
         self.comment = comment
         self.already = already
         self.commentsList = commentList
+        self.alreadySet = alreadySet
     }
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -62,6 +64,7 @@ struct CommentView : View{
                             for cur in self.commentsList.data {
                                 if(cur.comment_id == self.comment.comment_id) {
                                     self.commentsList.data.remove(at: cpt)
+                                    self.alreadySet.data.remove(at: cpt)
                                 }
                                 cpt += 1
                             }

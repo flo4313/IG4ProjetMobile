@@ -160,7 +160,7 @@ struct post : View{
 struct comments : View{
     @ObservedObject var commentsList : CommentsSet
     var user : User
-    var already : [Already]
+    var already : AlreadySet
     var rateCommentDAL = RateCommentDAL()
     var reportCommentDAL = ReportCommentDAL()
     
@@ -168,25 +168,26 @@ struct comments : View{
     init(commentsState : CommentsSet, user : User){
         self.commentsList = commentsState
         self.user = user
+        self.already = AlreadySet()
         
         if(commentsState.data.count > 0) {
-            self.already = (0...commentsState.data.count - 1).map{_ in Already()}
+            self.already.data = (0...commentsState.data.count - 1).map{_ in Already()}
             
-            for i in 0...self.already.count - 1 {
+            for i in 0...self.already.data.count - 1 {
                 if(self.user.isLogged) {
                     if(self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 1) {
-                        self.already[i].liked = true
+                        self.already.data[i].liked = true
                     } else if (self.rateCommentDAL.hasRated(user: self.user, comment: commentsState.data[i]) == 0) {
-                        self.already[i].disliked = true
+                        self.already.data[i].disliked = true
                     }
                     
                     if(self.reportCommentDAL.hasReported(user: self.user, comment: commentsState.data[i])) {
-                        self.already[i].reported = true
+                        self.already.data[i].reported = true
                     }
                 }
             }
         } else {
-            self.already = []
+            self.already.data = []
         }
         
         
@@ -200,7 +201,7 @@ struct comments : View{
                 if(self.commentsList.data.count > 0)  {
                     ForEach(0...commentsList.data.count - 1, id: \.self) {
                         i in
-                        CommentView(comment: self.commentsList.data[i], already: self.already[i], commentList: self.commentsList).padding()
+                        CommentView(comment: self.commentsList.data[i], already: self.already.data[i], commentList: self.commentsList, alreadySet : self.already).padding()
                     }
                 }
             }.padding(.bottom, 20.0)
