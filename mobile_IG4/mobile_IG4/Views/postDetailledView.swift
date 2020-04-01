@@ -24,20 +24,20 @@ struct post : View{
     init(postElt : Post, already : Already){
         self.postElt = postElt
         self.already = already
-   
+        
         self.imageLoader = ImageLoader(urlString:"https://thomasfaure.fr/" + postElt.url_image)
-     
+        
     }
     func imageFromData(_ data:Data) ->UIImage{
         UIImage(data: data) ?? UIImage()
     }
-
+    
     
     
     var body: some View {
         HStack{
-
-        VStack{
+            
+            VStack{
                 HStack{
                     HStack {
                         Text(self.postElt.title)
@@ -55,12 +55,12 @@ struct post : View{
                 HStack {
                     Spacer()
                     VStack{
-                    if (self.postElt.url_image != ""){
-                    Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:250,height:250)
-                    }
-                    Text(self.postElt.description)
-                    .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
+                        if (self.postElt.url_image != ""){
+                            Image(uiImage: imageLoader.dataIsValid ? imageFromData(imageLoader.data!) : UIImage()).resizable().aspectRatio(contentMode: .fit).frame(width:250,height:250)
+                        }
+                        Text(self.postElt.description)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
                 }.padding([.horizontal], 20).padding([.vertical], 15)
@@ -69,8 +69,8 @@ struct post : View{
                     if(self.user.isLogged) {
                         if(self.already.liked) {
                             Button(action: {
-                                    self.sendLike()
-                                    self.already.liked = !self.already.liked
+                                self.sendLike()
+                                self.already.liked = !self.already.liked
                             }) {
                                 Text("\(self.postElt.like)").foregroundColor(Color.yellow)
                                 Image("earLiked").resizable().frame(width: 30, height: 30)
@@ -78,8 +78,8 @@ struct post : View{
                             
                         } else {
                             Button(action: {
-                                    self.sendLike()
-                                    self.already.liked = !self.already.liked
+                                self.sendLike()
+                                self.already.liked = !self.already.liked
                             }) {
                                 Text("\(self.postElt.like)")
                                 Image("ear").resizable().frame(width: 30, height: 30)
@@ -102,37 +102,37 @@ struct post : View{
                                 self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
                                 self.already.reported = !self.already.reported
                             }) {
-                            Image("warning")
-                             .resizable()
-                             .frame(width: 30, height: 30)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.red)
-                            .cornerRadius(15.0)
+                                Image("warning")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.red)
+                                    .cornerRadius(15.0)
                             }
                         } else {
                             Button(action: {
-                                    self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
-                                    self.already.reported = !self.already.reported
+                                self.reportPostDAL.sendReport(user : self.user, postElt : self.postElt)
+                                self.already.reported = !self.already.reported
                             }) {
-                            Image("warning")
-                             .resizable()
-                             .frame(width: 30, height: 30)
-                            .foregroundColor(.white)
-                            .padding()
-                            .cornerRadius(15.0)
+                                Image("warning")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .cornerRadius(15.0)
                             }
                         }
                     } else {
                         Button(action: {
                             self.showingLoginAlert = true
                         }) {
-                        Image("warning")
-                         .resizable()
-                         .frame(width: 30, height: 30)
-                        .foregroundColor(.white)
-                        .padding()
-                        .cornerRadius(15.0)
+                            Image("warning")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.white)
+                                .padding()
+                                .cornerRadius(15.0)
                         }.alert(isPresented: $showingLoginAlert) {
                             Alert(title: Text("Login"), message: Text("You must be logged to perform this action"), dismissButton: .default(Text("Got it!")))
                         }
@@ -149,10 +149,10 @@ struct post : View{
                 self.already.liked = true
             }
         }.shadow(color: Color.black.opacity(0.3),
-        radius: 3,
-        x: 3,
-        y: 3)
-      
+                 radius: 3,
+                 x: 3,
+                 y: 3)
+        
     }
 }
 
@@ -192,7 +192,7 @@ struct comments : View{
         
         
     }
-     
+    
     
     var body: some View {
         VStack{
@@ -219,7 +219,7 @@ struct inputComment : View{
     
     @ObservedObject var post : Post
     @State private var message: String = " "
-      let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
+    let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     struct AddCommentForm : Codable {
         var description : String
         var post_id : Int
@@ -236,45 +236,45 @@ struct inputComment : View{
             let comment = Comment(comment_id: 1, description: self.message, comment_category: 11, author: author.user_id, post: 1, date: Date().description, username: author.username, like : 0, dislike : 0,anonyme:(self.isChecked == true ? 1 : 0),color: "#ffffff")
             
             let commentF = AddCommentForm(description: self.message,post_id: self.post.post_id, category: self.selectedCategory,anonyme: self.isChecked)
-                guard let encoded = try? JSONEncoder().encode(commentF) else {
-                    print("Failed to encode order")
-                    return
-                }
-                var isCreate = false
-                let group = DispatchGroup()
-                group.enter()
+            guard let encoded = try? JSONEncoder().encode(commentF) else {
+                print("Failed to encode order")
+                return
+            }
+            var isCreate = false
+            let group = DispatchGroup()
+            group.enter()
             if let url = URL(string:   "https://thomasfaure.fr/post/"+String(self.post.post_id)+"/comment/create") {
-                    var request = URLRequest(url: url)
-                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    request.setValue("application/json", forHTTPHeaderField: "Application")
-                    request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
-                    request.httpMethod = "POST"
-                    request.httpBody = encoded
-                    
-                    URLSession.shared.dataTask(with: request) { data, response, error in
-                        if let data = data {
-                                let res = try? JSONDecoder().decode(Response.self, from: data)
-                                if let res2 = res{
-                                    if(res2.result == true){
-                                        isCreate = true
-                                        comment.comment_id = res2.id
-                                        print("created !")
-                                    }
-                                }else{
-                                    print("error")
-                                }
-                                group.leave()
-            
+                var request = URLRequest(url: url)
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.setValue("application/json", forHTTPHeaderField: "Application")
+                request.setValue("Bearer "+user.token,forHTTPHeaderField: "Authorization")
+                request.httpMethod = "POST"
+                request.httpBody = encoded
+                
+                URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let data = data {
+                        let res = try? JSONDecoder().decode(Response.self, from: data)
+                        if let res2 = res{
+                            if(res2.result == true){
+                                isCreate = true
+                                comment.comment_id = res2.id
+                                print("created !")
+                            }
+                        }else{
+                            print("error")
                         }
-                    }.resume()
-                }
-                group.wait()
-                if(isCreate == true){
-                    self.message = ""
-                    self.post.objectWillChange.send()
-                    self.post.commentsi!.data.append(comment)
-                  
-                }
+                        group.leave()
+                        
+                    }
+                }.resume()
+            }
+            group.wait()
+            if(isCreate == true){
+                self.message = ""
+                self.post.objectWillChange.send()
+                self.post.commentsi!.data.append(comment)
+                
+            }
         }
         
         
@@ -286,32 +286,32 @@ struct inputComment : View{
             if(user.isLogged){
                 VStack{
                     Form{
-                            Section{
-                        Picker(selection: self.$selectedCategory, label: Text("Category")) {
-                            ForEach(self.commentCategory.data){
-                                category in
-                                Text(category.description).tag(category.comment_category_id)
-                            }
+                        Section{
+                            Picker(selection: self.$selectedCategory, label: Text("Category")) {
+                                ForEach(self.commentCategory.data){
+                                    category in
+                                    Text(category.description).tag(category.comment_category_id)
                                 }
+                            }
                         }}.frame(height:80)
-                        
-                            HStack{
-                Button(action: self.toggle){
-                    Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
-                    Text("anonymous ?")
-                }.foregroundColor(.black)
-                TextField("Enter a comment", text:$message)
-                    .padding()
-                    .background(lightGreyColor)
-                Button(action: {self.sendNewComment()}) {
-                   Image("send")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                   .foregroundColor(.white)
-                   .padding()
-                   .background(Color.green)
-                   .cornerRadius(15.0)
-                                }}}
+                    
+                    HStack{
+                        Button(action: self.toggle){
+                            Image(self.isChecked ? "checked" : "notChecked").resizable().frame(width:25,height: 25)
+                            Text("anonymous ?")
+                        }.foregroundColor(.black)
+                        TextField("Enter a comment", text:$message)
+                            .padding()
+                            .background(lightGreyColor)
+                        Button(action: {self.sendNewComment()}) {
+                            Image("send")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.green)
+                                .cornerRadius(15.0)
+                        }}}
             } else {
                 VStack {
                     Text("Login to answer !").padding()
@@ -325,10 +325,10 @@ struct inputComment : View{
                                 .background(Color.green)
                                 .cornerRadius(15.0)
                                 .padding(.bottom,10)
-                            .shadow(color: Color.black.opacity(0.3),
-                            radius: 3,
-                            x: 3,
-                            y: 3)
+                                .shadow(color: Color.black.opacity(0.3),
+                                        radius: 3,
+                                        x: 3,
+                                        y: 3)
                         }
                         NavigationLink(destination: registerView()) {
                             Text("Register")
@@ -338,19 +338,20 @@ struct inputComment : View{
                                 .frame(width: 140, height: 40)
                                 .background(Color.green)
                                 .cornerRadius(15.0).padding(.bottom,10)
-                            .shadow(color: Color.black.opacity(0.3),
-                            radius: 3,
-                            x: 3,
-                            y: 3)
+                                .shadow(color: Color.black.opacity(0.3),
+                                        radius: 3,
+                                        x: 3,
+                                        y: 3)
                         }
                     }
                 }
             }
             Spacer()
-            }.padding(3).background(config.postbarColor())
+        }.padding(3).background(config.postbarColor())
     }
 }
 struct postDetailledView: View {
+    @State private var value : CGFloat = 0
     var commentsState : CommentsSet
     @EnvironmentObject var user : User
     @ObservedObject var postElt : Post
@@ -361,21 +362,39 @@ struct postDetailledView: View {
         self.postElt = postEl
         self.commentsState = postEl.commentsi!
         self.already = already
-     
+        
         
         
     }
     
     
     var body: some View {
-        VStack{
+        GeometryReader{ geometry in
+        ZStack(alignment:.bottomTrailing){
             ScrollView {
-                post(postElt: postElt, already: already)
-                comments(commentsState: commentsState, user : user)
+                post(postElt: self.postElt, already: self.already)
+                comments(commentsState: self.commentsState, user : self.user)
                 
-            }
-        Spacer()
-            inputComment(post: postElt)
+            }.padding(.bottom, 150)
+            Spacer()
+            inputComment(post: self.postElt)
+            }.padding()
+            .padding(.top, self.value - 5)
+                .offset(y: -self.value)
+                .animation(.spring())
+                .onAppear{
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main){
+                        (noti) in
+                        let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                        let height = value.height
+                        self.value = height + 5
+                        
+                    }
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main){
+                        (noti) in
+                        self.value = 0
+                    }
+        }
         }
     }
 }
